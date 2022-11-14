@@ -5,6 +5,7 @@ import { NotificationsProvider } from "@mantine/notifications";
 
 import store from "./app/store";
 import theme from "./utils/mantine/theme";
+import Layout from "./components/Layout/Layout";
 
 const App = () => {
   return (
@@ -12,7 +13,7 @@ const App = () => {
       <BrowserRouter>
         <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
           <NotificationsProvider>
-            <p>Book Trading App</p>
+            <Layout />
           </NotificationsProvider>
         </MantineProvider>
       </BrowserRouter>
