@@ -101,7 +101,7 @@ const Register = (props) => {
   return (
     <Box mt={40}>
       <Container size="sm">
-        <Card withBorder mx="auto" shadow="xl">
+        <Card withBorder mx="auto" shadow="xl" p={26}>
           <Title order={4} mb={16}>
             Register your account
           </Title>
@@ -130,7 +130,6 @@ const Register = (props) => {
                 label="Password"
                 placeholder="Your password"
                 {...form.getInputProps("password")}
-                mb={16}
               />
             </Flex>
             <Button mt={30} fullWidth type="submit" loading={userLoading}>
