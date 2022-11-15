@@ -58,7 +58,7 @@ const Navbar = () => {
   const { classes, theme } = useStyles();
 
   return (
-    <Box pb={120}>
+    <Box>
       <Header py={13} px="md">
         <Container size="lg">
           <Group position="apart" sx={{ height: "100%" }}>
