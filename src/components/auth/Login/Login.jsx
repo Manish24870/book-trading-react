@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { TextInput, PasswordInput, Button, Card, Container, Title, Box, Flex } from "@mantine/core";
 import Joi from "joi";
 import { joiResolver, useForm } from "@mantine/form";
 import { useSelector, useDispatch } from "react-redux";
 
-import { registerUser, reset } from "../../../features/user/userSlice";
+import { loginUser, reset } from "../../../features/user/userSlice";
 import isEmpty from "../../../utils/isEmpty";
 import {
   successNotification,
@@ -13,56 +13,43 @@ import {
 } from "../../../utils/notification/showNotification";
 
 const schema = Joi.object({
-  username: Joi.string().min(4).required().messages({
-    "string.empty": "Username is required",
-    "string.min": "Username should have at least 4 letters",
+  username: Joi.string().required().messages({
+    "string.empty": "Username or email is required",
   }),
-  name: Joi.string().required().messages({
-    "string.empty": "Your name is required",
-  }),
-  email: Joi.string()
-    .required()
-    .email({ tlds: { allow: false } })
-    .messages({
-      "string.empty": "Email is required",
-      "string.email": "Email is invalid",
-    }),
-  password: Joi.string().required().min(4).messages({
+  password: Joi.string().required().messages({
     "string.empty": "Password is required",
-    "string.min": "Password should have at least 4 letters",
   }),
 });
 
-const Register = (props) => {
+const Login = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
+  console.log(location);
+  const from = location.state?.from?.pathname || "/";
 
-  const { isAuthenticated, error, userLoading, user, isError, isSuccess } = useSelector(
-    (state) => state.user
-  );
+  const { error, userLoading, user, isError, isSuccess } = useSelector((state) => state.user);
 
   useEffect(() => {
-    // Check for sign up error
+    // Check for login error
     if (isError) {
       if (typeof error === "string") {
-        errorNotification("Register Error", error);
+        errorNotification({ title: "Login Error", message: error });
       } else if (typeof error === "object") {
         form.setErrors({
-          username: error?.username,
-          name: error?.name,
-          email: error?.email,
-          password: error?.password,
+          username: error.username,
+          password: error.password,
         });
       }
     }
 
-    // Check for sign up success
+    // Check for successful login
     if (isSuccess && !isEmpty(user)) {
       successNotification({
-        title: "Registration successful",
-        message: `User ${user.username} registered successfully`,
+        title: "Login successful",
+        message: "Logged in succesfully",
       });
-      navigate("/");
+      navigate(from, { replace: true });
     }
 
     dispatch(reset());
@@ -72,8 +59,6 @@ const Register = (props) => {
     validate: joiResolver(schema),
     initialValues: {
       username: "",
-      name: "",
-      email: "",
       password: "",
     },
   });
@@ -82,7 +67,7 @@ const Register = (props) => {
     event.preventDefault();
     const { hasErrors, errors } = form.validate();
     if (!hasErrors) {
-      dispatch(registerUser(form.values));
+      dispatch(loginUser(form.values));
     }
   };
 
@@ -91,29 +76,17 @@ const Register = (props) => {
       <Container size="sm">
         <Card withBorder mx="auto" shadow="xl" p={26}>
           <Title order={4} mb={16}>
-            Register your account
+            Login to your account
           </Title>
           <form onSubmit={formSubmitHandler}>
             <Flex direction="column">
               <TextInput
-                label="Username"
-                placeholder="Username"
+                label="Username or Email"
+                placeholder="Your username or email"
                 {...form.getInputProps("username")}
                 mb={16}
               />
 
-              <TextInput
-                label="Fullname"
-                placeholder="Your name"
-                {...form.getInputProps("name")}
-                mb={16}
-              />
-              <TextInput
-                label="Email"
-                placeholder="Your email"
-                {...form.getInputProps("email")}
-                mb={16}
-              />
               <PasswordInput
                 label="Password"
                 placeholder="Your password"
@@ -121,7 +94,7 @@ const Register = (props) => {
               />
             </Flex>
             <Button mt={30} fullWidth type="submit" loading={userLoading}>
-              Register
+              Login
             </Button>
           </form>
         </Card>
@@ -130,4 +103,4 @@ const Register = (props) => {
   );
 };
 
-export default Register;
+export default Login;

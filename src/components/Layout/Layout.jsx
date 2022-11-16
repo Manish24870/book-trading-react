@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import Register from "../auth/Register/Register";
 
+import Register from "../auth/Register/Register";
+import Login from "../auth/Login/Login";
 import Navbar from "./Navbar";
 
 const Layout = (props) => {
@@ -9,6 +10,7 @@ const Layout = (props) => {
       <Navbar />
       <Routes>
         <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </div>
   );
