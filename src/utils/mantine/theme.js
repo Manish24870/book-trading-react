@@ -30,10 +30,10 @@ const theme = {
     ],
   },
   primaryColor: "primary",
-  primaryShade: {
-    light: 5,
-    dark: 5,
-  },
+  // primaryShade: {
+  //   light: 5,
+  //   dark: 5,
+  // },
 };
 
 export default theme;

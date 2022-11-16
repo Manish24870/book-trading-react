@@ -25,7 +25,6 @@ const Login = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
-  console.log(location);
   const from = location.state?.from?.pathname || "/";
 
   const { error, userLoading, user, isError, isSuccess } = useSelector((state) => state.user);

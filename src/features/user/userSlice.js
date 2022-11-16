@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../utils/axios/axiosInstance";
 import setAuthToken from "../../utils/auth/setAuthToken";
+import isEmpty from "../../utils/isEmpty";
 
 const initialState = {
   isAuthenticated: false,
@@ -45,6 +46,14 @@ const userSlice = createSlice({
       state.isSuccess = false;
       state.error = null;
     },
+    setUserLoading: (state, action) => {
+      state.userLoading = action.payload;
+    },
+    setCurrentUser: (state, action) => {
+      state.userLoading = false;
+      state.isAuthenticated = !isEmpty(action.payload);
+      state.user = isEmpty(action.payload) ? null : action.payload;
+    },
   },
 
   extraReducers: (builder) => {
@@ -57,6 +66,9 @@ const userSlice = createSlice({
       state.error = null;
       state.isSuccess = true;
       state.user = action.payload.user;
+      state.isAuthenticated = true;
+      localStorage.setItem("jwt", action.payload.token);
+      setAuthToken(action.payload.token);
     });
     builder.addCase(registerUser.rejected, (state, action) => {
       state.userLoading = false;
@@ -74,6 +86,9 @@ const userSlice = createSlice({
       state.error = null;
       state.isSuccess = true;
       state.user = action.payload.user;
+      state.isAuthenticated = true;
+      localStorage.setItem("jwt", action.payload.token);
+      setAuthToken(action.payload.token);
     });
     builder.addCase(loginUser.rejected, (state, action) => {
       state.userLoading = false;
@@ -84,5 +99,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { reset } = userSlice.actions;
+export const { reset, setUserLoading, setCurrentUser } = userSlice.actions;
 export default userSlice.reducer;
