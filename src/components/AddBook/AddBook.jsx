@@ -1,103 +1,11 @@
 import { useState } from "react";
-import {
-  Box,
-  Flex,
-  Button,
-  Select,
-  TextInput,
-  MultiSelect,
-  NumberInput,
-  Container,
-  Title,
-  Card,
-  Textarea,
-} from "@mantine/core";
+import { Box, Flex, Button, Container, Title, Card } from "@mantine/core";
 import axios from "axios";
 import { useForm, joiResolver } from "@mantine/form";
 import Joi from "joi";
 
 import SearchIsbn from "./SearchIsbn";
-
-const listingFor = ["Sell", "Exchange", "Auction"];
-
-const bookCategories = [
-  "Antiques & Collectibles",
-  "Architecture",
-  "Art",
-  "Bibles",
-  "Biography & Autobiography",
-  "Body, Mind & Spirit",
-  "Business & Economics",
-  "Comics & Graphic Novels",
-  "Computers",
-  "Cooking",
-  "Crafts & Hobbies",
-  "Design",
-  "Drama",
-  "Education",
-  "Family & Relationships",
-  "Fiction",
-  "Foreign Language Study",
-  "Games & Activities",
-  "Gardening",
-  "Health & Fitness",
-  "History",
-  "House & Home",
-  "Humor",
-  "Juvenile Fiction",
-  "Juvenile Nonfiction",
-  "Language Arts & Disciplines",
-  "Law",
-  "Literary Collections",
-  "Literary Criticism",
-  "Mathematics",
-  "Medical",
-  "Music",
-  "Nature",
-  "Performing Arts",
-  "Pets",
-  "Philosophy",
-  "Poetry",
-  "Political Science",
-  "Psychology",
-  "Reference",
-  "Religion",
-  "Science",
-  "Self-Help",
-  "Social Science",
-  "Sports & Recreation",
-  "Study Aids",
-  "Technology & Engineering",
-  "Transportation",
-  "Travel",
-  "True Crime",
-  "Young Adult Fiction",
-  "Young Adult Nonfiction",
-];
-let bookAuthors = [];
-
-const bookQuality = [
-  {
-    value: "1",
-    label: "1 (bad)",
-  },
-  {
-    value: "2",
-    label: "2",
-  },
-  {
-    value: "3",
-    label: "3",
-  },
-  {
-    value: "4",
-    label: "4",
-  },
-  {
-    value: "5",
-    label: "5 (great)",
-  },
-];
+import AddBookForm from "./AddBookForm";
 
 const schema = Joi.object({
   listing: Joi.string().required().messages({
@@ -106,7 +14,7 @@ const schema = Joi.object({
   title: Joi.string().required().messages({
     "string.empty": "Book title is required",
   }),
-  author: Joi.array().required().messages({
+  author: Joi.string().required().messages({
     "string.empty": "Book author is required",
   }),
   category: Joi.array().required().messages({
@@ -132,7 +40,7 @@ const schema = Joi.object({
     "string.empty": "Book quality is required",
   }),
   images: Joi.any(),
-  price: Joi.string().required().messages({
+  price: Joi.number().required().messages({
     "string.empty": "Book price is required",
   }),
 });
@@ -146,7 +54,7 @@ const AddBook = (props) => {
     initialValues: {
       listing: "",
       title: "",
-      author: "",
+      author: [],
       category: "",
       description: "",
       isbn: "",
@@ -154,22 +62,22 @@ const AddBook = (props) => {
       publisher: "",
       language: "",
       bookQuality: "",
-      images: "",
+      images: [],
       price: "",
     },
   });
 
+  // Search book information by ISBN
   const searchIsbnClickHandler = async () => {
     const response = await axios.get(
       `https://www.googleapis.com/books/v1/volumes?q=isbn:${searchIsbn}`
     );
     if (response.data.items.length > 0) {
-      console.log(response.data.items[0]);
       const book = response.data.items[0].volumeInfo;
       form.setValues((prev) => ({
         ...prev,
         title: book.title,
-        author: book.authors,
+        author: book.authors.toString(),
         category: book.categories,
         description: book.description,
         isbn: searchIsbn,
@@ -177,13 +85,17 @@ const AddBook = (props) => {
         publisher: book.publisher,
         language: book.language,
       }));
-      bookAuthors = [...bookAuthors, ...book.authors];
       setSearchIsbnOpened(false);
     }
   };
 
-  console.log(form.values, bookAuthors);
+  console.log(form.values);
 
+  const onImageDropHandler = (files) => {
+    form.setFieldValue("images", files);
+  };
+
+  // When the book form gets submitted
   const formSubmitHandler = (event) => {
     event.preventDefault();
     const { hasErrors, errors } = form.validate();
@@ -213,91 +125,11 @@ const AddBook = (props) => {
           </Flex>
         </Card>
         {searchIsbn ? (
-          <Card withBorder mx="auto" shadow="xl" p={20} mt={20}>
-            <Title order={4} mb={16}>
-              Book details
-            </Title>
-            <form onSubmit={formSubmitHandler}>
-              <Flex direction="column">
-                <Select
-                  label="Listing"
-                  placeholder="Listing for"
-                  data={listingFor}
-                  {...form.getInputProps("listing")}
-                  mb={12}
-                />
-                <TextInput
-                  label="ISBN"
-                  placeholder="ISBN number"
-                  {...form.getInputProps("isbn")}
-                  mb={12}
-                />
-                <TextInput
-                  label="Title"
-                  placeholder="Book title"
-                  {...form.getInputProps("title")}
-                  mb={12}
-                />
-                <MultiSelect
-                  label="Author"
-                  placeholder="Book author"
-                  {...form.getInputProps("author")}
-                  mb={12}
-                  data={bookAuthors}
-                />
-                <MultiSelect
-                  label="Category"
-                  placeholder="Book category"
-                  {...form.getInputProps("category")}
-                  mb={12}
-                  data={bookCategories}
-                />
-                <Textarea
-                  label="Description"
-                  placeholder="Book description"
-                  {...form.getInputProps("description")}
-                  mb={12}
-                  maxRows={2}
-                />
-                <TextInput
-                  label="Published date"
-                  placeholder="Published date"
-                  {...form.getInputProps("publishedDate")}
-                  mb={12}
-                />
-                <TextInput
-                  label="Publisher"
-                  placeholder="Book publisher"
-                  {...form.getInputProps("publisher")}
-                  mb={12}
-                />
-                <TextInput
-                  label="Language"
-                  placeholder="Book language"
-                  {...form.getInputProps("language")}
-                  mb={12}
-                />
-                <Select
-                  label="Quality"
-                  placeholder="Book quality"
-                  {...form.getInputProps("quality")}
-                  data={bookQuality}
-                  mb={12}
-                />
-
-                <NumberInput
-                  label="Price"
-                  placeholder="Book price"
-                  {...form.getInputProps("price")}
-                  mb={12}
-                  min={0}
-                />
-                <Button mt={30} fullWidth type="submit">
-                  Add
-                </Button>
-              </Flex>
-            </form>
-          </Card>
+          <AddBookForm
+            form={form}
+            formSubmitHandler={formSubmitHandler}
+            onImageDropHandler={onImageDropHandler}
+          />
         ) : null}
       </Container>
     </Box>
