@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { TextInput, PasswordInput, Button, Card, Container, Title, Box, Flex } from "@mantine/core";
 import Joi from "joi";
 import { joiResolver, useForm } from "@mantine/form";
@@ -37,15 +37,13 @@ const Register = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { isAuthenticated, error, userLoading, user, isError, isSuccess } = useSelector(
-    (state) => state.user
-  );
+  const { error, userLoading, user, isError, isSuccess } = useSelector((state) => state.user);
 
   useEffect(() => {
     // Check for sign up error
     if (isError) {
       if (typeof error === "string") {
-        errorNotification("Register Error", error);
+        errorNotification({ title: "Register Error", message: error });
       } else if (typeof error === "object") {
         form.setErrors({
           username: error?.username,

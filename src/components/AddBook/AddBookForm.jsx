@@ -94,7 +94,7 @@ const bookQuality = [
   },
 ];
 
-const AddBookForm = ({ form, formSubmitHandler, onImageDropHandler }) => {
+const AddBookForm = ({ form, formSubmitHandler, onImageDropHandler, addBookLoading }) => {
   return (
     <Card withBorder mx="auto" shadow="xl" p={20} mt={20}>
       <Title order={4} mb={16}>
@@ -176,7 +176,7 @@ const AddBookForm = ({ form, formSubmitHandler, onImageDropHandler }) => {
             min={0}
           />
           <AddBookImages images={form.values.images} onImageDropHandler={onImageDropHandler} />
-          <Button mt={30} fullWidth type="submit">
+          <Button mt={30} fullWidth type="submit" loading={addBookLoading}>
             Add
           </Button>
         </Flex>

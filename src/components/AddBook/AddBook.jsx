@@ -1,12 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Box, Flex, Button, Container, Title, Card } from "@mantine/core";
 import axios from "axios";
 import { useForm, joiResolver } from "@mantine/form";
 import Joi from "joi";
+import { useSelector, useDispatch } from "react-redux";
 
 import SearchIsbn from "./SearchIsbn";
 import ScanIsbn from "./ScanIsbn";
 import AddBookForm from "./AddBookForm";
+import { reset, addBook } from "../../features/book/bookSlice";
+import { successNotification, errorNotification } from "../../utils/notification/showNotification";
 
 const schema = Joi.object({
   listing: Joi.string().required().messages({
@@ -38,7 +42,7 @@ const schema = Joi.object({
   bookQuality: Joi.string().required().messages({
     "string.empty": "Book quality is required",
   }),
-  images: Joi.any(),
+  images: Joi.array(),
   price: Joi.number().required().messages({
     "string.empty": "Book price is required",
   }),
@@ -49,6 +53,35 @@ const AddBook = (props) => {
   const [scanIsbnOpened, setScanIsbnOpened] = useState(false);
   const [searchIsbn, setSearchIsbn] = useState("");
   const [showForm, setShowForm] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { error, isError, isSuccess, addBookLoading } = useSelector((state) => state.book);
+
+  useEffect(() => {
+    // Check for book adding error
+    if (isError) {
+      if (typeof error === "string") {
+        errorNotification({
+          title: "Error adding book",
+          message: error,
+        });
+      } else if (typeof error === "object") {
+        form.setErrors(error);
+      }
+    }
+
+    // Check for book add success
+    if (isSuccess) {
+      successNotification({
+        title: "Book add successful",
+        message: "Book successfully added as a listing",
+      });
+      navigate("/shop");
+    }
+
+    dispatch(reset());
+  }, [dispatch, isSuccess, isError]);
 
   const form = useForm({
     validate: joiResolver(schema),
@@ -122,7 +155,17 @@ const AddBook = (props) => {
     event.preventDefault();
     const { hasErrors, errors } = form.validate();
     if (!hasErrors) {
-      console.log(form.values);
+      let bookData = new FormData();
+      Object.keys(form.values).forEach((value) => {
+        if (value === "images") {
+          for (let i = 0; i < form.values.images.length; i++) {
+            bookData.append("images", form.values.images[i]);
+          }
+        } else {
+          bookData.append([value], form.values[value]);
+        }
+      });
+      dispatch(addBook(bookData));
     }
   };
 
@@ -156,6 +199,7 @@ const AddBook = (props) => {
             form={form}
             formSubmitHandler={formSubmitHandler}
             onImageDropHandler={onImageDropHandler}
+            addBookLoading={addBookLoading}
           />
         ) : null}
       </Container>

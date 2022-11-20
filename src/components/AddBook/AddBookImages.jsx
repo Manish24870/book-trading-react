@@ -15,7 +15,11 @@ const AddBookImages = (props) => {
 
   return (
     <div>
-      <Dropzone accept={IMAGE_MIME_TYPE} onDrop={(files) => props.onImageDropHandler(files)}>
+      <Dropzone
+        multiple
+        accept={IMAGE_MIME_TYPE}
+        onDrop={(files) => props.onImageDropHandler(files)}
+      >
         <Text align="center">Book images</Text>
       </Dropzone>
       <SimpleGrid
