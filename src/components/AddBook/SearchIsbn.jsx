@@ -16,7 +16,7 @@ const SearchIsbn = (props) => {
       />
       <Button
         mt={20}
-        onClick={props.searchIsbnClickHandler}
+        onClick={() => props.searchIsbnBookHandler(props.searchIsbn)}
         disabled={props.searchIsbn.length === 0}
       >
         Search

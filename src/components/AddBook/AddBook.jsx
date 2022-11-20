@@ -5,6 +5,7 @@ import { useForm, joiResolver } from "@mantine/form";
 import Joi from "joi";
 
 import SearchIsbn from "./SearchIsbn";
+import ScanIsbn from "./ScanIsbn";
 import AddBookForm from "./AddBookForm";
 
 const schema = Joi.object({
@@ -30,9 +31,7 @@ const schema = Joi.object({
   publishedDate: Joi.string().required().messages({
     "string.empty": "Published date is required",
   }),
-  publisher: Joi.string().required().messages({
-    "string.empty": "Publisher is required",
-  }),
+  publisher: Joi.any(),
   language: Joi.string().required().messages({
     "string.empty": "Book language is required",
   }),
@@ -47,7 +46,9 @@ const schema = Joi.object({
 
 const AddBook = (props) => {
   const [searchIsbnOpened, setSearchIsbnOpened] = useState(false);
+  const [scanIsbnOpened, setScanIsbnOpened] = useState(false);
   const [searchIsbn, setSearchIsbn] = useState("");
+  const [showForm, setShowForm] = useState(false);
 
   const form = useForm({
     validate: joiResolver(schema),
@@ -68,10 +69,8 @@ const AddBook = (props) => {
   });
 
   // Search book information by ISBN
-  const searchIsbnClickHandler = async () => {
-    const response = await axios.get(
-      `https://www.googleapis.com/books/v1/volumes?q=isbn:${searchIsbn}`
-    );
+  const searchIsbnBookHandler = async (isbn) => {
+    const response = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`);
     if (response.data.items.length > 0) {
       const book = response.data.items[0].volumeInfo;
       form.setValues((prev) => ({
@@ -80,19 +79,42 @@ const AddBook = (props) => {
         author: book.authors.toString(),
         category: book.categories,
         description: book.description,
-        isbn: searchIsbn,
+        isbn: isbn,
         publishedDate: book.publishedDate,
-        publisher: book.publisher,
+        publisher: book.publisher ? book.publisher : "",
         language: book.language,
       }));
+      setShowForm(true);
       setSearchIsbnOpened(false);
     }
   };
 
-  console.log(form.values);
+  // When the qr code is successfully scanned
+  const qrCodeScanSuccessHandler = (decodedText) => {
+    setSearchIsbn(decodedText);
+    searchIsbnBookHandler(decodedText);
+  };
 
   const onImageDropHandler = (files) => {
     form.setFieldValue("images", files);
+  };
+
+  const resetForm = () => {
+    form.setValues({
+      listing: "",
+      title: "",
+      author: [],
+      category: "",
+      description: "",
+      isbn: "",
+      publishedDate: "",
+      publisher: "",
+      language: "",
+      bookQuality: "",
+      images: [],
+      price: "",
+    });
+    setShowForm(true);
   };
 
   // When the book form gets submitted
@@ -112,19 +134,24 @@ const AddBook = (props) => {
             Add a new book
           </Title>
           <Flex justify="space-between">
-            <Button>Scan ISBN</Button>
+            <Button onClick={() => setScanIsbnOpened(true)}>Scan ISBN</Button>
             <Button onClick={() => setSearchIsbnOpened(true)}>Search By ISBN</Button>
-            <Button>Manual</Button>
+            <Button onClick={resetForm}>Manual</Button>
             <SearchIsbn
               searchIsbn={searchIsbn}
               setSearchIsbn={setSearchIsbn}
               opened={searchIsbnOpened}
               setOpened={setSearchIsbnOpened}
-              searchIsbnClickHandler={searchIsbnClickHandler}
+              searchIsbnBookHandler={searchIsbnBookHandler}
+            />
+            <ScanIsbn
+              opened={scanIsbnOpened}
+              setOpened={setScanIsbnOpened}
+              qrCodeScanSuccessHandler={qrCodeScanSuccessHandler}
             />
           </Flex>
         </Card>
-        {searchIsbn ? (
+        {showForm ? (
           <AddBookForm
             form={form}
             formSubmitHandler={formSubmitHandler}
