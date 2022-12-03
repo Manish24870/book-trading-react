@@ -33,11 +33,22 @@ const AllBooks = (props) => {
     };
   }, [dispatch, isSuccess]);
 
-  let renderBooks = <BooksList />;
+  let renderBooks = <Loading />;
+
+  if (fetchBooksLoading) {
+    renderBooks = <Loading />;
+  } else if (isSuccess && books.length >= 0 && !fetchBooksLoading) {
+    renderBooks = <BooksList books={books} />;
+  }
 
   return (
     <Box mt={20}>
-      <Container size="lg">{renderBooks}</Container>
+      <Container size="lg">
+        <Title order={3} mb={14}>
+          All Book Listings
+        </Title>
+        {renderBooks}
+      </Container>
     </Box>
   );
 };

@@ -13,13 +13,9 @@ const BooksList = (props) => {
           { maxWidth: "sm", cols: 1, spacing: "sm" },
         ]}
       >
-        <BookCard />
-        <BookCard />
-        <BookCard />
-        <BookCard />
-        <BookCard />
-        <BookCard />
-        <BookCard />
+        {props.books.map((book) => (
+          <BookCard key={book._id} book={book} />
+        ))}
       </SimpleGrid>
     </Box>
   );

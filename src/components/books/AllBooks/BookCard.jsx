@@ -1,6 +1,5 @@
 import {
   Box,
-  Title,
   Card,
   Text,
   Image,
@@ -11,6 +10,7 @@ import {
   Avatar,
   useMantineTheme,
 } from "@mantine/core";
+import { Link } from "react-router-dom";
 import { Carousel } from "@mantine/carousel";
 import { IoStarOutline } from "react-icons/io5";
 
@@ -18,52 +18,38 @@ const BookCard = (props) => {
   const theme = useMantineTheme();
 
   return (
-    <Card radius="md" withBorder p="lg" mb={18}>
+    <Card radius="md" withBorder p="lg" mb={18} shadow="lg">
       <Card.Section>
         <Carousel withIndicators loop>
-          <Carousel.Slide>
-            <Image
-              src={
-                "https://images.unsplash.com/photo-1488415032361-b7e238421f1b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80"
-              }
-              height={220}
-            />
-          </Carousel.Slide>
-          <Carousel.Slide>
-            <Image
-              src={
-                "https://images.unsplash.com/photo-1488415032361-b7e238421f1b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80"
-              }
-              height={220}
-            />
-          </Carousel.Slide>
-          <Carousel.Slide>
-            <Image
-              src={
-                "https://images.unsplash.com/photo-1488415032361-b7e238421f1b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80"
-              }
-              height={220}
-            />
-          </Carousel.Slide>
+          {props.book.images.map((image) => (
+            <Carousel.Slide key={image._id}>
+              <Image src={process.env.REACT_APP_BASE_IMAGE_URL + image.url} height={230} />
+            </Carousel.Slide>
+          ))}
         </Carousel>
       </Card.Section>
       <Group position="apart" mt="lg" mb="md">
         <Box sx={{ alignSelf: "flex-start" }}>
           <Text weight={500} size="lg">
-            No fixed address
+            {props.book.title}
           </Text>
           <Text size="xs" color="dimmed">
-            Sat, 12 Jan 2022
+            {new Date(props.book.createdAt).toLocaleString()}
           </Text>
           <Group spacing="xs" mt="sm">
             <Avatar
-              size="sm"
+              size="md"
               radius="xl"
               src={
                 "https://images.unsplash.com/photo-1529068755536-a5ade0dcb4e8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=581&q=80"
               }
             />
-            <Text size="sm">John Smith</Text>
+            <Box>
+              <Text size="sm">{props.book.owner.name}</Text>
+              <Text size="xs" color="dimmed">
+                {props.book.owner.username}
+              </Text>
+            </Box>
           </Group>
         </Box>
 
@@ -82,27 +68,29 @@ const BookCard = (props) => {
         <Group mt={10} position="apart">
           <Text size="sm">Type</Text>
           <Badge radius="sm" size="sm">
-            Sell
+            {props.book.listing}
           </Badge>
         </Group>
         <Group mt={10} position="apart">
           <Text size="sm">Author</Text>
           <Badge radius="sm" size="sm">
-            John Smith
+            {props.book.author}
           </Badge>
         </Group>
         <Group mt={10} position="apart">
           <Text size="sm">Condition</Text>
           <Badge radius="sm" size="sm">
-            1
+            {props.book.bookQuality}
           </Badge>
         </Group>
       </Card.Section>
       <Group position="apart" mt="lg">
         <Text size="xl" span weight={500}>
-          Rs. 500
+          Rs. {props.book.price}
         </Text>
-        <Button>View</Button>
+        <Button component={Link} to={`/book/${props.book._id}`}>
+          View
+        </Button>
       </Group>
     </Card>
   );
