@@ -5,6 +5,7 @@ import Login from "../auth/Login/Login";
 import AddBook from "../AddBook/AddBook";
 import Navbar from "./Navbar";
 import PrivateRoute from "../auth/PrivateRoute";
+import AllBooks from "../books/AllBooks/AllBooks";
 
 const Layout = (props) => {
   return (
@@ -16,6 +17,7 @@ const Layout = (props) => {
 
         <Route element={<PrivateRoute />}>
           <Route path="/books/add" element={<AddBook />} />
+          <Route path="/" element={<AllBooks />} />
         </Route>
       </Routes>
     </div>
