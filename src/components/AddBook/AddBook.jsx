@@ -104,6 +104,7 @@ const AddBook = (props) => {
   // Search book information by ISBN
   const searchIsbnBookHandler = async (isbn) => {
     const response = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`);
+    console.log("RRR", response.data);
     if (response.data.items.length > 0) {
       const book = response.data.items[0].volumeInfo;
       form.setValues((prev) => ({

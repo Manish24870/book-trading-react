@@ -6,6 +6,7 @@ import AddBook from "../AddBook/AddBook";
 import Navbar from "./Navbar";
 import PrivateRoute from "../auth/PrivateRoute";
 import AllBooks from "../books/AllBooks/AllBooks";
+import SellBooks from "../books/SellBooks/SellBooks";
 
 const Layout = (props) => {
   return (
@@ -18,6 +19,7 @@ const Layout = (props) => {
         <Route element={<PrivateRoute />}>
           <Route path="/books/add" element={<AddBook />} />
           <Route path="/" element={<AllBooks />} />
+          <Route path="/sell" element={<SellBooks />} />
         </Route>
       </Routes>
     </div>

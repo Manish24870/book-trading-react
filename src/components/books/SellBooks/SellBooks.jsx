@@ -1,24 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Box, Flex, Button, Container, Title, Card } from "@mantine/core";
+import { Box, Container, Title } from "@mantine/core";
 
 import { reset, fetchBooks } from "../../../features/book/booksSlice";
 import { errorNotification } from "../../../utils/notification/showNotification";
 import Loading from "../../common/Loading";
-import BooksList from "./BooksList";
+import BooksList from "../AllBooks/BooksList";
 
-const AllBooks = (props) => {
+const SellBooks = (props) => {
   const dispatch = useDispatch();
   const { error, isError, isSuccess, fetchBooksLoading, books } = useSelector(
     (state) => state.books
   );
 
   useEffect(() => {
-    dispatch(fetchBooks("All"));
+    dispatch(fetchBooks("Sell"));
   }, []);
 
   useEffect(() => {
-    // Check for fetch books error
     if (isError) {
       errorNotification({ title: "Books error", message: "Error fetching books" });
       dispatch(reset());
@@ -45,7 +44,7 @@ const AllBooks = (props) => {
     <Box mt={20}>
       <Container size="lg">
         <Title order={4} mb={12}>
-          All Book Listings
+          Sell Books
         </Title>
         {renderBooks}
       </Container>
@@ -53,4 +52,4 @@ const AllBooks = (props) => {
   );
 };
 
-export default AllBooks;
+export default SellBooks;

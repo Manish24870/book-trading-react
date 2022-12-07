@@ -13,7 +13,7 @@ const initialState = {
 // Fetch all the books
 export const fetchBooks = createAsyncThunk(
   "books/all",
-  async (type = "all", { rejectWithValue }) => {
+  async (type = "All", { rejectWithValue }) => {
     try {
       const response = await axiosInstance.get(`/books?type=${type}`);
       return response.data.books;

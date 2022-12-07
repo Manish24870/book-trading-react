@@ -74,8 +74,8 @@ const Navbar = () => {
               className={classes.hiddenMobile}
               align="center"
             >
-              <Anchor className={classes.link} component={Link} to="/shop" py={4}>
-                Shop
+              <Anchor className={classes.link} component={Link} to="/sell" py={4}>
+                Sell
               </Anchor>
               <Anchor className={classes.link} component={Link} to="/exchange" py={4}>
                 Exchange

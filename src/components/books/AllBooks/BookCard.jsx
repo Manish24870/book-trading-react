@@ -18,7 +18,7 @@ const BookCard = (props) => {
   const theme = useMantineTheme();
 
   return (
-    <Card radius="md" withBorder p="lg" mb={18} shadow="lg">
+    <Card radius="md" withBorder p="sm" mb={18} shadow="lg">
       <Card.Section>
         <Carousel withIndicators loop>
           {props.book.images.map((image) => (
@@ -30,27 +30,12 @@ const BookCard = (props) => {
       </Card.Section>
       <Group position="apart" mt="lg" mb="md">
         <Box sx={{ alignSelf: "flex-start" }}>
-          <Text weight={500} size="lg">
+          <Text weight={500} size="md">
             {props.book.title}
           </Text>
           <Text size="xs" color="dimmed">
             {new Date(props.book.createdAt).toLocaleString()}
           </Text>
-          <Group spacing="xs" mt="sm">
-            <Avatar
-              size="md"
-              radius="xl"
-              src={
-                "https://images.unsplash.com/photo-1529068755536-a5ade0dcb4e8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=581&q=80"
-              }
-            />
-            <Box>
-              <Text size="sm">{props.book.owner.name}</Text>
-              <Text size="xs" color="dimmed">
-                {props.book.owner.username}
-              </Text>
-            </Box>
-          </Group>
         </Box>
 
         <Group spacing={5} color="primary" sx={{ alignSelf: "flex-start" }}>
@@ -60,7 +45,22 @@ const BookCard = (props) => {
           </Text>
         </Group>
       </Group>
-      <Card.Section px="xl" py="sm">
+      <Group spacing="xs" mt="sm">
+        <Avatar
+          size="md"
+          radius="xl"
+          src={
+            "https://images.unsplash.com/photo-1529068755536-a5ade0dcb4e8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=581&q=80"
+          }
+        />
+        <Box>
+          <Text size="sm">{props.book.owner.name}</Text>
+          <Text size="xs" color="dimmed">
+            {props.book.owner.username}
+          </Text>
+        </Box>
+      </Group>
+      <Card.Section px="sm" py="sm">
         <Text size="sm" weight={500}>
           Details
         </Text>
@@ -88,7 +88,7 @@ const BookCard = (props) => {
         <Text size="xl" span weight={500}>
           Rs. {props.book.price}
         </Text>
-        <Button component={Link} to={`/book/${props.book._id}`}>
+        <Button size="xs" component={Link} to={`/book/${props.book._id}`}>
           View
         </Button>
       </Group>
