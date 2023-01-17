@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Box, Flex, Button, Container, Title, Card } from "@mantine/core";
+import { Box, Container, Title } from "@mantine/core";
 
 import { reset, fetchBooks } from "../../../features/book/booksSlice";
 import { errorNotification } from "../../../utils/notification/showNotification";
@@ -20,7 +20,7 @@ const AllBooks = (props) => {
   useEffect(() => {
     // Check for fetch books error
     if (isError) {
-      errorNotification({ title: "Books error", message: "Error fetching books" });
+      errorNotification({ title: "Books error", message: error });
       dispatch(reset());
     }
   }, [dispatch, isSuccess, isError, books]);

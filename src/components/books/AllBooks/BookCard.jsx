@@ -88,7 +88,11 @@ const BookCard = (props) => {
         <Text size="xl" span weight={500}>
           Rs. {props.book.price}
         </Text>
-        <Button size="xs" component={Link} to={`/book/${props.book._id}`}>
+        <Button
+          size="xs"
+          component={Link}
+          to={props.book.listing === "Sell" ? `/sell/${props.book._id}` : `/book/${props.book._id}`}
+        >
           View
         </Button>
       </Group>
