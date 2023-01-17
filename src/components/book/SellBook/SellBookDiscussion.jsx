@@ -23,10 +23,14 @@ const SellBookDiscussion = (props) => {
       <Card withBorder>
         <Title order={4}>Book Discussion</Title>
         <DiscussionForm />
+
+        <Box mt={30}>
+          <Title order={5}>Previously asked questions</Title>
+          <DiscussionQuestion />
+          <DiscussionQuestion />
+          <DiscussionQuestion />
+        </Box>
       </Card>
-      <DiscussionQuestion />
-      <DiscussionQuestion />
-      <DiscussionQuestion />
     </Box>
   );
 };
