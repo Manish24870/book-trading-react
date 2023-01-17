@@ -6,6 +6,7 @@ import { Box, Container, Title } from "@mantine/core";
 import { reset, fetchBook } from "../../../features/book/bookSlice";
 import Loading from "../../common/Loading";
 import SellBookInfo from "./SellBookInfo";
+import SellBookDiscussion from "./SellBookDiscussion";
 import { errorNotification } from "../../../utils/notification/showNotification";
 
 const SellBook = (props) => {
@@ -39,6 +40,7 @@ const SellBook = (props) => {
     renderBook = (
       <>
         <SellBookInfo book={book} />
+        <SellBookDiscussion />
       </>
     );
   }
