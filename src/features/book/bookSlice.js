@@ -12,6 +12,7 @@ const initialState = {
   isDiscussionError: false,
   isDiscussionSuccess: false,
   createQuestionLoading: false,
+  createAnswerLoading: false,
 };
 
 // Add a new book
@@ -42,6 +43,20 @@ export const createQuestion = createAsyncThunk(
     const { bookId, questionInfo } = data;
     try {
       const response = await axiosInstance.post(`/books/${bookId}/question`, questionInfo);
+      return response.data.book;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.error);
+    }
+  }
+);
+
+// Create answer
+export const createAnswer = createAsyncThunk(
+  "book/createAnswer",
+  async (data, { rejectWithValue }) => {
+    const { bookId, answerInfo } = data;
+    try {
+      const response = await axiosInstance.post(`/books/${bookId}/answer`, answerInfo);
       return response.data.book;
     } catch (err) {
       return rejectWithValue(err.response?.data?.error);
@@ -115,11 +130,26 @@ const bookSlice = createSlice({
     builder.addCase(createQuestion.fulfilled, (state, action) => {
       state.createQuestionLoading = false;
       state.isDiscussionSuccess = true;
-      state.isDiscussionError = null;
+      state.isDiscussionError = false;
       state.book = action.payload;
     });
     builder.addCase(createQuestion.rejected, (state, action) => {
       state.createQuestionLoading = false;
+      state.error = action.payload;
+      state.isDiscussionError = true;
+    });
+    // Create answer cases
+    builder.addCase(createAnswer.pending, (state) => {
+      state.createAnswerLoading = true;
+    });
+    builder.addCase(createAnswer.fulfilled, (state, action) => {
+      state.createAnswerLoading = false;
+      state.isDiscussionSuccess = true;
+      state.isDiscussionError = false;
+      state.book = action.payload;
+    });
+    builder.addCase(createAnswer.rejected, (state, action) => {
+      state.createAnswerLoading = false;
       state.error = action.payload;
       state.isDiscussionError = true;
     });

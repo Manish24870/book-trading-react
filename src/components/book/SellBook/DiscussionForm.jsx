@@ -42,9 +42,10 @@ const DiscussionForm = (props) => {
 
     if (isDiscussionSuccess) {
       successNotification({
-        title: "Question posted",
-        message: "Question posted successfully",
+        title: "Success",
+        message: "Discussion updated successfully",
       });
+      form.setFieldValue("question", "");
     }
     // dispatch(reset());
   }, [dispatch, isDiscussionError, isDiscussionSuccess]);
