@@ -9,6 +9,9 @@ const initialState = {
   addBookLoading: false,
   book: null,
   fetchBookLoading: false,
+  isDiscussionError: false,
+  isDiscussionSuccess: false,
+  createQuestionLoading: false,
 };
 
 // Add a new book
@@ -32,6 +35,20 @@ export const fetchBook = createAsyncThunk("book/fetch", async (bookId, { rejectW
   }
 });
 
+// Create question
+export const createQuestion = createAsyncThunk(
+  "book/createQuestion",
+  async (data, { rejectWithValue }) => {
+    const { bookId, questionInfo } = data;
+    try {
+      const response = await axiosInstance.post(`/books/${bookId}/question`, questionInfo);
+      return response.data.book;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.error);
+    }
+  }
+);
+
 const bookSlice = createSlice({
   name: "book",
   initialState,
@@ -44,12 +61,18 @@ const bookSlice = createSlice({
       state.addBookLoading = false;
       state.fetchBookLoading = false;
       state.book = null;
+      state.isDiscussionError = false;
+      state.isDiscussionSuccess = false;
+      state.createQuestionLoading = false;
     },
     setAddBookLoading: (state, action) => {
       state.addBookLoading = action.payload;
     },
     setFetchBookLoading: (state, action) => {
       state.fetchBookLoading = action.payload;
+    },
+    setCreateQuestionLoading: (state, action) => {
+      state.createQuestionLoading = action.payload;
     },
   },
 
@@ -83,6 +106,22 @@ const bookSlice = createSlice({
       state.fetchBookLoading = false;
       state.error = action.payload;
       state.isError = true;
+    });
+
+    // Create question cases
+    builder.addCase(createQuestion.pending, (state) => {
+      state.createQuestionLoading = true;
+    });
+    builder.addCase(createQuestion.fulfilled, (state, action) => {
+      state.createQuestionLoading = false;
+      state.isDiscussionSuccess = true;
+      state.isDiscussionError = null;
+      state.book = action.payload;
+    });
+    builder.addCase(createQuestion.rejected, (state, action) => {
+      state.createQuestionLoading = false;
+      state.error = action.payload;
+      state.isDiscussionError = true;
     });
   },
 });

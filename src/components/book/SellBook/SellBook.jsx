@@ -40,7 +40,7 @@ const SellBook = (props) => {
     renderBook = (
       <>
         <SellBookInfo book={book} />
-        <SellBookDiscussion />
+        <SellBookDiscussion discussion={book.discussion} />
       </>
     );
   }

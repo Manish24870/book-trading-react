@@ -26,9 +26,9 @@ const SellBookDiscussion = (props) => {
 
         <Box mt={30}>
           <Title order={5}>Previously asked questions</Title>
-          <DiscussionQuestion />
-          <DiscussionQuestion />
-          <DiscussionQuestion />
+          {props.discussion.map((el) => (
+            <DiscussionQuestion key={el.id} discussionItem={el} />
+          ))}
         </Box>
       </Card>
     </Box>

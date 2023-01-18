@@ -6,11 +6,11 @@ const DiscussionQuestion = (props) => {
     <Box mt={16}>
       <Text weight={500} mb={6} style={{ display: "flex", alignItems: "center" }}>
         <BsQuestionCircle size={20} color="red" style={{ marginRight: 10 }} />
-        <span>Tell me the book page count</span>
+        <span>{props.discussionItem.question}</span>
       </Text>
       <Text style={{ display: "flex", alignItems: "center" }}>
         <BsArrowRightCircle color="green" size={20} style={{ marginRight: 10 }} />
-        <span>That will be 329</span>
+        <span>{props.discussionItem.answer}</span>
       </Text>
     </Box>
   );
