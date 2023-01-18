@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import store from "../../app/store";
 
 import Register from "../auth/Register/Register";
 import Login from "../auth/Login/Login";
@@ -9,6 +10,17 @@ import AllBooks from "../books/AllBooks/AllBooks";
 import SellBooks from "../books/SellBooks/SellBooks";
 import SellBook from "../book/SellBook/SellBook";
 import Cart from "../cart/Cart";
+
+import { initializeCartItems } from "../../features/cart/cartSlice";
+import isEmpty from "../../utils/isEmpty";
+
+// Load cart when the app loads
+if (localStorage.cart) {
+  const cart = JSON.parse(localStorage.getItem("cart"));
+  if (!isEmpty(cart)) {
+    store.dispatch(initializeCartItems(cart));
+  }
+}
 
 const Layout = (props) => {
   return (
