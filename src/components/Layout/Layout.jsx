@@ -8,6 +8,7 @@ import PrivateRoute from "../auth/PrivateRoute";
 import AllBooks from "../books/AllBooks/AllBooks";
 import SellBooks from "../books/SellBooks/SellBooks";
 import SellBook from "../book/SellBook/SellBook";
+import Cart from "../cart/Cart";
 
 const Layout = (props) => {
   return (
@@ -22,6 +23,7 @@ const Layout = (props) => {
           <Route path="/" element={<AllBooks />} />
           <Route path="/sell" element={<SellBooks />} />
           <Route path="/sell/:bookId" element={<SellBook />} />
+          <Route path="/cart" element={<Cart />} />
         </Route>
       </Routes>
     </div>
