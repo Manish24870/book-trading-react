@@ -49,15 +49,19 @@ const cartSlice = createSlice({
 
     // Remove a book from cart
     removeFromCart: (state, action) => {
+      console.log(action.payload);
       let alreadyAdded = state.cartItems.findIndex((el) => el._id === action.payload);
       if (alreadyAdded >= 0) {
         state.cartItems.splice(alreadyAdded, 1);
       }
 
       // Save the cart to localstorage
-      localStorage.setItem({
-        cartItems: state.cartItems,
-      });
+      localStorage.setItem(
+        "cart",
+        JSON.stringify({
+          cartItems: state.cartItems,
+        })
+      );
       successNotification({
         title: "Cart action success",
         message: "The book was removed from cart",
@@ -69,8 +73,47 @@ const cartSlice = createSlice({
       localStorage.removeItem("cart");
       state.cartItems = [];
     },
+
+    // Increase cart item quantity
+    increaseCartQuantity: (state, action) => {
+      let alreadyAdded = state.cartItems.findIndex((el) => el._id === action.payload);
+
+      if (alreadyAdded >= 0) {
+        state.cartItems[alreadyAdded].quantity += 1;
+      }
+
+      localStorage.setItem(
+        "cart",
+        JSON.stringify({
+          cartItems: state.cartItems,
+        })
+      );
+    },
+
+    // Decrease cart item quantity
+    decreaseCartQuantity: (state, action) => {
+      let alreadyAdded = state.cartItems.findIndex((el) => el._id === action.payload);
+
+      if (alreadyAdded >= 0) {
+        state.cartItems[alreadyAdded].quantity -= 1;
+      }
+
+      localStorage.setItem(
+        "cart",
+        JSON.stringify({
+          cartItems: state.cartItems,
+        })
+      );
+    },
   },
 });
 
-export const { addToCart, removeFromCart, clearCart, initializeCartItems } = cartSlice.actions;
+export const {
+  addToCart,
+  removeFromCart,
+  clearCart,
+  initializeCartItems,
+  increaseCartQuantity,
+  decreaseCartQuantity,
+} = cartSlice.actions;
 export default cartSlice.reducer;

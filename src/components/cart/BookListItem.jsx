@@ -10,9 +10,17 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import { BsPlus, BsDash, BsX } from "react-icons/bs";
+import { useDispatch } from "react-redux";
+
+import {
+  removeFromCart,
+  increaseCartQuantity,
+  decreaseCartQuantity,
+} from "../../features/cart/cartSlice";
 
 const BookListItem = (props) => {
   const theme = useMantineTheme();
+  const dispatch = useDispatch();
 
   return (
     <Grid columns={12} align="center" justify="center">
@@ -45,11 +53,20 @@ const BookListItem = (props) => {
       </Grid.Col>
       <Grid.Col span={2}>
         <Group position="center" spacing="lg" sx={{ textAlign: "center" }}>
-          <ActionIcon size="md" color="primary">
+          <ActionIcon
+            size="md"
+            color="primary"
+            onClick={() => dispatch(decreaseCartQuantity(props.cartItem._id))}
+            disabled={props.cartItem.quantity === 1}
+          >
             <BsDash size={22} />
           </ActionIcon>
           <Text weight={500}>{props.cartItem.quantity}</Text>
-          <ActionIcon size="md" color="primary">
+          <ActionIcon
+            size="md"
+            color="primary"
+            onClick={() => dispatch(increaseCartQuantity(props.cartItem._id))}
+          >
             <BsPlus size={22} />
           </ActionIcon>
         </Group>
@@ -60,7 +77,12 @@ const BookListItem = (props) => {
         </Text>
       </Grid.Col>
       <Grid.Col span={1}>
-        <ActionIcon size="md" color="red" sx={{ marginLeft: "auto" }}>
+        <ActionIcon
+          size="md"
+          color="red"
+          sx={{ marginLeft: "auto" }}
+          onClick={() => dispatch(removeFromCart(props.cartItem._id))}
+        >
           <BsX size={24} />
         </ActionIcon>
       </Grid.Col>
