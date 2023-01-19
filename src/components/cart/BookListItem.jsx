@@ -19,29 +19,28 @@ const BookListItem = (props) => {
       <Grid.Col span={5} sx={{ backgroundColor: theme.colors.gray[1], borderRadius: 4 }}>
         <Group spacing="xl">
           <Image
-            src={
-              "https://images.unsplash.com/photo-1673981171900-020cb6983841?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1221&q=80"
-            }
+            src={process.env.REACT_APP_BASE_IMAGE_URL + props.cartItem.image[0].url}
             width={70}
             height={90}
             radius="sm"
             py={6}
           />
           <Flex direction="column">
-            <Text weight={500}>To Kill a Mockingbird</Text>
+            <Text weight={500}>{props.cartItem.title}</Text>
             <Text color="dimmed" size="sm">
-              1205968059479
+              {props.cartItem.isbn}
             </Text>
-            <Badge radius="sm" mt={8}>
-              Fiction
-            </Badge>
-            <Group></Group>
+            {props.cartItem.category.map((el) => (
+              <Badge key={el} radius="sm">
+                {el}
+              </Badge>
+            ))}
           </Flex>
         </Group>
       </Grid.Col>
       <Grid.Col span={2}>
         <Text weight={500} align="center">
-          Rs. 1200
+          Rs. {props.cartItem.price}
         </Text>
       </Grid.Col>
       <Grid.Col span={2}>
@@ -49,7 +48,7 @@ const BookListItem = (props) => {
           <ActionIcon size="md" color="primary">
             <BsDash size={22} />
           </ActionIcon>
-          <Text weight={500}>2</Text>
+          <Text weight={500}>{props.cartItem.quantity}</Text>
           <ActionIcon size="md" color="primary">
             <BsPlus size={22} />
           </ActionIcon>
@@ -57,7 +56,7 @@ const BookListItem = (props) => {
       </Grid.Col>
       <Grid.Col span={2}>
         <Text weight={500} align="center">
-          Rs. 2450
+          Rs. {props.cartItem.price * props.cartItem.quantity}
         </Text>
       </Grid.Col>
       <Grid.Col span={1}>

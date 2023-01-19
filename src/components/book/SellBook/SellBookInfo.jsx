@@ -11,8 +11,11 @@ import {
   Card,
   Grid,
 } from "@mantine/core";
+import { useDispatch } from "react-redux";
 import { Carousel } from "@mantine/carousel";
 import { BsCartPlus } from "react-icons/bs";
+
+import { addToCart } from "../../../features/cart/cartSlice";
 
 const bookQualityText = {
   1: "Poor",
@@ -23,6 +26,20 @@ const bookQualityText = {
 };
 
 const SellBookInfo = (props) => {
+  const dispatch = useDispatch();
+
+  const addToCartHandler = () => {
+    const cartItem = {
+      _id: props.book._id,
+      image: props.book.images,
+      title: props.book.title,
+      price: props.book.price,
+      isbn: props.book.isbn,
+      category: props.book.category,
+    };
+    dispatch(addToCart(cartItem));
+  };
+
   return (
     <Box>
       <Group position="apart">
@@ -144,7 +161,7 @@ const SellBookInfo = (props) => {
           <Text size="xl" weight={700}>
             Rs. 1200
           </Text>
-          <Button leftIcon={<BsCartPlus size={20} />} size="lg" mt={16}>
+          <Button leftIcon={<BsCartPlus size={20} />} size="lg" mt={16} onClick={addToCartHandler}>
             Add to Cart
           </Button>
         </Grid.Col>

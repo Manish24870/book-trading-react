@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../utils/axios/axiosInstance";
 import isEmpty from "../../utils/isEmpty";
-
+import { successNotification } from "../../utils/notification/showNotification";
 const initialState = {
   error: null,
   isError: false,
@@ -44,6 +44,7 @@ const cartSlice = createSlice({
           cartItems: state.cartItems,
         })
       );
+      successNotification({ title: "Cart action success", message: "The book was added to cart" });
     },
 
     // Remove a book from cart
@@ -57,9 +58,19 @@ const cartSlice = createSlice({
       localStorage.setItem({
         cartItems: state.cartItems,
       });
+      successNotification({
+        title: "Cart action success",
+        message: "The book was removed from cart",
+      });
+    },
+
+    // Clear the cart
+    clearCart: (state, action) => {
+      localStorage.removeItem("cart");
+      state.cartItems = [];
     },
   },
 });
 
-export const { addToCart, removeFromCart, initializeCartItems } = cartSlice.actions;
+export const { addToCart, removeFromCart, clearCart, initializeCartItems } = cartSlice.actions;
 export default cartSlice.reducer;

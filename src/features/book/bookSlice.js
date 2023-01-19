@@ -29,7 +29,6 @@ export const addBook = createAsyncThunk("book/add", async (bookInfo, { rejectWit
 export const fetchBook = createAsyncThunk("book/fetch", async (bookId, { rejectWithValue }) => {
   try {
     const response = await axiosInstance.get(`/books/${bookId}`);
-    console.log(response.data.book);
     return response.data.book;
   } catch (err) {
     return rejectWithValue(err.response?.data?.error);

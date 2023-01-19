@@ -1,19 +1,11 @@
-import {
-  Box,
-  Grid,
-  Image,
-  Text,
-  Group,
-  Badge,
-  Flex,
-  ActionIcon,
-  useMantineTheme,
-} from "@mantine/core";
+import { Box, Grid, Text, useMantineTheme } from "@mantine/core";
+import { useDispatch, useSelector } from "react-redux";
 
 import BookListItem from "./BookListItem";
 
 const BookList = (props) => {
   const theme = useMantineTheme();
+  const { cartItems } = useSelector((store) => store.cart);
 
   return (
     <Box mt={16} ml={8}>
@@ -41,10 +33,9 @@ const BookList = (props) => {
         <Grid.Col span={1}></Grid.Col>
       </Grid>
       <Box>
-        <BookListItem />
-        <BookListItem />
-        <BookListItem />
-        <BookListItem />
+        {cartItems.map((item) => (
+          <BookListItem key={item._id} cartItem={item} />
+        ))}
       </Box>
     </Box>
   );
