@@ -16,6 +16,7 @@ const ShippingDetails = (props) => {
             value={form.values.email}
             onChange={(event) => form.setFieldValue("email", event.currentTarget.value)}
             error={form.errors.email}
+            mb={10}
           />
           <TextInput
             label="Fullname"
@@ -23,6 +24,7 @@ const ShippingDetails = (props) => {
             value={form.values.name}
             onChange={(event) => form.setFieldValue("name", event.currentTarget.value)}
             error={form.errors.name}
+            mb={10}
           />
         </Flex>
       </Box>
@@ -37,6 +39,7 @@ const ShippingDetails = (props) => {
             value={form.values.address}
             onChange={(event) => form.setFieldValue("address", event.currentTarget.value)}
             error={form.errors.address}
+            mb={10}
           />
           <TextInput
             label="City"
@@ -44,6 +47,7 @@ const ShippingDetails = (props) => {
             value={form.values.city}
             onChange={(event) => form.setFieldValue("city", event.currentTarget.value)}
             error={form.errors.city}
+            mb={10}
           />
           <TextInput
             placeholder="Your phone number"
@@ -51,6 +55,7 @@ const ShippingDetails = (props) => {
             value={form.values.phoneNumber}
             onChange={(event) => form.setFieldValue("phoneNumber", event.currentTarget.value)}
             error={form.errors.phoneNumber}
+            mb={10}
           />
         </Flex>
       </Box>

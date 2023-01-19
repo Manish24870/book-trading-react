@@ -1,6 +1,7 @@
 import { Card, Group, Text, Button, useMantineTheme } from "@mantine/core";
 import { IoBagCheckOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const CartSummary = (props) => {
   const theme = useMantineTheme();
@@ -32,7 +33,13 @@ const CartSummary = (props) => {
         </Text>
       </Group>
       <Group position="right" mt={20}>
-        <Button size="lg" sx={{ marginLeft: "auto" }} leftIcon={<IoBagCheckOutline size={22} />}>
+        <Button
+          component={Link}
+          to="/checkout"
+          size="lg"
+          sx={{ marginLeft: "auto" }}
+          leftIcon={<IoBagCheckOutline size={22} />}
+        >
           Checkout
         </Button>
       </Group>

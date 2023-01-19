@@ -47,11 +47,11 @@ const Checkout = (props) => {
   return (
     <Box mt={20}>
       <Container size="lg">
-        <Title order={4} mb={20}>
-          Checkout
-        </Title>
         <Grid columns={12}>
           <Grid.Col lg={6} xl={7}>
+            <Title order={4} mb={20}>
+              Checkout
+            </Title>
             <ShippingDetails form={form} />
           </Grid.Col>
           <Grid.Col lg={6} xl={5}>

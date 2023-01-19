@@ -9,9 +9,17 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import { BsPlus, BsDash, BsX } from "react-icons/bs";
+import { useDispatch } from "react-redux";
+
+import {
+  removeFromCart,
+  increaseCartQuantity,
+  decreaseCartQuantity,
+} from "../../features/cart/cartSlice";
 
 const CheckoutItem = (props) => {
   const theme = useMantineTheme();
+  const dispatch = useDispatch();
 
   return (
     <Card withBorder shadow="md" mb={15} p="xs">
@@ -21,7 +29,7 @@ const CheckoutItem = (props) => {
             src={process.env.REACT_APP_BASE_IMAGE_URL + props.cartItem.image[0].url}
             fit="cover"
             radius="xs"
-            alt="Product image"
+            alt="Book image"
             width={80}
             height={100}
           />
@@ -37,28 +45,23 @@ const CheckoutItem = (props) => {
               <ActionIcon
                 color="primary"
                 size="sm"
-                // onClick={() => props.decreaseCartItemQuantity(props.cartItem._id)}
+                onClick={() => dispatch(decreaseCartQuantity(props.cartItem._id))}
                 disabled={props.cartItem.quantity === 1 ? true : false}
               >
                 <BsDash size={22} />
-                {/* <IoRemoveOutline /> */}
               </ActionIcon>
               <Text mx={8}>{props.cartItem.quantity}</Text>
               <ActionIcon
                 color="primary"
                 size="sm"
-                // onClick={() => props.increaseCartItemQuantity(props.cartItem._id)}
+                onClick={() => dispatch(increaseCartQuantity(props.cartItem._id))}
               >
                 <BsPlus size={22} />
               </ActionIcon>
             </Group>
             <Group>
-              <ActionIcon
-                color="red"
-                // onClick={() => props.removeFromCart(props.cartItem._id)}
-              >
+              <ActionIcon color="red" onClick={() => dispatch(removeFromCart(props.cartItem._id))}>
                 <BsX size={24} />
-                {/* <IoTrashBinOutline color={theme.colors.red[6]} size={22} /> */}
               </ActionIcon>
             </Group>
           </Box>
