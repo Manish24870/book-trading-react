@@ -11,6 +11,7 @@ import SellBooks from "../books/SellBooks/SellBooks";
 import SellBook from "../book/SellBook/SellBook";
 import Cart from "../cart/Cart";
 import Checkout from "../checkout/Checkout";
+import MyProfile from "../myProfile/MyProfile";
 
 import { initializeCartItems } from "../../features/cart/cartSlice";
 import isEmpty from "../../utils/isEmpty";
@@ -38,6 +39,7 @@ const Layout = (props) => {
           <Route path="/sell/:bookId" element={<SellBook />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/my-profile" element={<MyProfile />} />
         </Route>
       </Routes>
     </div>
