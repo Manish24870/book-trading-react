@@ -1,16 +1,34 @@
+import { useEffect } from "react";
 import { Box, Title, Card, ScrollArea, Group, Text, Button } from "@mantine/core";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import CheckoutItem from "./CheckoutItem";
+import { stripePayment } from "../../features/stripe/stripeSlice";
+import isEmpty from "../../utils/isEmpty";
+import { errorNotification } from "../../utils/notification/showNotification";
 
 const OrderSummary = (props) => {
+  const dispatch = useDispatch();
   const { cartItems } = useSelector((state) => state.cart);
+  const { stripePaymentLoading, isSuccess, isError, error, stripeSession } = useSelector(
+    (state) => state.stripe
+  );
 
   let totalCost = 0;
   let serviceCharge = 20;
   cartItems.forEach((item) => {
     totalCost += item.price * item.quantity;
   });
+
+  useEffect(() => {
+    if (isError && !isEmpty(error)) {
+      errorNotification({ title: "Payment error", message: error });
+    }
+
+    if (isSuccess && !isEmpty(stripeSession)) {
+      window.open(stripeSession.url);
+    }
+  }, [dispatch, isSuccess, isError, stripeSession]);
 
   return (
     <Box sx={{ flex: 1 }}>
@@ -51,7 +69,13 @@ const OrderSummary = (props) => {
             </Text>
           </Group>
         </Card>
-        <Button fullWidth size="lg" mt={16}>
+        <Button
+          fullWidth
+          loading={stripePaymentLoading}
+          size="lg"
+          mt={16}
+          onClick={() => dispatch(stripePayment())}
+        >
           Payment
         </Button>
       </Box>

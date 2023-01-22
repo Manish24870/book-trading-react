@@ -14,7 +14,7 @@ import {
 } from "@mantine/core";
 import { useDispatch, useSelector } from "react-redux";
 
-import { setupStripeAccount } from "../../features/stripe/stripeSlice";
+import { setupStripeAccount, stripeCharge } from "../../features/stripe/stripeSlice";
 import { errorNotification } from "../../utils/notification/showNotification";
 import isEmpty from "../../utils/isEmpty";
 
@@ -58,6 +58,12 @@ const MyProfileInfo = (props) => {
             onClick={() => dispatch(setupStripeAccount())}
           >
             Stripe
+          </Button>
+          <Button
+            // loading={setupStripeAccountLoading}
+            onClick={() => dispatch(stripeCharge())}
+          >
+            Charge
           </Button>
         </Group>
       </Group>
