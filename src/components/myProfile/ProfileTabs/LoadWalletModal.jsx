@@ -57,7 +57,7 @@ const LoadWalletModal = (props) => {
     >
       <Box>
         <form onSubmit={formSubmitHandler}>
-          <Group grow>
+          <Group>
             <NumberInput label="Amount" min={1} {...form.getInputProps("amount")} />
           </Group>
           <Button type="submit" loading={props.loadWalletLoading} mt={20}>

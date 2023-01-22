@@ -36,6 +36,7 @@ const SellBookInfo = (props) => {
       price: props.book.price,
       isbn: props.book.isbn,
       category: props.book.category,
+      owner: props.book.owner,
     };
     dispatch(addToCart(cartItem));
   };
@@ -161,7 +162,13 @@ const SellBookInfo = (props) => {
           <Text size="xl" weight={700}>
             Rs. 1200
           </Text>
-          <Button leftIcon={<BsCartPlus size={20} />} size="lg" mt={16} onClick={addToCartHandler}>
+          <Button
+            disabled={props.book.owner._id === props.curentUserId}
+            leftIcon={<BsCartPlus size={20} />}
+            size="lg"
+            mt={16}
+            onClick={addToCartHandler}
+          >
             Add to Cart
           </Button>
         </Grid.Col>

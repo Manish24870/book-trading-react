@@ -1,10 +1,13 @@
-import { useState } from "react";
-import { Stepper, Box, Title, Card, Grid, Group, Text, Container } from "@mantine/core";
+import { useEffect } from "react";
+import { Box, Title, Card, Grid, Group, Text, Container } from "@mantine/core";
 import Joi from "joi";
 import { useForm, joiResolver } from "@mantine/form";
+import { useSelector, useDispatch } from "react-redux";
 
 import ShippingDetails from "./ShippingDetails";
 import OrderSummary from "./OrderSummary";
+import isEmpty from "../../utils/isEmpty";
+import { buyBook } from "../../features/wallet/walletSlice";
 
 const schema = Joi.object({
   email: Joi.string()
@@ -31,7 +34,9 @@ const schema = Joi.object({
 });
 
 const Checkout = (props) => {
-  const [activeStep, setActiveStep] = useState(0);
+  const dispatch = useDispatch();
+  const { userProfile, userProfileLoading } = useSelector((state) => state.profile);
+  const { cartItems } = useSelector((state) => state.cart);
 
   const form = useForm({
     validate: joiResolver(schema),
@@ -44,10 +49,33 @@ const Checkout = (props) => {
     },
   });
 
+  // Load user personal information from profile
+  useEffect(() => {
+    if (!isEmpty(userProfile)) {
+      form.setValues({
+        ...form.values,
+        email: userProfile.email,
+        name: userProfile.name,
+      });
+    }
+  }, [userProfile, userProfileLoading]);
+
+  // When user clicks for the payment button
+  const bookCheckoutHandler = () => {
+    const { hasErrors, errors } = form.validate();
+    if (!hasErrors) {
+      const checkoutInfo = {
+        cartItems,
+        shippingDetails: form.values,
+      };
+      dispatch(buyBook(checkoutInfo));
+    }
+  };
+
   return (
     <Box mt={20}>
       <Container size="lg">
-        <Grid columns={12}>
+        <Grid columns={12} gutter="xl">
           <Grid.Col lg={6} xl={7}>
             <Title order={4} mb={20}>
               Checkout
@@ -55,7 +83,7 @@ const Checkout = (props) => {
             <ShippingDetails form={form} />
           </Grid.Col>
           <Grid.Col lg={6} xl={5}>
-            <OrderSummary />
+            <OrderSummary bookCheckoutHandler={bookCheckoutHandler} />
           </Grid.Col>
         </Grid>
       </Container>

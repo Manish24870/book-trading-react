@@ -8,14 +8,17 @@ import store from "./app/store";
 import theme from "./utils/mantine/theme";
 import Layout from "./components/Layout/Layout";
 import { setUserLoading, setCurrentUser } from "./features/user/userSlice";
+import { setUserProfileLoading, getUserProfile } from "./features/profile/profileSlice";
 import setAuthToken from "./utils/auth/setAuthToken";
 
 if (localStorage.jwt) {
   store.dispatch(setUserLoading(true));
+  store.dispatch(setUserProfileLoading(true));
   const token = localStorage.jwt;
   setAuthToken(token);
   const decoded = jwt_decode(token);
   store.dispatch(setCurrentUser(decoded));
+  store.dispatch(getUserProfile());
 }
 
 const App = () => {

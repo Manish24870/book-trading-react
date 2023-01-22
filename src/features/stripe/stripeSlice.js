@@ -10,6 +10,7 @@ const initialState = {
   stripeLink: null,
   stripePaymentLoading: false,
   stripeSession: null,
+  stripeOnboardLoading: false,
 };
 
 // Valdate and setup the stripe account
@@ -40,6 +41,16 @@ export const stripeCharge = createAsyncThunk("stripe/charge", async (_, { reject
     const response = await axiosInstance.get("/stripe/charge");
     console.log("STRIPE", response.data);
     return response.data.charge;
+  } catch (err) {
+    return rejectWithValie(err.response?.data?.error);
+  }
+});
+
+// After the stripe onboarding is completed
+export const stripeOnboard = createAsyncThunk("stripe/onboard", async (_, { rejectWithValie }) => {
+  try {
+    const response = await axiosInstance.get("/stripe/onboard");
+    return response.data;
   } catch (err) {
     return rejectWithValie(err.response?.data?.error);
   }
@@ -85,6 +96,23 @@ const stripeSlice = createSlice({
       state.error = null;
       state.isError = false;
       state.stripeSession = action.payload;
+    });
+
+    // Stripe onboard cases
+    builder.addCase(stripeOnboard.pending, (state) => {
+      state.stripeOnboardLoading = true;
+    });
+    builder.addCase(stripeOnboard.fulfilled, (state, action) => {
+      state.stripeOnboardLoading = false;
+      state.isSuccess = true;
+      state.isError = false;
+      state.error = null;
+    });
+    builder.addCase(stripeOnboard.rejected, (state, action) => {
+      state.stripeOnboardLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+      state.error = action.payload;
     });
   },
 });

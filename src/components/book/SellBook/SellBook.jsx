@@ -13,6 +13,7 @@ const SellBook = (props) => {
   const dispatch = useDispatch();
   const params = useParams();
   const { error, isError, isSuccess, fetchBookLoading, book } = useSelector((state) => state.book);
+  const curentUserId = useSelector((state) => state.user.user.id);
 
   useEffect(() => {
     dispatch(fetchBook(params.bookId));
@@ -39,7 +40,7 @@ const SellBook = (props) => {
   } else if (isSuccess && book && !fetchBookLoading) {
     renderBook = (
       <>
-        <SellBookInfo book={book} />
+        <SellBookInfo book={book} curentUserId={curentUserId} />
         <SellBookDiscussion discussion={book.discussion} />
       </>
     );

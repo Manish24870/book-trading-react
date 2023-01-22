@@ -6,6 +6,7 @@ import booksReducer from "../features/book/booksSlice";
 import cartReducer from "../features/cart/cartSlice";
 import stripeReducer from "../features/stripe/stripeSlice";
 import walletReducer from "../features/wallet/walletSlice";
+import profileReducer from "../features/profile/profileSlice";
 
 const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ const store = configureStore({
     cart: cartReducer,
     stripe: stripeReducer,
     wallet: walletReducer,
+    profile: profileReducer,
   },
 });
 

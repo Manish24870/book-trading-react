@@ -63,7 +63,7 @@ const AnswerForm = (props) => {
     >
       <Box>
         <form onSubmit={formSubmitHandler}>
-          <Group grow>
+          <Group>
             <Textarea
               minRows={2}
               maxRows={5}

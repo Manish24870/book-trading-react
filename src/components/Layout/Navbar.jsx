@@ -131,7 +131,7 @@ const Navbar = () => {
 
           <Divider my="sm" color={"gray.1"} />
 
-          <Group position="center" grow pb="xl" px="md">
+          <Group position="center" pb="xl" px="md">
             <Button variant="default" component={Link} to="/login">
               Log in
             </Button>

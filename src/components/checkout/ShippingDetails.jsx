@@ -9,7 +9,7 @@ const ShippingDetails = (props) => {
         <Title order={5} mb={8}>
           Personal Information
         </Title>
-        <Flex direction="column" grow>
+        <Flex direction="column">
           <TextInput
             label="Email"
             placeholder="Email"
@@ -32,7 +32,7 @@ const ShippingDetails = (props) => {
         <Title order={5} mb={8}>
           Shipping Address
         </Title>
-        <Flex direction="column" grow>
+        <Flex direction="column">
           <TextInput
             label="Address"
             placeholder="Your address"

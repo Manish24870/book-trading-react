@@ -1,18 +1,20 @@
 import { useEffect } from "react";
 import { Box, Title, Card, ScrollArea, Group, Text, Button } from "@mantine/core";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { MdPayment } from "react-icons/md";
 
 import CheckoutItem from "./CheckoutItem";
 import { stripePayment } from "../../features/stripe/stripeSlice";
+import { clearCart } from "../../features/cart/cartSlice";
 import isEmpty from "../../utils/isEmpty";
-import { errorNotification } from "../../utils/notification/showNotification";
+import { errorNotification, successNotification } from "../../utils/notification/showNotification";
 
 const OrderSummary = (props) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { cartItems } = useSelector((state) => state.cart);
-  const { stripePaymentLoading, isSuccess, isError, error, stripeSession } = useSelector(
-    (state) => state.stripe
-  );
+  const { buyBookLoading, isSuccess, isError, error } = useSelector((state) => state.wallet);
 
   let totalCost = 0;
   let serviceCharge = 20;
@@ -22,13 +24,18 @@ const OrderSummary = (props) => {
 
   useEffect(() => {
     if (isError && !isEmpty(error)) {
-      errorNotification({ title: "Payment error", message: error });
+      errorNotification({ title: "Checkout error", message: error });
     }
 
-    if (isSuccess && !isEmpty(stripeSession)) {
-      window.open(stripeSession.url);
+    if (isSuccess) {
+      successNotification({
+        title: "Payment complete",
+        message: "Your book order completed successfully",
+      });
+      dispatch(clearCart());
+      navigate("/checkout/success", { replace: true });
     }
-  }, [dispatch, isSuccess, isError, stripeSession]);
+  }, [dispatch, isSuccess, isError]);
 
   return (
     <Box sx={{ flex: 1 }}>
@@ -44,7 +51,7 @@ const OrderSummary = (props) => {
           </ScrollArea>
         </Card>
         <Card withBorder shadow="lg">
-          <Group grow position="apart" mb={8}>
+          <Group position="apart" mb={8}>
             <Text weight={600} size="lg">
               Subtotal :
             </Text>
@@ -52,7 +59,7 @@ const OrderSummary = (props) => {
               Rs {totalCost}
             </Text>
           </Group>
-          <Group grow mb={16}>
+          <Group mb={16}>
             <Text weight={600} size="lg">
               Service Charge :
             </Text>
@@ -60,7 +67,7 @@ const OrderSummary = (props) => {
               Rs {serviceCharge}
             </Text>
           </Group>
-          <Group grow mb={8}>
+          <Group mb={8}>
             <Text weight={800} size="xl">
               TOTAL :
             </Text>
@@ -71,10 +78,12 @@ const OrderSummary = (props) => {
         </Card>
         <Button
           fullWidth
-          loading={stripePaymentLoading}
+          loading={buyBookLoading}
           size="lg"
           mt={16}
-          onClick={() => dispatch(stripePayment())}
+          leftIcon={<MdPayment size={20} />}
+          onClick={props.bookCheckoutHandler}
+          disabled={cartItems.length === 0}
         >
           Payment
         </Button>

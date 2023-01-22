@@ -10,6 +10,8 @@ const initialState = {
   getWalletLoading: false,
   wallet: null,
   loadWalletSessionUrl: null,
+  buyBookLoading: false,
+  order: null,
 };
 
 // Fetch the user wallet
@@ -18,7 +20,7 @@ export const getWallet = createAsyncThunk("wallet/get", async (_, { rejectWithVa
     const response = await axiosInstance.get("/wallet/get");
     return response.data.wallet;
   } catch (err) {
-    rejectWithValue(err.response?.data?.error);
+    return rejectWithValue(err.response?.data?.error);
   }
 });
 
@@ -30,10 +32,21 @@ export const loadWallet = createAsyncThunk(
       const response = await axiosInstance.post("/wallet/load", walletData);
       return response.data;
     } catch (err) {
-      rejectWithValue(err.response?.data?.error);
+      return rejectWithValue(err.response?.data?.error);
     }
   }
 );
+
+// Checkout
+export const buyBook = createAsyncThunk("wallet/buy", async (checkoutData, { rejectWithValue }) => {
+  try {
+    const response = await axiosInstance.post("/wallet/buy", checkoutData);
+    return response.data.order;
+  } catch (err) {
+    console.log("TR", err.response);
+    return rejectWithValue(err.response?.data?.error);
+  }
+});
 
 const walletSlice = createSlice({
   name: "wallet",
@@ -74,6 +87,24 @@ const walletSlice = createSlice({
       state.loadWalletLoading = false;
       state.isSuccess = false;
       state.isError = true;
+      state.error = action.payload;
+    });
+
+    // Buy book cases
+    builder.addCase(buyBook.pending, (state) => {
+      state.buyBookLoading = true;
+    });
+    builder.addCase(buyBook.fulfilled, (state, action) => {
+      state.buyBookLoading = false;
+      state.isError = false;
+      state.error = null;
+      state.isSuccess = true;
+      state.order = action.payload;
+    });
+    builder.addCase(buyBook.rejected, (state, action) => {
+      state.buyBookLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
       state.error = action.payload;
     });
   },
