@@ -6,7 +6,7 @@ import { joiResolver, useForm } from "@mantine/form";
 import { useSelector, useDispatch } from "react-redux";
 
 import { registerUser, reset } from "../../../features/user/userSlice";
-import { getUserProfile } from "../../../features/profile/profileSlice";
+import { getMyProfile } from "../../../features/profile/profileSlice";
 import isEmpty from "../../../utils/isEmpty";
 import {
   successNotification,
@@ -61,7 +61,7 @@ const Register = (props) => {
         title: "Registration successful",
         message: `User ${user.username} registered successfully`,
       });
-      dispatch(getUserProfile());
+      dispatch(getMyProfile());
       navigate("/");
     }
 

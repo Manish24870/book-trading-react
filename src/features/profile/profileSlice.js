@@ -2,15 +2,15 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../utils/axios/axiosInstance";
 
 const initialState = {
-  userProfile: null,
-  userProfileLoading: false,
+  myProfile: null,
+  myProfileLoading: false,
   error: null,
   isError: false,
   isSuccess: false,
 };
 
 // Get user profile
-export const getUserProfile = createAsyncThunk("profile/get", async (_, { rejectWithValue }) => {
+export const getMyProfile = createAsyncThunk("profile/get", async (_, { rejectWithValue }) => {
   try {
     const response = await axiosInstance.get("/user/get");
     return response.data.userProfile;
@@ -24,33 +24,33 @@ const profileSlice = createSlice({
   initialState,
 
   reducers: {
-    setUserProfileLoading: (state, action) => {
-      state.userProfileLoading = action.payload;
+    setMyProfileLoading: (state, action) => {
+      state.myProfileLoading = action.payload;
     },
-    removeUserProfile: (state, action) => {
-      state.userProfile = null;
+    removeMyProfile: (state, action) => {
+      state.myProfile = null;
     },
   },
 
   extraReducers: (builder) => {
     // Fetch user profile
-    builder.addCase(getUserProfile.pending, (state, action) => {
-      state.userProfileLoading = true;
+    builder.addCase(getMyProfile.pending, (state, action) => {
+      state.myProfileLoading = true;
     });
-    builder.addCase(getUserProfile.fulfilled, (state, action) => {
-      state.userProfileLoading = false;
+    builder.addCase(getMyProfile.fulfilled, (state, action) => {
+      state.myProfileLoading = false;
       state.error = null;
       state.isError = false;
       state.isSuccess = true;
-      state.userProfile = action.payload;
+      state.myProfile = action.payload;
     });
-    builder.addCase(getUserProfile.rejected, (state, action) => {
-      state.userProfileLoading = false;
+    builder.addCase(getMyProfile.rejected, (state, action) => {
+      state.myProfileLoading = false;
       state.error = action.payload;
       state.isError = true;
       state.isSuccess = false;
     });
   },
 });
-export const { setUserProfileLoading, removeUserProfile } = profileSlice.actions;
+export const { setMyProfileLoading, removeMyProfile } = profileSlice.actions;
 export default profileSlice.reducer;

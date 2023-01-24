@@ -1,51 +1,80 @@
-import { useEffect } from "react";
-import { Title, Text, Avatar, Group, Card } from "@mantine/core";
+import { useEffect, useState } from "react";
+import { Title, Text, Avatar, Group, Card, Button, Box } from "@mantine/core";
 import { useDispatch, useSelector } from "react-redux";
+import { CiEdit } from "react-icons/ci";
+import { MdPassword } from "react-icons/md";
 
+import EditProfileModal from "./EditProfileModal";
 import Loading from "../common/Loading";
-import { getUserProfile } from "../../features/profile/profileSlice";
-import { errorNotification, successNotification } from "../../utils/notification/showNotification";
+import { getMyProfile } from "../../features/profile/profileSlice";
+import { errorNotification } from "../../utils/notification/showNotification";
 
 const MyProfileInfo = (props) => {
   const dispatch = useDispatch();
+  const [modalOpened, setModalOpened] = useState(true);
 
-  const { userProfile, userProfileLoading, error, isError, isSuccess } = useSelector(
+  const { myProfile, myProfileLoading, error, isError, isSuccess } = useSelector(
     (state) => state.profile
   );
 
   useEffect(() => {
-    dispatch(getUserProfile());
+    dispatch(getMyProfile());
   }, []);
 
   useEffect(() => {
     if (isError) {
       errorNotification({ title: "Profile error", message: error });
     }
-  }, [dispatch, isError, isSuccess, userProfile]);
+  }, [dispatch, isError, isSuccess, myProfile]);
 
   let renderProfileInfo = <Loading />;
 
-  if (userProfileLoading) {
+  if (myProfileLoading) {
     renderProfileInfo = <Loading />;
-  } else if (isSuccess && userProfile && !userProfileLoading) {
+  } else if (isSuccess && myProfile && !myProfileLoading) {
     renderProfileInfo = (
       <Group sx={{ alignItems: "center" }} spacing="xs">
+        <EditProfileModal
+          modalOpened={modalOpened}
+          setModalOpened={setModalOpened}
+          myProfile={myProfile}
+        />
         <Avatar
-          src={
-            "https://images.unsplash.com/photo-1529068755536-a5ade0dcb4e8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=581&q=80"
-          }
+          src={process.env.REACT_APP_BASE_IMAGE_URL + myProfile.photo}
           radius="lg"
           size={160}
         />
         <Group direction="column" spacing={0} sx={{ maxWidth: 400 }}>
-          <Title order={3}>{userProfile.name}</Title>
+          <Title order={3}>{myProfile.name}</Title>
           <Text size="sm" color="secondary">
-            @{userProfile.username}
+            @{myProfile.username}
           </Text>
           <Text size="sm" color="secondary">
-            {userProfile.email}
+            {myProfile.email}
           </Text>
         </Group>
+        <Box
+          sx={{
+            justifySelf: "flex-start",
+            alignSelf: "flex-start",
+            marginLeft: "auto",
+            textAlign: "right",
+          }}
+        >
+          <Button
+            variant="light"
+            size="xs"
+            leftIcon={<CiEdit size={18} />}
+            mb={10}
+            onClick={() => setModalOpened(true)}
+          >
+            Edit
+          </Button>
+          <br></br>
+          <Button variant="light" color="secondary" size="xs" leftIcon={<MdPassword size={18} />}>
+            Change Password
+          </Button>
+        </Box>
       </Group>
     );
   }

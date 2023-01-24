@@ -15,7 +15,7 @@ import { IoLogOutOutline, IoPersonOutline, IoSettingsOutline } from "react-icons
 import { BsChevronDown } from "react-icons/bs";
 
 import { logoutUser } from "../../features/user/userSlice";
-import { removeUserProfile } from "../../features/profile/profileSlice";
+import { removeMyProfile } from "../../features/profile/profileSlice";
 
 const useStyles = createStyles((theme) => ({
   user: {
@@ -36,13 +36,13 @@ const useStyles = createStyles((theme) => ({
 
 const UserMenu = (props) => {
   const [userMenuOpened, setUserMenuOpened] = useState(false);
-  const { userProfile } = useSelector((state) => state.profile);
+  const { myProfile } = useSelector((state) => state.profile);
   const { classes, theme, cx } = useStyles();
   const dispatch = useDispatch();
 
   const logoutUserHandler = () => {
     dispatch(logoutUser());
-    dispatch(removeUserProfile());
+    dispatch(removeMyProfile());
   };
 
   return (
@@ -61,12 +61,12 @@ const UserMenu = (props) => {
                 src={
                   "https://images.unsplash.com/photo-1529068755536-a5ade0dcb4e8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=581&q=80"
                 }
-                alt={userProfile?.name}
+                alt={myProfile?.name}
                 radius="xl"
                 size={26}
               />
               <Text weight={500} size="sm" sx={{ lineHeight: 1 }} mx={3}>
-                {userProfile?.name}
+                {myProfile?.name}
               </Text>
               <BsChevronDown size={12} />
             </Group>
@@ -74,7 +74,7 @@ const UserMenu = (props) => {
         </Menu.Target>
         <Menu.Dropdown>
           <Badge radius="sm" sx={{ width: "100%" }}>
-            {userProfile?.role}
+            {myProfile?.role}
           </Badge>
           <Menu.Label>Account</Menu.Label>
 
