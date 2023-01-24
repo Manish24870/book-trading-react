@@ -1,6 +1,15 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Modal, Button, Group, TextInput, Flex, MultiSelect } from "@mantine/core";
+import {
+  Box,
+  Modal,
+  Button,
+  Group,
+  TextInput,
+  Flex,
+  PasswordInput,
+  MultiSelect,
+} from "@mantine/core";
 import { useForm, joiResolver } from "@mantine/form";
 import { useDispatch, useSelector } from "react-redux";
 import Joi from "joi";
@@ -68,7 +77,6 @@ const bookCategories = [
 
 const schema = Joi.object({
   photo: Joi.allow(null),
-  image: Joi.allow(null),
   name: Joi.string().required().messages({
     "string.empty": "Name is required",
   }),
@@ -83,6 +91,8 @@ const schema = Joi.object({
       "string.email": "Email is invalid",
     }),
   favoriteCategories: Joi.array(),
+  password: Joi.string().allow(""),
+  confirmPassword: Joi.string().allow(""),
 });
 
 const EditProfileModal = (props) => {
@@ -101,6 +111,8 @@ const EditProfileModal = (props) => {
       username: "",
       email: "",
       favoriteCategories: [],
+      password: "",
+      confirmPassword: "",
     },
   });
 
@@ -126,6 +138,7 @@ const EditProfileModal = (props) => {
         form.setErrors({
           username: error.username,
           email: error.email,
+          password: error.password,
         });
       }
     }
@@ -156,6 +169,7 @@ const EditProfileModal = (props) => {
     event.preventDefault();
     const { hasErrors, errors } = form.validate();
     if (!hasErrors) {
+      console.log(form.values);
       let profileData = new FormData();
       Object.keys(form.values).forEach((value) => {
         if (value === "photo" && form.values.photo) {
@@ -213,6 +227,19 @@ const EditProfileModal = (props) => {
             transitionDuration={150}
             transition="pop-top-left"
             transitionTimingFunction="ease"
+            mb={16}
+          />
+          <PasswordInput
+            label="New Password"
+            placeholder="New password"
+            {...form.getInputProps("password")}
+            mb={16}
+          />
+          <PasswordInput
+            label="Confirm new password"
+            placeholder="New password"
+            {...form.getInputProps("confirmPassword")}
+            mb={16}
           />
           <Button type="submit" mt={30} fullWidth leftIcon={<CiEdit size={20} />}>
             Edit

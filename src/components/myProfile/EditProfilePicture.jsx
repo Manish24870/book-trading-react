@@ -1,11 +1,8 @@
-import { Group, ActionIcon } from "@mantine/core";
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
-import { IoCloseOutline, IoImageOutline } from "react-icons/io5";
 import { MdOutlinePhotoCameraFront, MdOutlineClose } from "react-icons/md";
 import { BiUpload } from "react-icons/bi";
 
 const EditProfilePicture = (props) => {
-  console.log("PPP", props);
   let idleContent;
   if (props.prevImageLink && !props.profilePicture) {
     idleContent = (
