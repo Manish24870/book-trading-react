@@ -1,11 +1,15 @@
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Box, Modal, Button, Group, TextInput, Flex, MultiSelect } from "@mantine/core";
 import { useForm, joiResolver } from "@mantine/form";
+import { useDispatch, useSelector } from "react-redux";
 import Joi from "joi";
 import { CiEdit } from "react-icons/ci";
 import isEmpty from "../../utils/isEmpty";
 
 import EditProfilePicture from "./EditProfilePicture";
+import { editProfile, editMyProfileReset } from "../../features/profile/profileSlice";
+import { errorNotification, successNotification } from "../../utils/notification/showNotification";
 
 const bookCategories = [
   "Antiques & Collectibles",
@@ -82,6 +86,13 @@ const schema = Joi.object({
 });
 
 const EditProfileModal = (props) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { isEditMyProfileError, isEditMyProfileSuccess, error, myProfile } = useSelector(
+    (state) => state.profile
+  );
+
   const form = useForm({
     validate: joiResolver(schema),
     initialValues: {
@@ -106,6 +117,32 @@ const EditProfileModal = (props) => {
     }
   }, [props.myProfile]);
 
+  // Handle error and success
+  useEffect(() => {
+    if (isEditMyProfileError) {
+      if (typeof error === "string") {
+        errorNotification({ title: "Profile error", message: error });
+      } else if (typeof error === "object") {
+        form.setErrors({
+          username: error.username,
+          email: error.email,
+        });
+      }
+    }
+
+    if (isEditMyProfileSuccess && !isEmpty(myProfile)) {
+      successNotification({
+        title: "Profile success",
+        message: "Profile edited successfully",
+      });
+      props.setModalOpened(false);
+      navigate("/my-profile", { replace: true });
+    }
+    return () => {
+      dispatch(editMyProfileReset());
+    };
+  }, [dispatch, isEditMyProfileError, isEditMyProfileSuccess, error]);
+
   const onProfilePictureDrop = (photo) => {
     form.setFieldValue("photo", photo);
   };
@@ -119,17 +156,17 @@ const EditProfileModal = (props) => {
     event.preventDefault();
     const { hasErrors, errors } = form.validate();
     if (!hasErrors) {
-      // let profileData = new FormData();
-      // Object.keys(form.values).forEach((value) => {
-      //   if (value === "image") {
-      //     profileData.append("image", form.values.image[0]);
-      //   } else if (value === "preferences") {
-      //     profileData.append([value], JSON.stringify(form.values[value]));
-      //   } else {
-      //     profileData.append([value], form.values[value]);
-      //   }
-      // });
-      // props.completeProfile(profileData, navigate, "/profile");
+      let profileData = new FormData();
+      Object.keys(form.values).forEach((value) => {
+        if (value === "photo" && form.values.photo) {
+          profileData.append("photo", form.values.photo[0]);
+        } else if (value === "favoriteCategories") {
+          profileData.append([value], JSON.stringify(form.values[value]));
+        } else {
+          profileData.append([value], form.values[value]);
+        }
+      });
+      dispatch(editProfile(profileData));
     }
   };
 

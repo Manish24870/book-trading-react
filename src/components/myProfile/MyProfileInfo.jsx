@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
-import { Title, Text, Avatar, Group, Card, Button, Box } from "@mantine/core";
+import { Title, Text, Avatar, Group, Card, Button, Box, Flex } from "@mantine/core";
 import { useDispatch, useSelector } from "react-redux";
 import { CiEdit } from "react-icons/ci";
 import { MdPassword } from "react-icons/md";
 
 import EditProfileModal from "./EditProfileModal";
 import Loading from "../common/Loading";
-import { getMyProfile } from "../../features/profile/profileSlice";
+import { getMyProfile, reset } from "../../features/profile/profileSlice";
 import { errorNotification } from "../../utils/notification/showNotification";
 
 const MyProfileInfo = (props) => {
   const dispatch = useDispatch();
-  const [modalOpened, setModalOpened] = useState(true);
+  const [modalOpened, setModalOpened] = useState(false);
 
   const { myProfile, myProfileLoading, error, isError, isSuccess } = useSelector(
     (state) => state.profile
@@ -19,6 +19,9 @@ const MyProfileInfo = (props) => {
 
   useEffect(() => {
     dispatch(getMyProfile());
+    return () => {
+      dispatch(reset());
+    };
   }, []);
 
   useEffect(() => {
@@ -44,7 +47,7 @@ const MyProfileInfo = (props) => {
           radius="lg"
           size={160}
         />
-        <Group direction="column" spacing={0} sx={{ maxWidth: 400 }}>
+        <Flex direction="column" spacing={0} sx={{ maxWidth: 400 }}>
           <Title order={3}>{myProfile.name}</Title>
           <Text size="sm" color="secondary">
             @{myProfile.username}
@@ -52,7 +55,7 @@ const MyProfileInfo = (props) => {
           <Text size="sm" color="secondary">
             {myProfile.email}
           </Text>
-        </Group>
+        </Flex>
         <Box
           sx={{
             justifySelf: "flex-start",
