@@ -1,42 +1,34 @@
 import { useEffect } from "react";
-import {
-  Title,
-  Text,
-  Avatar,
-  Button,
-  Box,
-  Group,
-  Badge,
-  Card,
-  ActionIcon,
-  Container,
-  Grid,
-} from "@mantine/core";
+import { Title, Text, Avatar, Group, Card } from "@mantine/core";
 import { useDispatch, useSelector } from "react-redux";
 
-import { setupStripeAccount, stripeCharge } from "../../features/stripe/stripeSlice";
-import { errorNotification } from "../../utils/notification/showNotification";
-import isEmpty from "../../utils/isEmpty";
+import Loading from "../common/Loading";
+import { getUserProfile } from "../../features/profile/profileSlice";
+import { errorNotification, successNotification } from "../../utils/notification/showNotification";
 
 const MyProfileInfo = (props) => {
   const dispatch = useDispatch();
 
-  const { error, isError, isSuccess, setupStripeAccountLoading, stripeLink } = useSelector(
-    (state) => state.stripe
+  const { userProfile, userProfileLoading, error, isError, isSuccess } = useSelector(
+    (state) => state.profile
   );
 
   useEffect(() => {
+    dispatch(getUserProfile());
+  }, []);
+
+  useEffect(() => {
     if (isError) {
-      errorNotification({ title: "Stripe error", message: error });
+      errorNotification({ title: "Profile error", message: error });
     }
+  }, [dispatch, isError, isSuccess, userProfile]);
 
-    if (isSuccess && !isEmpty(stripeLink)) {
-      window.open(stripeLink, "_blank");
-    }
-  }, [dispatch, isError, isSuccess, stripeLink]);
+  let renderProfileInfo = <Loading />;
 
-  return (
-    <Card withBorder shadow="md">
+  if (userProfileLoading) {
+    renderProfileInfo = <Loading />;
+  } else if (isSuccess && userProfile && !userProfileLoading) {
+    renderProfileInfo = (
       <Group sx={{ alignItems: "center" }} spacing="xs">
         <Avatar
           src={
@@ -46,27 +38,21 @@ const MyProfileInfo = (props) => {
           size={160}
         />
         <Group direction="column" spacing={0} sx={{ maxWidth: 400 }}>
-          <Title order={3}>{"props.myProfile.name"}</Title>
+          <Title order={3}>{userProfile.name}</Title>
           <Text size="sm" color="secondary">
-            @{"props.myProfile.username"}
+            @{userProfile.username}
           </Text>
           <Text size="sm" color="secondary">
-            {"props.myProfile.email"}
+            {userProfile.email}
           </Text>
-          <Button
-            loading={setupStripeAccountLoading}
-            onClick={() => dispatch(setupStripeAccount())}
-          >
-            Stripe
-          </Button>
-          <Button
-            // loading={setupStripeAccountLoading}
-            onClick={() => dispatch(stripeCharge())}
-          >
-            Charge
-          </Button>
         </Group>
       </Group>
+    );
+  }
+
+  return (
+    <Card withBorder shadow="md">
+      {renderProfileInfo}
     </Card>
   );
 };

@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { MdPayment } from "react-icons/md";
 
 import CheckoutItem from "./CheckoutItem";
-import { stripePayment } from "../../features/stripe/stripeSlice";
 import { clearCart } from "../../features/cart/cartSlice";
 import isEmpty from "../../utils/isEmpty";
 import { errorNotification, successNotification } from "../../utils/notification/showNotification";

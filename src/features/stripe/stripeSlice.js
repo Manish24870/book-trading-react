@@ -27,24 +27,24 @@ export const setupStripeAccount = createAsyncThunk(
 );
 
 // Pay for a book
-export const stripePayment = createAsyncThunk("stripe/payment", async (_, { rejectWithValie }) => {
-  try {
-    const response = await axiosInstance.get("/stripe/payment");
-    console.log("STRIPE", response.data);
-    return response.data.session;
-  } catch (err) {
-    return rejectWithValie(err.response?.data?.error);
-  }
-});
-export const stripeCharge = createAsyncThunk("stripe/charge", async (_, { rejectWithValie }) => {
-  try {
-    const response = await axiosInstance.get("/stripe/charge");
-    console.log("STRIPE", response.data);
-    return response.data.charge;
-  } catch (err) {
-    return rejectWithValie(err.response?.data?.error);
-  }
-});
+// export const stripePayment = createAsyncThunk("stripe/payment", async (_, { rejectWithValie }) => {
+//   try {
+//     const response = await axiosInstance.get("/stripe/payment");
+//     console.log("STRIPE", response.data);
+//     return response.data.session;
+//   } catch (err) {
+//     return rejectWithValie(err.response?.data?.error);
+//   }
+// });
+// export const stripeCharge = createAsyncThunk("stripe/charge", async (_, { rejectWithValie }) => {
+//   try {
+//     const response = await axiosInstance.get("/stripe/charge");
+//     console.log("STRIPE", response.data);
+//     return response.data.charge;
+//   } catch (err) {
+//     return rejectWithValie(err.response?.data?.error);
+//   }
+// });
 
 // After the stripe onboarding is completed
 export const stripeOnboard = createAsyncThunk("stripe/onboard", async (_, { rejectWithValie }) => {
@@ -82,21 +82,21 @@ const stripeSlice = createSlice({
     });
 
     // Stripe payment cases
-    builder.addCase(stripePayment.pending, (state) => {
-      state.stripePaymentLoading = true;
-    });
-    builder.addCase(stripePayment.rejected, (state, action) => {
-      state.stripePaymentLoading = false;
-      state.isError = true;
-      state.error = action.payload;
-    });
-    builder.addCase(stripePayment.fulfilled, (state, action) => {
-      state.stripePaymentLoading = false;
-      state.isSuccess = true;
-      state.error = null;
-      state.isError = false;
-      state.stripeSession = action.payload;
-    });
+    // builder.addCase(stripePayment.pending, (state) => {
+    //   state.stripePaymentLoading = true;
+    // });
+    // builder.addCase(stripePayment.rejected, (state, action) => {
+    //   state.stripePaymentLoading = false;
+    //   state.isError = true;
+    //   state.error = action.payload;
+    // });
+    // builder.addCase(stripePayment.fulfilled, (state, action) => {
+    //   state.stripePaymentLoading = false;
+    //   state.isSuccess = true;
+    //   state.error = null;
+    //   state.isError = false;
+    //   state.stripeSession = action.payload;
+    // });
 
     // Stripe onboard cases
     builder.addCase(stripeOnboard.pending, (state) => {

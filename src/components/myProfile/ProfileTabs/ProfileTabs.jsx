@@ -1,14 +1,10 @@
 import { useState } from "react";
 import { Tabs, Card } from "@mantine/core";
 
-import WalletTab from "./WalletTab";
+import WalletTab from "./WalletTab/WalletTab";
 
 const ProfileTabs = (props) => {
   const [activeTab, setActiveTab] = useState("first");
-
-  const tabChangeHandler = (active, tabKey) => {
-    setActiveTab(active);
-  };
 
   return (
     <Card withBorder shadow="md" mt={10}>

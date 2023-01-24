@@ -4,9 +4,9 @@ import Joi from "joi";
 import { joiResolver, useForm } from "@mantine/form";
 import { useDispatch, useSelector } from "react-redux";
 
-import { loadWallet } from "../../../features/wallet/walletSlice";
-import { errorNotification } from "../../../utils/notification/showNotification";
-import isEmpty from "../../../utils/isEmpty";
+import { loadWallet } from "../../../../features/wallet/walletSlice";
+import { errorNotification } from "../../../../utils/notification/showNotification";
+import isEmpty from "../../../../utils/isEmpty";
 
 const schema = Joi.object({
   amount: Joi.number().required().messages({

@@ -43,7 +43,6 @@ export const buyBook = createAsyncThunk("wallet/buy", async (checkoutData, { rej
     const response = await axiosInstance.post("/wallet/buy", checkoutData);
     return response.data.order;
   } catch (err) {
-    console.log("TR", err.response);
     return rejectWithValue(err.response?.data?.error);
   }
 });
