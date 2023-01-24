@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   createStyles,
   Header,
@@ -12,10 +13,17 @@ import {
   Container,
   Anchor,
   ActionIcon,
+  UnstyledButton,
+  Avatar,
+  MediaQuery,
+  Text,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Link } from "react-router-dom";
 import { ImBooks } from "react-icons/im";
+import { useSelector } from "react-redux";
+
+import UserMenu from "./UserMenu";
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -56,6 +64,8 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const Navbar = () => {
+  const { isAuthenticated } = useSelector((state) => state.user);
+
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
   const { classes, theme } = useStyles();
 
@@ -74,24 +84,34 @@ const Navbar = () => {
               className={classes.hiddenMobile}
               align="center"
             >
-              <Anchor className={classes.link} component={Link} to="/sell" py={4}>
-                Sell
-              </Anchor>
-              <Anchor className={classes.link} component={Link} to="/exchange" py={4}>
-                Exchange
-              </Anchor>
-              <Anchor className={classes.link} component={Link} to="/auction" py={4}>
-                Auction
-              </Anchor>
+              {isAuthenticated ? (
+                <>
+                  <Anchor className={classes.link} component={Link} to="/sell" py={4}>
+                    Sell
+                  </Anchor>
+                  <Anchor className={classes.link} component={Link} to="/exchange" py={4}>
+                    Exchange
+                  </Anchor>
+                  <Anchor className={classes.link} component={Link} to="/auction" py={4}>
+                    Auction
+                  </Anchor>
+                </>
+              ) : null}
             </Group>
 
             <Group className={classes.hiddenMobile}>
-              <Button variant="default" component={Link} to="/login">
-                Log in
-              </Button>
-              <Button component={Link} to="/register">
-                Sign up
-              </Button>
+              {isAuthenticated ? (
+                <UserMenu />
+              ) : (
+                <>
+                  <Button variant="default" component={Link} to="/login">
+                    Log in
+                  </Button>
+                  <Button component={Link} to="/register">
+                    Sign up
+                  </Button>
+                </>
+              )}
             </Group>
 
             <Burger
@@ -118,26 +138,35 @@ const Navbar = () => {
       >
         <ScrollArea sx={{ height: "calc(100vh - 60px)" }} mx="-md">
           <Divider my="sm" color={"gray.1"} />
-
-          <Anchor className={classes.link} component={Link} to="/shop" py={4}>
-            Shop
-          </Anchor>
-          <Anchor className={classes.link} component={Link} to="/exchange" py={4}>
-            Exchange
-          </Anchor>
-          <Anchor className={classes.link} component={Link} to="/auction" py={4}>
-            Auction
-          </Anchor>
+          {isAuthenticated ? (
+            <>
+              <Anchor className={classes.link} component={Link} to="/shop" py={4}>
+                Shop
+              </Anchor>
+              <Anchor className={classes.link} component={Link} to="/exchange" py={4}>
+                Exchange
+              </Anchor>
+              <Anchor className={classes.link} component={Link} to="/auction" py={4}>
+                Auction
+              </Anchor>
+            </>
+          ) : null}
 
           <Divider my="sm" color={"gray.1"} />
 
           <Group position="center" pb="xl" px="md">
-            <Button variant="default" component={Link} to="/login">
-              Log in
-            </Button>
-            <Button component={Link} to="/register">
-              Sign up
-            </Button>
+            {isAuthenticated ? (
+              <UserMenu />
+            ) : (
+              <>
+                <Button variant="default" component={Link} to="/login">
+                  Log in
+                </Button>
+                <Button component={Link} to="/register">
+                  Sign up
+                </Button>
+              </>
+            )}
           </Group>
         </ScrollArea>
       </Drawer>

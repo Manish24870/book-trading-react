@@ -23,7 +23,7 @@ const BookCard = (props) => {
         <Carousel withIndicators loop>
           {props.book.images.map((image) => (
             <Carousel.Slide key={image._id}>
-              <Image src={process.env.REACT_APP_BASE_IMAGE_URL + image.url} height={230} />
+              <Image src={process.env.REACT_APP_BASE_IMAGE_URL + image.url} height={400} />
             </Carousel.Slide>
           ))}
         </Carousel>

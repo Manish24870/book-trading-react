@@ -2,6 +2,8 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../utils/axios/axiosInstance";
 import setAuthToken from "../../utils/auth/setAuthToken";
 import isEmpty from "../../utils/isEmpty";
+import { successNotification } from "../../utils/notification/showNotification";
+import { removeUserProfile, getUserProfile } from "../profile/profileSlice";
 
 const initialState = {
   isAuthenticated: false,
@@ -15,7 +17,7 @@ const initialState = {
 // Register a new user
 export const registerUser = createAsyncThunk(
   "user/register",
-  async (userInfo, { rejectWithValue }) => {
+  async (userInfo, { rejectWithValue, dispatch }) => {
     try {
       const response = await axiosInstance.post("/auth/register", userInfo);
       return response.data;
@@ -54,6 +56,13 @@ const userSlice = createSlice({
       state.isAuthenticated = !isEmpty(action.payload);
       state.user = isEmpty(action.payload) ? null : action.payload;
     },
+    logoutUser: (state, action) => {
+      localStorage.removeItem("jwt");
+      setAuthToken(false);
+      state.user = null;
+      state.isAuthenticated = false;
+      successNotification({ title: "Success", message: "Logged out successfully" });
+    },
   },
 
   extraReducers: (builder) => {
@@ -62,13 +71,13 @@ const userSlice = createSlice({
       state.userLoading = true;
     });
     builder.addCase(registerUser.fulfilled, (state, action) => {
+      localStorage.setItem("jwt", action.payload.token);
+      setAuthToken(action.payload.token);
       state.userLoading = false;
       state.error = null;
       state.isSuccess = true;
       state.user = action.payload.user;
       state.isAuthenticated = true;
-      localStorage.setItem("jwt", action.payload.token);
-      setAuthToken(action.payload.token);
     });
     builder.addCase(registerUser.rejected, (state, action) => {
       state.userLoading = false;
@@ -82,13 +91,13 @@ const userSlice = createSlice({
       state.userLoading = true;
     });
     builder.addCase(loginUser.fulfilled, (state, action) => {
+      localStorage.setItem("jwt", action.payload.token);
+      setAuthToken(action.payload.token);
       state.userLoading = false;
       state.error = null;
       state.isSuccess = true;
       state.user = action.payload.user;
       state.isAuthenticated = true;
-      localStorage.setItem("jwt", action.payload.token);
-      setAuthToken(action.payload.token);
     });
     builder.addCase(loginUser.rejected, (state, action) => {
       state.userLoading = false;
@@ -99,5 +108,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { reset, setUserLoading, setCurrentUser } = userSlice.actions;
+export const { reset, setUserLoading, setCurrentUser, logoutUser } = userSlice.actions;
 export default userSlice.reducer;
