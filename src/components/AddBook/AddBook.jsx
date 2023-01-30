@@ -97,7 +97,7 @@ const AddBook = (props) => {
       language: "",
       bookQuality: "",
       images: [],
-      price: "",
+      price: 0,
     },
   });
 
@@ -146,7 +146,7 @@ const AddBook = (props) => {
       language: "",
       bookQuality: "",
       images: [],
-      price: "",
+      price: 0,
     });
     setShowForm(true);
   };

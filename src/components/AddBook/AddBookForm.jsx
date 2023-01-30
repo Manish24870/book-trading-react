@@ -168,13 +168,16 @@ const AddBookForm = ({ form, formSubmitHandler, onImageDropHandler, addBookLoadi
             mb={12}
           />
 
-          <NumberInput
-            label="Price"
-            placeholder="Book price"
-            {...form.getInputProps("price")}
-            mb={12}
-            min={0}
-          />
+          {form.values["listing"] !== "Exchange" ? (
+            <NumberInput
+              label="Price"
+              placeholder="Book price"
+              {...form.getInputProps("price")}
+              mb={12}
+              min={0}
+            />
+          ) : null}
+
           <AddBookImages images={form.values.images} onImageDropHandler={onImageDropHandler} />
           <Button mt={30} fullWidth type="submit" loading={addBookLoading}>
             Add

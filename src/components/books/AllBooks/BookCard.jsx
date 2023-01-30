@@ -18,12 +18,12 @@ const BookCard = (props) => {
   const theme = useMantineTheme();
 
   return (
-    <Card radius="md" withBorder p="sm" mb={18} shadow="lg">
+    <Card radius="md" withBorder p="sm" mb={16} shadow="lg">
       <Card.Section>
         <Carousel withIndicators loop>
           {props.book.images.map((image) => (
             <Carousel.Slide key={image._id}>
-              <Image src={process.env.REACT_APP_BASE_IMAGE_URL + image.url} height={400} />
+              <Image src={process.env.REACT_APP_BASE_IMAGE_URL + image.url} height={300} />
             </Carousel.Slide>
           ))}
         </Carousel>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Title, Text, Avatar, Group, Card, Button, Box, Flex } from "@mantine/core";
+import { Title, Text, Avatar, Group, Card, Button, Box, Flex, Badge } from "@mantine/core";
 import { useDispatch, useSelector } from "react-redux";
 import { CiEdit } from "react-icons/ci";
 import { MdPassword } from "react-icons/md";
@@ -52,9 +52,15 @@ const MyProfileInfo = (props) => {
           <Text size="sm" color="secondary">
             @{myProfile.username}
           </Text>
-          <Text size="sm" color="secondary">
+          <Text size="sm" color="secondary" mb={6}>
             {myProfile.email}
           </Text>
+          {myProfile.favoriteCategories &&
+            myProfile.favoriteCategories.map((category) => (
+              <Badge radius="sm" key={category}>
+                {category}
+              </Badge>
+            ))}
         </Flex>
         <Box
           sx={{
