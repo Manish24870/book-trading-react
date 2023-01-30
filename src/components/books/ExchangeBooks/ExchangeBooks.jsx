@@ -7,14 +7,14 @@ import { errorNotification } from "../../../utils/notification/showNotification"
 import Loading from "../../common/Loading";
 import BooksList from "../common/BooksList";
 
-const SellBooks = (props) => {
+const ExchangeBooks = (props) => {
   const dispatch = useDispatch();
   const { error, isError, isSuccess, fetchBooksLoading, books } = useSelector(
     (state) => state.books
   );
 
   useEffect(() => {
-    dispatch(fetchBooks("Sell"));
+    dispatch(fetchBooks("Exchange"));
   }, []);
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const SellBooks = (props) => {
     <Box mt={20}>
       <Container size="lg">
         <Title order={4} mb={12}>
-          Sell Books
+          Exchange Books
         </Title>
         {renderBooks}
       </Container>
@@ -52,4 +52,4 @@ const SellBooks = (props) => {
   );
 };
 
-export default SellBooks;
+export default ExchangeBooks;

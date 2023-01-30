@@ -14,6 +14,7 @@ import Checkout from "../checkout/Checkout";
 import MyProfile from "../myProfile/MyProfile";
 import Onboard from "../stripe/Onboard";
 import CheckoutSuccess from "../checkout/CheckoutSuccess";
+import ExchangeBooks from "../books/ExchangeBooks/ExchangeBooks";
 
 import { initializeCartItems } from "../../features/cart/cartSlice";
 import isEmpty from "../../utils/isEmpty";
@@ -39,6 +40,7 @@ const Layout = (props) => {
           <Route path="/" element={<AllBooks />} />
           <Route path="/sell" element={<SellBooks />} />
           <Route path="/sell/:bookId" element={<SellBook />} />
+          <Route path="/exchange" element={<ExchangeBooks />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/checkout/success" element={<CheckoutSuccess />} />

@@ -5,7 +5,7 @@ import { Box, Container, Title } from "@mantine/core";
 import { reset, fetchBooks } from "../../../features/book/booksSlice";
 import { errorNotification } from "../../../utils/notification/showNotification";
 import Loading from "../../common/Loading";
-import BooksList from "./BooksList";
+import BooksList from "../common/BooksList";
 
 const AllBooks = (props) => {
   const dispatch = useDispatch();
