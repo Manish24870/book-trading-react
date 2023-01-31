@@ -71,7 +71,7 @@ const Navbar = () => {
 
   return (
     <Box>
-      <Header py={13} px="md">
+      <Header py={10} px="md">
         <Container size="lg">
           <Group position="apart" sx={{ height: "100%" }}>
             <ActionIcon component={Link} to="/">

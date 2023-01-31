@@ -41,9 +41,9 @@ const ExchangeBooks = (props) => {
   }
 
   return (
-    <Box mt={20}>
+    <Box mt={8}>
       <Container size="lg">
-        <Title order={4} mb={12}>
+        <Title order={4} mb={8}>
           Exchange Books
         </Title>
         {renderBooks}

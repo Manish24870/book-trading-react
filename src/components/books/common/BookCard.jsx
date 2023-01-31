@@ -85,13 +85,23 @@ const BookCard = (props) => {
         </Group>
       </Card.Section>
       <Group position="apart" mt="lg">
-        <Text size="xl" span weight={500}>
-          Rs. {props.book.price}
-        </Text>
+        {props.book.listing !== "Exchange" ? (
+          <Text size="xl" span weight={500}>
+            Rs. {props.book.price}
+          </Text>
+        ) : null}
+
         <Button
           size="xs"
           component={Link}
-          to={props.book.listing === "Sell" ? `/sell/${props.book._id}` : `/book/${props.book._id}`}
+          sx={{ marginLeft: "auto" }}
+          to={
+            props.book.listing === "Sell"
+              ? `/sell/${props.book._id}`
+              : props.book.listing === "Exchange"
+              ? `/exchange/${props.book._id}`
+              : `/auction/${props.book._id}`
+          }
         >
           View
         </Button>
