@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Box,
   Text,
@@ -15,6 +16,8 @@ import { useDispatch } from "react-redux";
 import { Carousel } from "@mantine/carousel";
 import { CgArrowsExchangeAlt } from "react-icons/cg";
 
+import { getMyExchangeBooks } from "../../../features/exchange/exchangeSlice";
+
 const bookQualityText = {
   1: "Poor",
   2: "Below Average",
@@ -25,6 +28,12 @@ const bookQualityText = {
 
 const ExchangeBookInfo = (props) => {
   const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
+
+  const createExchangeHandler = () => {
+    setOpen(true);
+    dispatch(getMyExchangeBooks());
+  };
 
   return (
     <Box>
@@ -154,7 +163,7 @@ const ExchangeBookInfo = (props) => {
             leftIcon={<CgArrowsExchangeAlt size={22} />}
             size="lg"
             mt={16}
-            // onClick={addToCartHandler}
+            onClick={createExchangeHandler}
           >
             Exchange
           </Button>

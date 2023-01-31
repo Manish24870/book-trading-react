@@ -7,6 +7,7 @@ import cartReducer from "../features/cart/cartSlice";
 import stripeReducer from "../features/stripe/stripeSlice";
 import walletReducer from "../features/wallet/walletSlice";
 import profileReducer from "../features/profile/profileSlice";
+import exchangeReducer from "../features/exchange/exchangeSlice";
 
 const store = configureStore({
   reducer: {
@@ -17,6 +18,7 @@ const store = configureStore({
     stripe: stripeReducer,
     wallet: walletReducer,
     profile: profileReducer,
+    exchange: exchangeReducer,
   },
 });
 
