@@ -80,7 +80,7 @@ const ExchangeBookInfo = (props) => {
                   Category
                 </Text>
                 {props.book.category.map((el) => (
-                  <Badge radius="sm" size="lg" color="secondary" mr={8}>
+                  <Badge key={el} radius="sm" size="lg" color="secondary" mr={8}>
                     {el}
                   </Badge>
                 ))}
@@ -90,7 +90,7 @@ const ExchangeBookInfo = (props) => {
                   Author
                 </Text>
                 {props.book.author.split(",").map((el) => (
-                  <Badge radius="sm" size="lg" color="secondary" mr={26}>
+                  <Badge key={el} radius="sm" size="lg" color="secondary" mr={26}>
                     {el}
                   </Badge>
                 ))}

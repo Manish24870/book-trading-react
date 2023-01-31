@@ -7,6 +7,7 @@ import { reset, fetchBook } from "../../../features/book/bookSlice";
 import Loading from "../../common/Loading";
 import { errorNotification } from "../../../utils/notification/showNotification";
 import ExchangeBookInfo from "./ExchangeBookInfo";
+import BookDiscussion from "../common/BookDiscussion";
 
 const ExchangeBook = (props) => {
   const dispatch = useDispatch();
@@ -40,7 +41,7 @@ const ExchangeBook = (props) => {
     renderBook = (
       <>
         <ExchangeBookInfo book={book} curentUserId={curentUserId} />
-        {/* <SellBookDiscussion discussion={book.discussion} /> */}
+        <BookDiscussion discussion={book.discussion} />
       </>
     );
   }

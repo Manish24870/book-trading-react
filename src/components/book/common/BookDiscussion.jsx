@@ -5,7 +5,7 @@ import DiscussionQuestion from "./DiscussionQuestion";
 import DiscussionForm from "./DiscussionForm";
 import AnswerForm from "./AnswerForm";
 
-const SellBookDiscussion = (props) => {
+const BookDiscussion = (props) => {
   const [opened, setOpened] = useState(false);
   const [questionId, setQuestionId] = useState(null);
 
@@ -29,7 +29,11 @@ const SellBookDiscussion = (props) => {
         <Box mt={30}>
           <Title order={5}>Previously asked questions</Title>
           {props.discussion.map((el) => (
-            <DiscussionQuestion key={el.id} discussionItem={el} handleClickOpen={handleClickOpen} />
+            <DiscussionQuestion
+              key={el._id}
+              discussionItem={el}
+              handleClickOpen={handleClickOpen}
+            />
           ))}
         </Box>
       </Card>
@@ -38,4 +42,4 @@ const SellBookDiscussion = (props) => {
   );
 };
 
-export default SellBookDiscussion;
+export default BookDiscussion;
