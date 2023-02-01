@@ -16,6 +16,7 @@ import { useDispatch } from "react-redux";
 import { Carousel } from "@mantine/carousel";
 import { CgArrowsExchangeAlt } from "react-icons/cg";
 
+import MyBookOffers from "./MyBookOffers/MyBookOffers";
 import { getMyExchangeBooks } from "../../../features/exchange/exchangeSlice";
 
 const bookQualityText = {
@@ -28,10 +29,10 @@ const bookQualityText = {
 
 const ExchangeBookInfo = (props) => {
   const dispatch = useDispatch();
-  const [open, setOpen] = useState(false);
+  const [opened, setOpened] = useState(false);
 
   const createExchangeHandler = () => {
-    setOpen(true);
+    setOpened(true);
     dispatch(getMyExchangeBooks());
   };
 
@@ -167,6 +168,7 @@ const ExchangeBookInfo = (props) => {
           >
             Exchange
           </Button>
+          <MyBookOffers opened={opened} setOpened={setOpened} />
         </Grid.Col>
       </Grid>
     </Box>
