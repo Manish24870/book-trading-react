@@ -17,14 +17,14 @@ import { AiOutlineStar, AiOutlineCheck } from "react-icons/ai";
 import { IoCloseOutline, IoCheckmarkOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 
-import { acceptOffer, getMyOffers } from "../../features/exchange/exchangeSlice";
+import { acceptOffer, rejectOffer, getMyOffers } from "../../features/exchange/exchangeSlice";
 import { successNotification } from "../../utils/notification/showNotification";
 
 const OfferItem = (props) => {
   const theme = useMantineTheme();
   const dispatch = useDispatch();
 
-  const { isAcceptOfferSuccess } = useSelector((state) => state.exchange);
+  const { isAcceptOfferSuccess, isRejectOfferSuccess } = useSelector((state) => state.exchange);
 
   useEffect(() => {
     if (isAcceptOfferSuccess) {
@@ -36,6 +36,16 @@ const OfferItem = (props) => {
     }
   }, [isAcceptOfferSuccess]);
 
+  useEffect(() => {
+    if (isRejectOfferSuccess) {
+      dispatch(getMyOffers());
+      successNotification({
+        title: "Offer rejected",
+        message: "Exchange offer rejected successfully",
+      });
+    }
+  }, [isRejectOfferSuccess]);
+
   // When user accepts an offer
   const offerAcceptHandler = () => {
     const offerData = {
@@ -43,6 +53,15 @@ const OfferItem = (props) => {
       initiatorItemId: props.initiatorItemId,
     };
     dispatch(acceptOffer(offerData));
+  };
+
+  // When user rejects an offer
+  const offerRejectHandler = () => {
+    const offerData = {
+      exchangeId: props.exchangeId,
+      initiatorItemId: props.initiatorItemId,
+    };
+    dispatch(rejectOffer(offerData));
   };
 
   // Check the status of the offer
@@ -55,7 +74,7 @@ const OfferItem = (props) => {
           <Button leftIcon={<IoCheckmarkOutline size={20} />} mb={12} onClick={offerAcceptHandler}>
             Accept
           </Button>
-          <Button color="red" leftIcon={<IoCloseOutline size={20} />}>
+          <Button color="red" leftIcon={<IoCloseOutline size={20} />} onClick={offerRejectHandler}>
             Reject
           </Button>
         </Flex>

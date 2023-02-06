@@ -18,6 +18,7 @@ const initialState = {
   myOffersLoading: false,
   myOffers: null,
   isAcceptOfferSuccess: false,
+  isRejectOfferSuccess: false,
 };
 
 // Function to get my books placed for exchange
@@ -65,6 +66,18 @@ export const acceptOffer = createAsyncThunk(
   async (offerData, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.post(`/exchange/accept-offer`, offerData);
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.error);
+    }
+  }
+);
+
+// Function to reject an offer
+export const rejectOffer = createAsyncThunk(
+  "exchange/reject-offer",
+  async (offerData, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post(`/exchange/reject-offer`, offerData);
     } catch (err) {
       return rejectWithValue(err.response?.data?.error);
     }
@@ -147,6 +160,7 @@ const exchangeSlice = createSlice({
     builder.addCase(getMyOffers.pending, (state) => {
       state.myOffersLoading = true;
       state.isAcceptOfferSuccess = false;
+      state.isRejectOfferSuccess = false;
     });
     builder.addCase(getMyOffers.fulfilled, (state, action) => {
       state.myOffersLoading = false;
@@ -169,6 +183,16 @@ const exchangeSlice = createSlice({
       state.error = null;
     });
     builder.addCase(acceptOffer.rejected, (state, action) => {
+      state.isError = true;
+      state.error = action.payload;
+    });
+    // Reject an offer cases
+    builder.addCase(rejectOffer.fulfilled, (state, action) => {
+      state.isRejectOfferSuccess = true;
+      state.isError = false;
+      state.error = null;
+    });
+    builder.addCase(rejectOffer.rejected, (state, action) => {
       state.isError = true;
       state.error = action.payload;
     });
