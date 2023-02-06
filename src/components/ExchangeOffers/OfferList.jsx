@@ -11,6 +11,7 @@ const OfferList = (props) => {
         <OfferItem
           exchangeId={offer._id}
           key={initiatorData._id}
+          initiatorItemId={initiatorData._id}
           initiatorUser={initiatorData.initiatorUser}
           bookWanted={offer.bookWanted}
           booksGiven={initiatorData.initiatorBooks}

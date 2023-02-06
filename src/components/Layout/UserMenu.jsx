@@ -13,6 +13,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { IoLogOutOutline, IoPersonOutline, IoSettingsOutline } from "react-icons/io5";
 import { BsChevronDown } from "react-icons/bs";
+import { MdOutlineLocalOffer } from "react-icons/md";
 
 import { logoutUser } from "../../features/user/userSlice";
 import { removeMyProfile } from "../../features/profile/profileSlice";
@@ -58,9 +59,7 @@ const UserMenu = (props) => {
           <UnstyledButton className={cx(classes.user, { [classes.userActive]: userMenuOpened })}>
             <Group spacing={7}>
               <Avatar
-                src={
-                  "https://images.unsplash.com/photo-1529068755536-a5ade0dcb4e8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=581&q=80"
-                }
+                src={process.env.REACT_APP_BASE_IMAGE_URL + myProfile?.photo}
                 alt={myProfile?.name}
                 radius="xl"
                 size={26}
@@ -80,6 +79,13 @@ const UserMenu = (props) => {
 
           <Menu.Item component={Link} to="/my-profile" icon={<IoSettingsOutline size={18} />}>
             Profile
+          </Menu.Item>
+          <Menu.Item
+            component={Link}
+            to="/exchange/offers"
+            icon={<MdOutlineLocalOffer size={18} />}
+          >
+            Offers
           </Menu.Item>
 
           <Menu.Divider />

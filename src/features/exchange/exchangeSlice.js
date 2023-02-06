@@ -17,6 +17,7 @@ const initialState = {
   isMyInitiatesSuccess: false,
   myOffersLoading: false,
   myOffers: null,
+  isAcceptOfferSuccess: false,
 };
 
 // Function to get my books placed for exchange
@@ -52,6 +53,18 @@ export const getMyOffers = createAsyncThunk(
     try {
       const response = await axiosInstance.get("/exchange/my-offers");
       return response.data.myOffers;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.error);
+    }
+  }
+);
+
+// Function to accept an offer
+export const acceptOffer = createAsyncThunk(
+  "exchange/accept-offer",
+  async (offerData, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post(`/exchange/accept-offer`, offerData);
     } catch (err) {
       return rejectWithValue(err.response?.data?.error);
     }
@@ -133,6 +146,7 @@ const exchangeSlice = createSlice({
     // Get my offers cases
     builder.addCase(getMyOffers.pending, (state) => {
       state.myOffersLoading = true;
+      state.isAcceptOfferSuccess = false;
     });
     builder.addCase(getMyOffers.fulfilled, (state, action) => {
       state.myOffersLoading = false;
@@ -146,6 +160,17 @@ const exchangeSlice = createSlice({
       state.isError = true;
       state.error = action.payload;
       state.isSuccess = false;
+    });
+
+    // Accept an offer cases
+    builder.addCase(acceptOffer.fulfilled, (state, action) => {
+      state.isAcceptOfferSuccess = true;
+      state.isError = false;
+      state.error = null;
+    });
+    builder.addCase(acceptOffer.rejected, (state, action) => {
+      state.isError = true;
+      state.error = action.payload;
     });
   },
 });

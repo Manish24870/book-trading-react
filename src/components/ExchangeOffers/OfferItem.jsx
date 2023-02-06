@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   Box,
   Text,
@@ -14,9 +15,35 @@ import {
 } from "@mantine/core";
 import { AiOutlineStar, AiOutlineCheck } from "react-icons/ai";
 import { IoCloseOutline, IoCheckmarkOutline } from "react-icons/io5";
+import { useDispatch, useSelector } from "react-redux";
+
+import { acceptOffer, getMyOffers } from "../../features/exchange/exchangeSlice";
+import { successNotification } from "../../utils/notification/showNotification";
 
 const OfferItem = (props) => {
   const theme = useMantineTheme();
+  const dispatch = useDispatch();
+
+  const { isAcceptOfferSuccess } = useSelector((state) => state.exchange);
+
+  useEffect(() => {
+    if (isAcceptOfferSuccess) {
+      dispatch(getMyOffers());
+      successNotification({
+        title: "Offer accepted",
+        message: "Exchange offer accepted successfully",
+      });
+    }
+  }, [isAcceptOfferSuccess]);
+
+  // When user accepts an offer
+  const offerAcceptHandler = () => {
+    const offerData = {
+      exchangeId: props.exchangeId,
+      initiatorItemId: props.initiatorItemId,
+    };
+    dispatch(acceptOffer(offerData));
+  };
 
   // Check the status of the offer
   const checkOfferStatus = () => {
@@ -25,7 +52,7 @@ const OfferItem = (props) => {
     } else {
       return (
         <Flex direction="column" sx={{ marginTop: "auto" }}>
-          <Button leftIcon={<IoCheckmarkOutline size={20} />} mb={12}>
+          <Button leftIcon={<IoCheckmarkOutline size={20} />} mb={12} onClick={offerAcceptHandler}>
             Accept
           </Button>
           <Button color="red" leftIcon={<IoCloseOutline size={20} />}>
@@ -105,13 +132,13 @@ const OfferItem = (props) => {
           >
             <Flex direction="column" align="center" mb={12}>
               <Text color="dimmed">Initiated At:</Text>
-              <Text>{new Date().toDateString()}</Text>
+              <Text>{new Date(props.initiatedAt).toLocaleString()}</Text>
             </Flex>
 
-            {!props.acceptedAt ? (
+            {props.acceptedAt ? (
               <Flex direction="column" align="center">
                 <Text color="dimmed">Accepted At:</Text>
-                <Text>{new Date().toDateString()}</Text>
+                <Text>{new Date(props.acceptedAt).toLocaleString()}</Text>
               </Flex>
             ) : null}
             {checkOfferStatus()}
