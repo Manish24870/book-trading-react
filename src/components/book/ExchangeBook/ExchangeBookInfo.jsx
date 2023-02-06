@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   Text,
@@ -12,12 +12,20 @@ import {
   Card,
   Grid,
 } from "@mantine/core";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Carousel } from "@mantine/carousel";
 import { CgArrowsExchangeAlt } from "react-icons/cg";
 
 import MyBookOffers from "./MyBookOffers/MyBookOffers";
-import { getMyExchangeBooks } from "../../../features/exchange/exchangeSlice";
+import {
+  getMyExchangeBooks,
+  createExchange,
+  getMyInitiates,
+} from "../../../features/exchange/exchangeSlice";
+import {
+  errorNotification,
+  successNotification,
+} from "../../../utils/notification/showNotification";
 
 const bookQualityText = {
   1: "Poor",
@@ -30,10 +38,79 @@ const bookQualityText = {
 const ExchangeBookInfo = (props) => {
   const dispatch = useDispatch();
   const [opened, setOpened] = useState(false);
+  const {
+    createExchangeLoading,
+    createExchangeSuccess,
+    isCreateExchangeError,
+    error,
+    myInitiatesLoading,
+    myInitiates,
+  } = useSelector((state) => state.exchange);
+  const currentUserId = useSelector((state) => state.user.user.id);
+  const currentBookId = useSelector((state) => state.book.book._id);
 
+  // If exchange is successfully removed or there is an error
+  useEffect(() => {
+    if (createExchangeSuccess) {
+      setOpened(false);
+      // successNotification({ title: "Success", message: "Book exchange offer removed" });
+      // navigate(0);
+      dispatch(getMyInitiates());
+      // navigate(`/exchange/${currentBookId}`, { replace: true });
+    }
+  }, [createExchangeSuccess]);
+
+  // When user clicks the exchange button
   const createExchangeHandler = () => {
     setOpened(true);
     dispatch(getMyExchangeBooks());
+  };
+
+  // When user clicks the cancel button
+  const removeExchangeHandler = () => {
+    const exchangeData = {
+      bookWanted: currentBookId,
+    };
+    dispatch(createExchange(exchangeData));
+  };
+
+  // Check if the exchange is already initiated with this product
+  const checkInitiated = () => {
+    if (
+      myInitiates &&
+      myInitiates.some((initiate) => {
+        return initiate.initiator.some(
+          (el) => el.initiatorUser == currentUserId && initiate.bookWanted._id == currentBookId
+        );
+      })
+    ) {
+      return (
+        <Button
+          disabled={props.book.owner._id === props.curentUserId}
+          leftIcon={<CgArrowsExchangeAlt size={22} />}
+          size="lg"
+          mt={16}
+          color="pink"
+          onClick={removeExchangeHandler}
+          loading={createExchangeLoading}
+        >
+          Cancel
+        </Button>
+      );
+    } else {
+      return (
+        <Button
+          disabled={props.book.owner._id === props.curentUserId}
+          leftIcon={<CgArrowsExchangeAlt size={22} />}
+          size="lg"
+          mt={16}
+          onClick={createExchangeHandler}
+          loading={createExchangeLoading || myInitiatesLoading}
+        >
+          Exchange
+        </Button>
+      );
+    }
   };
 
   return (
@@ -115,12 +192,14 @@ const ExchangeBookInfo = (props) => {
             </Text>
             <Text mt={22} weight={600}>
               Book Quality{" "}
-              <Text size="lg" weight={500}>
-                {bookQualityText[props.book.bookQuality]}
-              </Text>
-              <Badge radius="sm" color="secondary">
-                {props.book.bookQuality}
-              </Badge>
+              <Group>
+                <Text size="md" weight={500}>
+                  {bookQualityText[props.book.bookQuality]}
+                </Text>
+                <Badge radius="sm" color="secondary">
+                  {props.book.bookQuality}
+                </Badge>
+              </Group>
             </Text>
             <Text mt={22} weight={600}>
               Published Date{" "}
@@ -159,16 +238,8 @@ const ExchangeBookInfo = (props) => {
           </Card>
         </Grid.Col>
         <Grid.Col span={1} sx={{ textAlign: "right" }}>
-          <Button
-            disabled={props.book.owner._id === props.curentUserId}
-            leftIcon={<CgArrowsExchangeAlt size={22} />}
-            size="lg"
-            mt={16}
-            onClick={createExchangeHandler}
-          >
-            Exchange
-          </Button>
           <MyBookOffers opened={opened} setOpened={setOpened} />
+          {checkInitiated()}
         </Grid.Col>
       </Grid>
     </Box>

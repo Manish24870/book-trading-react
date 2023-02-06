@@ -12,6 +12,7 @@ import {
   Textarea,
 } from "@mantine/core";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import Loading from "../../../common/Loading";
 import OfferItem from "./OfferItem";
@@ -19,13 +20,13 @@ import {
   errorNotification,
   successNotification,
 } from "../../../../utils/notification/showNotification";
-import { createExchange } from "../../../../features/exchange/exchangeSlice";
+import { createExchange, getMyInitiates } from "../../../../features/exchange/exchangeSlice";
 
 const MyBookOffers = (props) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const {
     error,
-    isError,
     isSuccess,
     fetchMyExchangeBooksLoading,
     myExchangeBooks,
@@ -34,7 +35,7 @@ const MyBookOffers = (props) => {
     isCreateExchangeError,
   } = useSelector((state) => state.exchange);
   const currentBookId = useSelector((state) => state.book.book._id);
-  const currentBookOwner = useSelector((state) => state.book.book.owner);
+  const currentBookOwner = useSelector((state) => state.book.book.owner._id);
   const [selectedBooks, setSelectedBooks] = useState([]);
 
   // If exchange is successfully created or there is an error
@@ -42,6 +43,9 @@ const MyBookOffers = (props) => {
     if (createExchangeSuccess) {
       props.setOpened(false);
       successNotification({ title: "Success", message: "Book exchange initiated successfully" });
+      // navigate(0);
+      dispatch(getMyInitiates());
+      // navigate(`/exchange/${currentBookId}`, { replace: true });
     }
 
     if (isCreateExchangeError) {
@@ -66,7 +70,7 @@ const MyBookOffers = (props) => {
   const onExchangeInitiate = () => {
     const exchangeData = {
       booksGiven: selectedBooks,
-      bookwanted: currentBookId,
+      bookWanted: currentBookId,
       bookOwner: currentBookOwner,
     };
     dispatch(createExchange(exchangeData));

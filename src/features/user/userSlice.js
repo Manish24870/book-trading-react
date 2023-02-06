@@ -1,4 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import jwt_decode from "jwt-decode";
+
 import axiosInstance from "../../utils/axios/axiosInstance";
 import setAuthToken from "../../utils/auth/setAuthToken";
 import isEmpty from "../../utils/isEmpty";
@@ -73,10 +75,11 @@ const userSlice = createSlice({
     builder.addCase(registerUser.fulfilled, (state, action) => {
       localStorage.setItem("jwt", action.payload.token);
       setAuthToken(action.payload.token);
+      const decoded = jwt_decode(action.payload.token);
       state.userLoading = false;
       state.error = null;
       state.isSuccess = true;
-      state.user = action.payload.user;
+      state.user = decoded;
       state.isAuthenticated = true;
     });
     builder.addCase(registerUser.rejected, (state, action) => {
@@ -93,10 +96,11 @@ const userSlice = createSlice({
     builder.addCase(loginUser.fulfilled, (state, action) => {
       localStorage.setItem("jwt", action.payload.token);
       setAuthToken(action.payload.token);
+      const decoded = jwt_decode(action.payload.token);
       state.userLoading = false;
       state.error = null;
       state.isSuccess = true;
-      state.user = action.payload.user;
+      state.user = decoded;
       state.isAuthenticated = true;
     });
     builder.addCase(loginUser.rejected, (state, action) => {

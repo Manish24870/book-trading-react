@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Box, Container, Title } from "@mantine/core";
 
 import { reset, fetchBook } from "../../../features/book/bookSlice";
+import { getMyInitiates } from "../../../features/exchange/exchangeSlice";
 import Loading from "../../common/Loading";
 import { errorNotification } from "../../../utils/notification/showNotification";
 import ExchangeBookInfo from "./ExchangeBookInfo";
@@ -17,6 +18,7 @@ const ExchangeBook = (props) => {
 
   useEffect(() => {
     dispatch(fetchBook(params.bookId));
+    dispatch(getMyInitiates());
   }, []);
 
   useEffect(() => {
