@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import {
   Box,
   Text,
@@ -10,22 +10,13 @@ import {
   Button,
   Avatar,
   Card,
+  ActionIcon,
   Grid,
 } from "@mantine/core";
 import { useDispatch, useSelector } from "react-redux";
 import { Carousel } from "@mantine/carousel";
-import { CgArrowsExchangeAlt } from "react-icons/cg";
-
-import MyBookOffers from "./MyBookOffers/MyBookOffers";
-import {
-  getMyExchangeBooks,
-  createExchange,
-  getMyInitiates,
-} from "../../../features/exchange/exchangeSlice";
-import {
-  errorNotification,
-  successNotification,
-} from "../../../utils/notification/showNotification";
+import { RiAuctionLine } from "react-icons/ri";
+import { VscSettings } from "react-icons/vsc";
 
 const bookQualityText = {
   1: "Poor",
@@ -35,80 +26,8 @@ const bookQualityText = {
   5: "Perfect",
 };
 
-const ExchangeBookInfo = (props) => {
+const AuctionBookInfo = (props) => {
   const dispatch = useDispatch();
-  const [opened, setOpened] = useState(false);
-  const {
-    createExchangeLoading,
-    createExchangeSuccess,
-    isCreateExchangeError,
-    error,
-    myInitiatesLoading,
-    myInitiates,
-  } = useSelector((state) => state.exchange);
-  const currentBookId = useSelector((state) => state.book.book._id);
-
-  // If exchange is successfully removed or there is an error
-  useEffect(() => {
-    if (createExchangeSuccess) {
-      setOpened(false);
-      dispatch(getMyInitiates());
-    }
-  }, [createExchangeSuccess]);
-
-  // When user clicks the exchange button
-  const createExchangeHandler = () => {
-    setOpened(true);
-    dispatch(getMyExchangeBooks());
-  };
-
-  // When user clicks the cancel button
-  const removeExchangeHandler = () => {
-    const exchangeData = {
-      bookWanted: currentBookId,
-    };
-    dispatch(createExchange(exchangeData));
-  };
-
-  // Check if the exchange is already initiated with this product
-  const checkInitiated = () => {
-    if (
-      myInitiates &&
-      myInitiates.some((initiate) => {
-        return initiate.initiator.some(
-          (el) =>
-            el.initiatorUser == props.currentUserId && initiate.bookWanted._id == currentBookId
-        );
-      })
-    ) {
-      return (
-        <Button
-          disabled={props.book.owner._id === props.currentUserId}
-          leftIcon={<CgArrowsExchangeAlt size={22} />}
-          size="lg"
-          mt={16}
-          color="pink"
-          onClick={removeExchangeHandler}
-          loading={createExchangeLoading}
-        >
-          Cancel
-        </Button>
-      );
-    } else {
-      return (
-        <Button
-          disabled={props.book.owner._id === props.currentUserId}
-          leftIcon={<CgArrowsExchangeAlt size={22} />}
-          size="lg"
-          mt={16}
-          onClick={createExchangeHandler}
-          loading={createExchangeLoading || myInitiatesLoading}
-        >
-          Exchange
-        </Button>
-      );
-    }
-  };
 
   return (
     <Box>
@@ -235,12 +154,35 @@ const ExchangeBookInfo = (props) => {
           </Card>
         </Grid.Col>
         <Grid.Col span={1} sx={{ textAlign: "right" }}>
-          <MyBookOffers opened={opened} setOpened={setOpened} />
-          {checkInitiated()}
+          <Group position="right">
+            {props.book.owner._id === props.currentUserId ? (
+              <ActionIcon
+                variant="light"
+                color="primary"
+                size="lg"
+                mt={16}
+                component={Link}
+                to={`/auction/${props.book._id}/settings`}
+              >
+                <VscSettings size={22} />
+              </ActionIcon>
+            ) : null}
+
+            <Button
+              // disabled={props.book.owner._id === props.curentUserId}
+              leftIcon={<RiAuctionLine size={22} />}
+              size="lg"
+              mt={16}
+              // onClick={createExchangeHandler}
+              // loading={createExchangeLoading || myInitiatesLoading}
+            >
+              Go to Auction
+            </Button>
+          </Group>
         </Grid.Col>
       </Grid>
     </Box>
   );
 };
 
-export default ExchangeBookInfo;
+export default AuctionBookInfo;

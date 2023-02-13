@@ -8,6 +8,7 @@ import stripeReducer from "../features/stripe/stripeSlice";
 import walletReducer from "../features/wallet/walletSlice";
 import profileReducer from "../features/profile/profileSlice";
 import exchangeReducer from "../features/exchange/exchangeSlice";
+import auctionReducer from "../features/auction/auctionSlice";
 
 const store = configureStore({
   reducer: {
@@ -19,6 +20,7 @@ const store = configureStore({
     wallet: walletReducer,
     profile: profileReducer,
     exchange: exchangeReducer,
+    auction: auctionReducer,
   },
 });
 

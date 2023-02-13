@@ -1,16 +1,15 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Box, Container, Title } from "@mantine/core";
+import { Box, Container } from "@mantine/core";
 
 import { reset, fetchBook } from "../../../features/book/bookSlice";
-import { getMyInitiates } from "../../../features/exchange/exchangeSlice";
 import Loading from "../../common/Loading";
 import { errorNotification } from "../../../utils/notification/showNotification";
-import ExchangeBookInfo from "./ExchangeBookInfo";
 import BookDiscussion from "../common/BookDiscussion";
+import AuctionBookInfo from "./AuctionBookInfo";
 
-const ExchangeBook = (props) => {
+const AuctionBook = (props) => {
   const dispatch = useDispatch();
   const params = useParams();
   const { error, isError, isSuccess, fetchBookLoading, book } = useSelector((state) => state.book);
@@ -18,7 +17,6 @@ const ExchangeBook = (props) => {
 
   useEffect(() => {
     dispatch(fetchBook(params.bookId));
-    dispatch(getMyInitiates());
   }, []);
 
   useEffect(() => {
@@ -42,7 +40,7 @@ const ExchangeBook = (props) => {
   } else if (isSuccess && book && !fetchBookLoading) {
     renderBook = (
       <>
-        <ExchangeBookInfo book={book} currentUserId={currentUserId} />
+        <AuctionBookInfo book={book} currentUserId={currentUserId} />
         <BookDiscussion discussion={book.discussion} />
       </>
     );
@@ -55,4 +53,4 @@ const ExchangeBook = (props) => {
   );
 };
 
-export default ExchangeBook;
+export default AuctionBook;
