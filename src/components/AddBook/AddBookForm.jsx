@@ -168,7 +168,7 @@ const AddBookForm = ({ form, formSubmitHandler, onImageDropHandler, addBookLoadi
             mb={12}
           />
 
-          {form.values["listing"] !== "Exchange" ? (
+          {form.values["listing"] === "Sell" ? (
             <NumberInput
               label="Price"
               placeholder="Book price"
