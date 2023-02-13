@@ -5,7 +5,7 @@ import { useEffect } from "react";
 
 import { getAuction } from "../../../../features/auction/auctionSlice";
 import Loading from "../../../common/Loading";
-import AuctionSettingsForm from "./AuctioonSettingsForm";
+import AuctionSettingsForm from "./AuctionSettingsForm";
 
 const AuctionBookSettings = (props) => {
   const dispatch = useDispatch();
