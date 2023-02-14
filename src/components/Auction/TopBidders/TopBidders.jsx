@@ -3,6 +3,7 @@ import { Box, Text, Modal } from "@mantine/core";
 import TopBidder from "./TopBidder";
 
 const TopBidders = (props) => {
+  // Calculate total bid amount and sort bidders by their bid amount
   let bidderInfos = props.bidders.map((el) => {
     let totalBidAmount = 0;
     el.bids.forEach((bid) => {

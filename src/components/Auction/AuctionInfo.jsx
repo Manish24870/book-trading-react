@@ -20,8 +20,10 @@ import { successNotification } from "../../utils/notification/showNotification";
 const AuctionInfo = (props) => {
   const dispatch = useDispatch();
   const [bidAmount, setBidAmount] = useState(0);
+  const [totalBid, setTotalBid] = useState(0);
 
   const { isBidSuccess, isPlaceBidLoading } = useSelector((state) => state.auction);
+  const currentUserId = useSelector((state) => state.user.user.id);
 
   // When user clicks on the place id button
   const placeBidHandler = () => {
@@ -33,7 +35,21 @@ const AuctionInfo = (props) => {
         },
       })
     );
+    setBidAmount(0);
   };
+
+  // Calculate total current bid of current user
+  let totalMoney = 0;
+  let bidAmounts = {};
+  props.auction.participants.forEach((el) => {
+    if (!Object.keys(bidAmounts).includes(el.participant._id)) {
+      bidAmounts[el.participant._id] = 0;
+    }
+    el.bids.forEach((bid) => {
+      bidAmounts[el.participant._id] += bid.amount;
+      totalMoney += bid.amount;
+    });
+  });
 
   useEffect(() => {
     if (isBidSuccess) {
@@ -85,20 +101,20 @@ const AuctionInfo = (props) => {
           <Box sx={{ textAlign: "center" }}>
             <Text>Total Bidders</Text>
             <Text weight={600} size="xl" color="secondary">
-              20
+              {props.auction.participants.length}
             </Text>
           </Box>
           <Box sx={{ textAlign: "center" }}>
             <Text>Highest Bid</Text>
             <Text weight={600} size="xl" color="secondary">
-              Rs. 1550
+              Rs. {Math.max(...Object.values(bidAmounts))}
             </Text>
           </Box>
 
           <Box sx={{ textAlign: "center" }}>
             <Text>Total Money</Text>
             <Text weight={600} size="xl" color="secondary">
-              Rs. 20,000
+              Rs. {totalMoney}
             </Text>
           </Box>
         </Flex>
@@ -111,7 +127,7 @@ const AuctionInfo = (props) => {
           <Box sx={{ textAlign: "center" }}>
             <Text>Your current bid</Text>
             <Text weight={600} size="xl" color="secondary">
-              Rs. 1250
+              Rs. {bidAmounts[currentUserId]}
             </Text>
           </Box>
           <Box sx={{ textAlign: "center" }}>
@@ -129,7 +145,7 @@ const AuctionInfo = (props) => {
           <Box sx={{ textAlign: "center" }}>
             <Text>Your new bid</Text>
             <Text weight={600} size="xl" color="secondary">
-              Rs. 1550
+              Rs. {bidAmounts[currentUserId] + bidAmount}
             </Text>
           </Box>
         </Flex>
