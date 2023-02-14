@@ -60,7 +60,7 @@ const Auction = (props) => {
             </Card>
           </Grid.Col>
         </Grid>
-        <AuctionActivities />
+        <AuctionActivities activities={auction.activities} />
       </Container>
     );
   }
