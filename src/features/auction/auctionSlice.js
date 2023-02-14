@@ -9,6 +9,9 @@ const initialState = {
   fetchAuctionLoading: false,
   saveAuctionSettingsLoading: false,
   saveAuctionSettingsSuccess: false,
+  isBidError: false,
+  isBidSuccess: false,
+  isPlaceBidLoading: false,
 };
 
 // Function to fetch an auction
@@ -38,6 +41,16 @@ export const saveAuctionSettings = createAsyncThunk(
     }
   }
 );
+
+// Function to place a new bid
+export const placeBid = createAsyncThunk("auction/bid", async (data, { rejectWithValue }) => {
+  try {
+    const response = await axiosInstance.post(`/auction/${data.bookId}/bid`, data.bidInfo);
+    console.log(response.data);
+  } catch (err) {
+    return rejectWithValue(err.response?.data?.error);
+  }
+});
 
 const auctionSlice = createSlice({
   name: "auction",
@@ -81,6 +94,23 @@ const auctionSlice = createSlice({
       state.isError = true;
       state.error = action.payload;
       state.isSuccess = false;
+    });
+
+    // Cases for placing a new bid
+    builder.addCase(placeBid.pending, (state, action) => {
+      state.isPlaceBidLoading = true;
+    });
+    builder.addCase(placeBid.fulfilled, (state, action) => {
+      state.isPlaceBidLoading = false;
+      state.isBidError = false;
+      state.error = null;
+      state.isBidSuccess = true;
+    });
+    builder.addCase(placeBid.rejected, (state, action) => {
+      state.isPlaceBidLoading = false;
+      state.isBidError = true;
+      state.error = action.payload;
+      state.isBidSuccess = false;
     });
   },
 });

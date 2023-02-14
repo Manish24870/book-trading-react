@@ -1,29 +1,79 @@
-import { Box, Card, Flex, Text, Badge, Group, Image, Button, NumberInput } from "@mantine/core";
+import {
+  Box,
+  Card,
+  Flex,
+  Text,
+  Badge,
+  Group,
+  Image,
+  Button,
+  Avatar,
+  NumberInput,
+} from "@mantine/core";
 import { BiData } from "react-icons/bi";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import { placeBid } from "../../features/auction/auctionSlice";
+import { successNotification } from "../../utils/notification/showNotification";
 
 const AuctionInfo = (props) => {
+  const dispatch = useDispatch();
+  const [bidAmount, setBidAmount] = useState(0);
+
+  const { isBidSuccess, isPlaceBidLoading } = useSelector((state) => state.auction);
+
+  // When user clicks on the place id button
+  const placeBidHandler = () => {
+    dispatch(
+      placeBid({
+        bookId: props.auction.book._id,
+        bidInfo: {
+          amount: bidAmount,
+        },
+      })
+    );
+  };
+
+  useEffect(() => {
+    if (isBidSuccess) {
+      successNotification({ title: "Success", message: "Bid placed successfully" });
+    }
+  }, [isBidSuccess]);
+
   return (
     <Box>
       <Card withBorder shadow="md" mb={12}>
         <Group spacing="xl">
           <Image
-            // src={process.env.REACT_APP_BASE_IMAGE_URL + props.auction.book.images[0].url}
-            src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80"
+            src={process.env.REACT_APP_BASE_IMAGE_URL + props.auction.book.images[0].url}
             width={90}
             height={120}
             radius="sm"
             py={6}
           />
           <Flex direction="column">
-            <Text weight={500}>{"props.auction.book.title"}</Text>
+            <Text weight={500}>{props.auction.book.title}</Text>
             <Text color="dimmed" size="sm">
-              {"props.auction.book.isbn"}
+              {props.auction.book.isbn}
             </Text>
-            {/* {props.auction.book.category.map((el) => ( */}
-            <Badge key={"el"} radius="sm">
-              {"el"}
-            </Badge>
-            {/* ))} */}
+            {props.auction.book.category.map((el) => (
+              <Badge key={el} radius="sm">
+                {"el"}
+              </Badge>
+            ))}
+            <Flex mt={16}>
+              <Avatar
+                radius="xl"
+                src={process.env.REACT_APP_BASE_IMAGE_URL + props.auction.owner.photo}
+              />
+              <Box ml={12}>
+                <Text weight={600} size="xs">
+                  {props.auction.owner.name}
+                </Text>
+                <Text size="xs">{props.auction.owner.email}</Text>
+              </Box>
+            </Flex>
           </Flex>
         </Group>
       </Card>
@@ -65,8 +115,14 @@ const AuctionInfo = (props) => {
             </Text>
           </Box>
           <Box sx={{ textAlign: "center" }}>
-            <NumberInput />
-            <Button mt={14} leftIcon={<BiData size={18} />}>
+            <NumberInput min={0} value={bidAmount} onChange={(val) => setBidAmount(val)} />
+            <Button
+              mt={14}
+              leftIcon={<BiData size={18} />}
+              disabled={bidAmount <= 0}
+              onClick={placeBidHandler}
+              loading={isPlaceBidLoading}
+            >
               Place Bid
             </Button>
           </Box>
