@@ -175,6 +175,8 @@ const AuctionBookInfo = (props) => {
               mt={16}
               // onClick={createExchangeHandler}
               // loading={createExchangeLoading || myInitiatesLoading}
+              component={Link}
+              to={`/auction/${props.book._id}/running`}
             >
               Go to Auction
             </Button>
