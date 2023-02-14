@@ -3,7 +3,6 @@ import { BiData } from "react-icons/bi";
 
 const AuctionActivities = (props) => {
   const theme = useMantineTheme();
-  console.log(props);
   const reversedArray = [...props.activities];
   reversedArray.reverse();
 

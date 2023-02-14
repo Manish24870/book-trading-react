@@ -22,14 +22,6 @@ const Auction = (props) => {
   useEffect(() => {
     socket.current = io("ws://localhost:8900");
     dispatch(getAuction(params.bookId));
-    // Get a new message
-    // socket.current.on("getMessage", (data) => {
-    //   setGotMessage({
-    //     sender: data.senderInfo,
-    //     text: data.text,
-    //     createdAt: Date.now(),
-    //   });
-    // });
   }, []);
 
   console.log(auction);
@@ -40,7 +32,7 @@ const Auction = (props) => {
   } else if (isSuccess && auction) {
     renderAuction = (
       <Container size="lg">
-        <TopBidders open={biddersOpen} setOpen={setBiddersOpen} />
+        <TopBidders open={biddersOpen} setOpen={setBiddersOpen} bidders={auction.participants} />
         <Text mb={10}>Auction Page</Text>
         <Grid columns={12}>
           <Grid.Col span={8}>
@@ -51,9 +43,9 @@ const Auction = (props) => {
               <Text size="lg" weight={500} mb={12}>
                 Top Bidders
               </Text>
+              {/* <TopBidder />
               <TopBidder />
-              <TopBidder />
-              <TopBidder />
+              <TopBidder /> */}
               <Button variant="light" color="secondary" onClick={() => setBiddersOpen(true)}>
                 All Bidders
               </Button>

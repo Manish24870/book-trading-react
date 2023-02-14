@@ -59,7 +59,7 @@ const AuctionInfo = (props) => {
             </Text>
             {props.auction.book.category.map((el) => (
               <Badge key={el} radius="sm">
-                {"el"}
+                {el}
               </Badge>
             ))}
             <Flex mt={16}>
