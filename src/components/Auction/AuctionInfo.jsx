@@ -24,7 +24,7 @@ const AuctionInfo = (props) => {
   const [bidAmount, setBidAmount] = useState(0);
   const [totalBid, setTotalBid] = useState(0);
 
-  const { isBidSuccess, isPlaceBidLoading } = useSelector((state) => state.auction);
+  const { isBidSuccess, isPlaceBidLoading, auction } = useSelector((state) => state.auction);
   const currentUserId = useSelector((state) => state.user.user.id);
 
   // When user clicks on the place id button
@@ -56,9 +56,9 @@ const AuctionInfo = (props) => {
 
   useEffect(() => {
     if (isBidSuccess) {
-      successNotification({ title: "Success", message: "Bid placed successfully" });
+      successNotification({ title: "Success", message: "Someone placed a bid" });
     }
-  }, [isBidSuccess]);
+  }, [isBidSuccess, auction]);
 
   return (
     <Box>

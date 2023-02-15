@@ -59,6 +59,7 @@ const auctionSlice = createSlice({
   reducers: {
     updateAuctionAfterBid: (state, action) => {
       state.auction = action.payload;
+      state.isBidSuccess = true;
     },
   },
 

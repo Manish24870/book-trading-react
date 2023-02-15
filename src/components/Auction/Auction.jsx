@@ -19,12 +19,14 @@ const Auction = (props) => {
   const socket = useContext(SocketContext);
   const params = useParams();
   const { auction, fetchAuctionLoading, isSuccess } = useSelector((state) => state.auction);
+  const currentUserId = useSelector((state) => state.user.user.id);
 
   useEffect(() => {
     dispatch(getAuction(params.bookId));
 
     socket.on("placedBidResponse", (data) => {
-      dispatch(updateAuctionAfterBid(data));
+      console.log(currentUserId, "--", data.bidderId);
+      if (currentUserId !== data.bidderId) dispatch(updateAuctionAfterBid(data.auction));
     });
   }, []);
 
