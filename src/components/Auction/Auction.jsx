@@ -1,5 +1,5 @@
 import { Box, Text, Grid, Container, Button, Card } from "@mantine/core";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import { io } from "socket.io-client";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -9,22 +9,24 @@ import TopBidders from "./TopBidders/TopBidders";
 import TopBidder from "./TopBidders/TopBidder";
 import AuctionInfo from "./AuctionInfo";
 import AuctionActivities from "./AuctionActivities";
-import { getAuction } from "../../features/auction/auctionSlice";
+import { SocketContext } from "../../context/socket";
+import { getAuction, updateAuctionAfterBid } from "../../features/auction/auctionSlice";
 
 const Auction = (props) => {
   const [biddersOpen, setBiddersOpen] = useState(false);
 
-  const socket = useRef();
   const dispatch = useDispatch();
+  const socket = useContext(SocketContext);
   const params = useParams();
   const { auction, fetchAuctionLoading, isSuccess } = useSelector((state) => state.auction);
 
   useEffect(() => {
-    socket.current = io("ws://localhost:8900");
     dispatch(getAuction(params.bookId));
-  }, []);
 
-  console.log(auction);
+    socket.on("placedBidResponse", (data) => {
+      dispatch(updateAuctionAfterBid(data));
+    });
+  }, []);
 
   let renderAuction = <Loading />;
   if (fetchAuctionLoading) {

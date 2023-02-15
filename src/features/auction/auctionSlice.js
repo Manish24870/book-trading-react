@@ -46,7 +46,7 @@ export const saveAuctionSettings = createAsyncThunk(
 export const placeBid = createAsyncThunk("auction/bid", async (data, { rejectWithValue }) => {
   try {
     const response = await axiosInstance.post(`/auction/${data.bookId}/bid`, data.bidInfo);
-    console.log(response.data);
+    return response.data.auction;
   } catch (err) {
     return rejectWithValue(err.response?.data?.error);
   }
@@ -56,7 +56,11 @@ const auctionSlice = createSlice({
   name: "auction",
   initialState,
 
-  reducers: {},
+  reducers: {
+    updateAuctionAfterBid: (state, action) => {
+      state.auction = action.payload;
+    },
+  },
 
   extraReducers: (builder) => {
     // Cases for getting an auction
@@ -105,6 +109,7 @@ const auctionSlice = createSlice({
       state.isBidError = false;
       state.error = null;
       state.isBidSuccess = true;
+      state.auction = action.payload;
     });
     builder.addCase(placeBid.rejected, (state, action) => {
       state.isPlaceBidLoading = false;
@@ -115,4 +120,5 @@ const auctionSlice = createSlice({
   },
 });
 
+export const { updateAuctionAfterBid } = auctionSlice.actions;
 export default auctionSlice.reducer;

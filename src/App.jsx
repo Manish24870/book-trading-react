@@ -10,6 +10,7 @@ import Layout from "./components/Layout/Layout";
 import { setUserLoading, setCurrentUser } from "./features/user/userSlice";
 import { setMyProfileLoading, getMyProfile } from "./features/profile/profileSlice";
 import setAuthToken from "./utils/auth/setAuthToken";
+import { socket, SocketContext } from "./context/socket";
 
 if (localStorage.jwt) {
   store.dispatch(setUserLoading(true));
@@ -27,7 +28,9 @@ const App = () => {
       <BrowserRouter>
         <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
           <NotificationsProvider>
-            <Layout />
+            <SocketContext.Provider value={socket}>
+              <Layout />
+            </SocketContext.Provider>
           </NotificationsProvider>
         </MantineProvider>
       </BrowserRouter>

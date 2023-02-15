@@ -11,14 +11,16 @@ import {
   NumberInput,
 } from "@mantine/core";
 import { BiData } from "react-icons/bi";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { placeBid } from "../../features/auction/auctionSlice";
 import { successNotification } from "../../utils/notification/showNotification";
+import { SocketContext } from "../../context/socket";
 
 const AuctionInfo = (props) => {
   const dispatch = useDispatch();
+  const socket = useContext(SocketContext);
   const [bidAmount, setBidAmount] = useState(0);
   const [totalBid, setTotalBid] = useState(0);
 
@@ -26,8 +28,8 @@ const AuctionInfo = (props) => {
   const currentUserId = useSelector((state) => state.user.user.id);
 
   // When user clicks on the place id button
-  const placeBidHandler = () => {
-    dispatch(
+  const placeBidHandler = async () => {
+    await dispatch(
       placeBid({
         bookId: props.auction.book._id,
         bidInfo: {
@@ -35,7 +37,8 @@ const AuctionInfo = (props) => {
         },
       })
     );
-    setBidAmount(0);
+
+    socket.emit("placedBid", { bookId: props.auction.book._id, currentUserId });
   };
 
   // Calculate total current bid of current user
