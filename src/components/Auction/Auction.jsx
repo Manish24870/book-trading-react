@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import Loading from "../common/Loading";
 import TopBidders from "./TopBidders/TopBidders";
 import TopBidder from "./TopBidders/TopBidder";
+import TopThreeBidders from "./TopBidders/TopThreeBidders";
 import AuctionInfo from "./AuctionInfo";
 import AuctionActivities from "./AuctionActivities";
 import { SocketContext } from "../../context/socket";
@@ -43,16 +44,13 @@ const Auction = (props) => {
             <AuctionInfo auction={auction} />
           </Grid.Col>
           <Grid.Col span={4}>
-            <Card withBorder shadow="md">
+            <Card withBorder shadow="md" p="xs">
               <Text size="lg" weight={500} mb={12}>
                 Top Bidders
               </Text>
-              {/* <TopBidder />
-              <TopBidder />
-              <TopBidder /> */}
-              <Button variant="light" color="secondary" onClick={() => setBiddersOpen(true)}>
-                All Bidders
-              </Button>
+
+              <TopThreeBidders bidders={auction.participants} />
+              <Button onClick={() => setBiddersOpen(true)}>All Bidders</Button>
             </Card>
           </Grid.Col>
         </Grid>
