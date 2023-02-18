@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { Card, Grid, Box, Title, Container } from "@mantine/core";
+import { Card, Grid, Box, Title, Container, Tabs } from "@mantine/core";
 import { io } from "socket.io-client";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -16,6 +16,8 @@ const Chat = (props) => {
   );
   const { myProfileLoading, myProfile } = useSelector((state) => state.profile);
   const [gotMessage, setGotMessage] = useState(null);
+  const [selectedTab, setSelectedTab] = useState("messages");
+  const [onlineUsers, setOnlineUsers] = useState([]);
   const socket = useRef();
   const dispatch = useDispatch();
 
@@ -52,6 +54,18 @@ const Chat = (props) => {
     }
   }, [gotMessage, selectedConversation]);
 
+  // Add user on list when he connects
+  useEffect(() => {
+    if (myProfile) {
+      socket.current.emit("addUser", myProfile?._id);
+    }
+    socket.current.on("getUsers", (users) => {
+      setOnlineUsers(users);
+    });
+  }, [myProfile]);
+
+  console.log("ONLINE", onlineUsers);
+
   let renderChat = <Loading />;
 
   if (fetchConversationsLoading || myProfileLoading) {
@@ -66,10 +80,13 @@ const Chat = (props) => {
           })}
         >
           <Conversations
-            allConversations={conversations}
+            conversations={conversations}
             userInfo={myProfile}
             selectedConversation={selectedConversation}
             setSelectedConversation={setSelectedConversation}
+            selectedTab={selectedTab}
+            setSelectedTab={setSelectedTab}
+            onlineUsers={onlineUsers}
           />
         </Grid.Col>
         <Grid.Col span={9}>

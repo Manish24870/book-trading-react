@@ -9,6 +9,11 @@ const initialState = {
   fetchConversationsLoading: false,
   conversationMessages: null,
   conversationMessagesLoading: false,
+  allUsers: null,
+  allUsersLoading: false,
+  fetchUserSuccess: false,
+  isFetchUserError: false,
+  fetchUserError: null,
 };
 
 // Function to fetch all conversations of a user
@@ -23,6 +28,16 @@ export const fetchConversations = createAsyncThunk(
     }
   }
 );
+
+// Function to fetch the list of all users
+export const fetchUsers = createAsyncThunk("book/fetch-users", async (_, { rejectWithValue }) => {
+  try {
+    const response = await axiosInstance.get("/user/users");
+    return response.data.users;
+  } catch (err) {
+    return rejectWithValue(err.response?.data?.error);
+  }
+});
 
 const chatSlice = createSlice({
   name: "chat",
@@ -51,6 +66,24 @@ const chatSlice = createSlice({
       state.isError = true;
       state.error = action.payload;
       state.isSuccess = false;
+    });
+
+    // Get all users cases
+    builder.addCase(fetchUsers.pending, (state, action) => {
+      state.allUsersLoading = true;
+    });
+    builder.addCase(fetchUsers.fulfilled, (state, action) => {
+      state.allUsersLoading = false;
+      state.isFetchUserError = false;
+      state.fetchUserError = null;
+      state.fetchUserSuccess = true;
+      state.isFetchUserError = false;
+      state.allUsers = action.payload;
+    });
+    builder.addCase(fetchUsers.rejected, (state, action) => {
+      state.allUsersLoading = false;
+      state.isFetchUserError = true;
+      state.fetchUserError = action.payload;
     });
   },
 });
