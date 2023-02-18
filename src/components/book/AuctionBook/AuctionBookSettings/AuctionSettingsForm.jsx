@@ -16,15 +16,17 @@ import {
 import { DatePicker, TimeInput } from "@mantine/dates";
 import Joi from "joi";
 import { joiResolver, useForm } from "@mantine/form";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { SocketContext } from "../../../../context/socket";
 
 import { saveAuctionSettings } from "../../../../features/auction/auctionSlice";
 import { successNotification } from "../../../../utils/notification/showNotification";
 
 const AuctionSettingsForm = (props) => {
   const dispatch = useDispatch();
+  const socket = useContext(SocketContext);
   const navigate = useNavigate();
   const { saveAuctionSettingsLoading, saveAuctionSettingsSuccess } = useSelector(
     (state) => state.auction
@@ -64,6 +66,10 @@ const AuctionSettingsForm = (props) => {
   useEffect(() => {
     if (saveAuctionSettingsSuccess) {
       successNotification({ title: "Success", message: "Auction settings edited successfully" });
+
+      // Create a new cron job for auction schedule
+      socket.emit("createAuctionSchedule", props.auction);
+
       navigate(`/auction/${props.auction.book._id}`);
     }
   }, [saveAuctionSettingsSuccess]);

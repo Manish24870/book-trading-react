@@ -10,6 +10,7 @@ import TopBidder from "./TopBidders/TopBidder";
 import TopThreeBidders from "./TopBidders/TopThreeBidders";
 import AuctionInfo from "./AuctionInfo";
 import AuctionActivities from "./AuctionActivities";
+import AuctionNotStarted from "./AuctionNotStarted";
 import { SocketContext } from "../../context/socket";
 import { getAuction, updateAuctionAfterBid } from "../../features/auction/auctionSlice";
 
@@ -28,6 +29,14 @@ const Auction = (props) => {
     socket.on("placedBidResponse", (data) => {
       console.log(currentUserId, "--", data.bidderId);
       if (currentUserId !== data.bidderId) dispatch(updateAuctionAfterBid(data.auction));
+      // dispatch(updateAuctionAfterBid(data.auction));
+    });
+
+    // When the auction is started on the scheduled date
+    socket.on("auctionStarted", (startedAuction) => {
+      if (startedAuction._id === auction._id) {
+        dispatch(getAuction(params.bookId));
+      }
     });
   }, []);
 
@@ -37,24 +46,34 @@ const Auction = (props) => {
   } else if (isSuccess && auction) {
     renderAuction = (
       <Container size="lg">
-        <TopBidders open={biddersOpen} setOpen={setBiddersOpen} bidders={auction.participants} />
-        <Text mb={10}>Auction Page</Text>
-        <Grid columns={12}>
-          <Grid.Col span={8}>
-            <AuctionInfo auction={auction} />
-          </Grid.Col>
-          <Grid.Col span={4}>
-            <Card withBorder shadow="md" p="xs">
-              <Text size="lg" weight={500} mb={12}>
-                Top Bidders
-              </Text>
+        {!auction.started ? (
+          <AuctionNotStarted auction={auction} />
+        ) : (
+          <>
+            <TopBidders
+              open={biddersOpen}
+              setOpen={setBiddersOpen}
+              bidders={auction.participants}
+            />
+            <Text mb={10}>Auction Page</Text>
+            <Grid columns={12}>
+              <Grid.Col span={8}>
+                <AuctionInfo auction={auction} />
+              </Grid.Col>
+              <Grid.Col span={4}>
+                <Card withBorder shadow="md" p="xs">
+                  <Text size="lg" weight={500} mb={12}>
+                    Top Bidders
+                  </Text>
 
-              <TopThreeBidders bidders={auction.participants} />
-              <Button onClick={() => setBiddersOpen(true)}>All Bidders</Button>
-            </Card>
-          </Grid.Col>
-        </Grid>
-        <AuctionActivities activities={auction.activities} />
+                  <TopThreeBidders bidders={auction.participants} />
+                  <Button onClick={() => setBiddersOpen(true)}>All Bidders</Button>
+                </Card>
+              </Grid.Col>
+            </Grid>
+            <AuctionActivities activities={auction.activities} />
+          </>
+        )}
       </Container>
     );
   }
