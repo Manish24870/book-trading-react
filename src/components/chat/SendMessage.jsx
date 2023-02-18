@@ -21,7 +21,7 @@ const SendMessage = (props) => {
   });
 
   return (
-    <form style={{ marginTop: 40 }}>
+    <form>
       <Flex align="center">
         <Input
           placeholder="Enter your message"
@@ -36,8 +36,11 @@ const SendMessage = (props) => {
           styles={{ fontWeight: 600 }}
           height={100}
           fontFamily={"'Montserrat', sans-serif"}
+          sx={{
+            margin: 0,
+          }}
         />
-        <Button type="submit" rightIcon={<BiSend size={18} />}>
+        <Button type="submit" rightIcon={<BiSend size={18} />} mr={20}>
           Send
         </Button>
       </Flex>

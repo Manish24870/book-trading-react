@@ -28,6 +28,10 @@ const Conversations = (props) => {
         <Conversation />
         <Conversation />
         <Conversation />
+        <Conversation />
+        <Conversation />
+        <Conversation />
+        <Conversation />
       </ScrollArea>
     </Box>
   );

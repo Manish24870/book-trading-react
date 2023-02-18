@@ -8,6 +8,13 @@ const MessagesList = (props) => {
     <Box>
       <Sent />
       <Received />
+      <Received />
+      <Received />
+      <Received />
+      <Sent />
+      <Sent />
+      <Sent />
+      <Sent />
     </Box>
   );
 };

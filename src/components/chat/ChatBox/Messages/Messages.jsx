@@ -7,8 +7,8 @@ const Messages = (props) => {
   const scrollRef = useRef();
 
   return (
-    <Card withBorder shadow="md" sx={{ flexGrow: 1 }}>
-      <ScrollArea offsetScrollbars sx={{ height: "70%" }}>
+    <Card p={0} m={10} sx={{ flexGrow: "1" }}>
+      <ScrollArea offsetScrollbars sx={{ height: "100%" }}>
         <MessagesList />
       </ScrollArea>
     </Card>
