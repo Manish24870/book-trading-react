@@ -22,6 +22,9 @@ import { useDisclosure } from "@mantine/hooks";
 import { Link } from "react-router-dom";
 import { ImBooks } from "react-icons/im";
 import { useSelector } from "react-redux";
+import { FaRegMoneyBillAlt } from "react-icons/fa";
+import { CgArrowsExchange } from "react-icons/cg";
+import { RiAuctionLine, RiChat1Line } from "react-icons/ri";
 
 import UserMenu from "./UserMenu";
 
@@ -87,13 +90,20 @@ const Navbar = () => {
               {isAuthenticated ? (
                 <>
                   <Anchor className={classes.link} component={Link} to="/sell" py={4}>
-                    Sell
+                    <FaRegMoneyBillAlt size={20} />
+                    <Text ml={6}>Sell</Text>
                   </Anchor>
                   <Anchor className={classes.link} component={Link} to="/exchange" py={4}>
-                    Exchange
+                    <CgArrowsExchange size={20} />
+                    <Text ml={6}>Exchange</Text>
                   </Anchor>
                   <Anchor className={classes.link} component={Link} to="/auction" py={4}>
-                    Auction
+                    <RiAuctionLine size={20} />
+                    <Text ml={6}>Auction</Text>
+                  </Anchor>
+                  <Anchor className={classes.link} component={Link} to="/chat" py={4}>
+                    <RiChat1Line size={20} />
+                    <Text ml={6}>Chat</Text>
                   </Anchor>
                 </>
               ) : null}

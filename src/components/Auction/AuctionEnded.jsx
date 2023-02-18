@@ -91,29 +91,31 @@ const AuctionEnded = (props) => {
             </Flex>
           </Card>
 
-          <Card withBorder mb={12} mt={20} sx={{ textAlign: "center" }}>
-            <Text weight={600} mb={12} color="primary">
-              Auction Winner
-            </Text>
-            <Flex mt={16} justify="center" align="center">
-              <Avatar
-                radius="xl"
-                size="lg"
-                src={process.env.REACT_APP_BASE_IMAGE_URL + winner[0].participant.photo}
-              />
-              <Box ml={12}>
-                <Text weight={600} size="sm">
-                  {winner[0].participant.name}
-                </Text>
-                <Text size="sm">{winner[0].participant.email}</Text>
-              </Box>
-            </Flex>
-            <Box mt={20}>
-              <Text weight={600} size="xl" color="secondary">
-                Rs. {bidAmounts[winner[0].participant._id]}
+          {winner[0] && (
+            <Card withBorder mb={12} mt={20} sx={{ textAlign: "center" }}>
+              <Text weight={600} mb={12} color="primary">
+                Auction Winner
               </Text>
-            </Box>
-          </Card>
+              <Flex mt={16} justify="center" align="center">
+                <Avatar
+                  radius="xl"
+                  size="lg"
+                  src={process.env.REACT_APP_BASE_IMAGE_URL + winner[0].participant.photo}
+                />
+                <Box ml={12}>
+                  <Text weight={600} size="sm">
+                    {winner[0].participant.name}
+                  </Text>
+                  <Text size="sm">{winner[0].participant.email}</Text>
+                </Box>
+              </Flex>
+              <Box mt={20}>
+                <Text weight={600} size="xl" color="secondary">
+                  Rs. {bidAmounts[winner[0].participant._id]}
+                </Text>
+              </Box>
+            </Card>
+          )}
         </Box>
       </Card>
     </Container>

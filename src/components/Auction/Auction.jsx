@@ -48,7 +48,7 @@ const Auction = (props) => {
   let renderAuction = <Loading />;
   if (fetchAuctionLoading) {
     renderAuction = <Loading />;
-  } else if (isSuccess && auction) {
+  } else if (isSuccess && auction && auction.schedule.isScheduled) {
     renderAuction = (
       <Container size="lg">
         {!auction.started ? (
@@ -84,6 +84,16 @@ const Auction = (props) => {
             <AuctionActivities activities={auction.activities} />
           </>
         )}
+      </Container>
+    );
+  } else {
+    renderAuction = (
+      <Container size="lg">
+        <Card withBorder shadow="lg">
+          <Text weight={500} size="lg" align="center">
+            This auction has not been scheduled
+          </Text>
+        </Card>
       </Container>
     );
   }

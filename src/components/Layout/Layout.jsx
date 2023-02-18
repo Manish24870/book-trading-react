@@ -21,6 +21,7 @@ import AuctionBooks from "../books/AuctionBooks/AuctionBooks";
 import AuctionBook from "../book/AuctionBook/AuctionBook";
 import AuctionBookSettings from "../book/AuctionBook/AuctionBookSettings/AuctionBookSettings";
 import Auction from "../Auction/Auction";
+import Chat from "../chat/Chat";
 
 import { initializeCartItems } from "../../features/cart/cartSlice";
 import isEmpty from "../../utils/isEmpty";
@@ -58,6 +59,7 @@ const Layout = (props) => {
           <Route path="/checkout/success" element={<CheckoutSuccess />} />
           <Route path="/my-profile" element={<MyProfile />} />
           <Route path="/onboard" element={<Onboard />} />
+          <Route path="/chat" element={<Chat />} />
         </Route>
       </Routes>
     </div>
