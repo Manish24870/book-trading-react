@@ -6,7 +6,7 @@ const MINUTE = SECOND * 60;
 const HOUR = MINUTE * 60;
 const DAY = HOUR * 24;
 
-const Timer = ({ deadline = new Date().toString(), label = "Timer" }) => {
+const SmallTimer = ({ deadline = new Date().toString(), label = "Timer" }) => {
   const parsedDeadline = useMemo(() => Date.parse(deadline), [deadline]);
   const [time, setTime] = useState(parsedDeadline - Date.now());
 
@@ -17,18 +17,18 @@ const Timer = ({ deadline = new Date().toString(), label = "Timer" }) => {
   }, [parsedDeadline]);
 
   return (
-    <Box mt={30} mb={70}>
+    <Box mt={30} mb={40}>
       <Text align="center" size="lg" weight={500}>
         {label}
       </Text>
       <Flex justify="center" gap={30} mt={20}>
         {Object.entries({
           Days: time / DAY,
-          Hours: (time / HOUR) % 24,
-          Minutes: (time / MINUTE) % 60,
-          Seconds: (time / SECOND) % 60,
+          Hrs: (time / HOUR) % 24,
+          Min: (time / MINUTE) % 60,
+          Sec: (time / SECOND) % 60,
         }).map(([label, value]) => (
-          <Card withBorder shadow="xl" key={label}>
+          <Card withBorder shadow="xl" key={label} p="xs">
             <Text align="center" weight={600} size="xl" color="primary">
               {`${Math.floor(value)}`.padStart(2, "0")}
             </Text>
@@ -40,4 +40,4 @@ const Timer = ({ deadline = new Date().toString(), label = "Timer" }) => {
   );
 };
 
-export default Timer;
+export default SmallTimer;

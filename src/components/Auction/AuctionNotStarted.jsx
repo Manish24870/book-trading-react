@@ -54,7 +54,7 @@ const AuctionNotStarted = (props) => {
                 {new Date(props.auction.schedule.endDate).toLocaleString()}
               </Text>
             </Flex>
-            <Timer deadline={props.auction.schedule.date} />
+            <Timer deadline={props.auction.schedule.date} label="The auction will start in" />
           </Card>
         </Box>
       ) : (

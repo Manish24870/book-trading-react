@@ -17,10 +17,16 @@ const TopBidders = (props) => {
   bidderInfos.sort((a, b) => b.totalBidAmount - a.totalBidAmount);
 
   return (
-    <Modal centered opened={props.open} onClose={() => props.setOpen(false)}>
-      <Text size="lg" weight={500} mb={12}>
-        Top Bidders
-      </Text>
+    <Modal
+      centered
+      opened={props.open}
+      onClose={() => props.setOpen(false)}
+      title={
+        <Text size="md" weight={500}>
+          Top Bidders
+        </Text>
+      }
+    >
       {props.open && bidderInfos.map((bidder) => <TopBidder key={bidder._id} bidder={bidder} />)}
     </Modal>
   );

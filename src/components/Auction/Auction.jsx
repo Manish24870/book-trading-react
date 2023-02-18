@@ -6,11 +6,12 @@ import { useParams } from "react-router-dom";
 
 import Loading from "../common/Loading";
 import TopBidders from "./TopBidders/TopBidders";
-import TopBidder from "./TopBidders/TopBidder";
 import TopThreeBidders from "./TopBidders/TopThreeBidders";
 import AuctionInfo from "./AuctionInfo";
 import AuctionActivities from "./AuctionActivities";
 import AuctionNotStarted from "./AuctionNotStarted";
+import AuctionEnded from "./AuctionEnded";
+import SmallTimer from "../common/SmallTimer";
 import { SocketContext } from "../../context/socket";
 import { getAuction, updateAuctionAfterBid } from "../../features/auction/auctionSlice";
 
@@ -27,14 +28,18 @@ const Auction = (props) => {
     dispatch(getAuction(params.bookId));
 
     socket.on("placedBidResponse", (data) => {
-      console.log(currentUserId, "--", data.bidderId);
       if (currentUserId !== data.bidderId) dispatch(updateAuctionAfterBid(data.auction));
       // dispatch(updateAuctionAfterBid(data.auction));
     });
 
     // When the auction is started on the scheduled date
     socket.on("auctionStarted", (startedAuction) => {
-      if (startedAuction._id === auction._id) {
+      if (startedAuction?._id === auction?._id) {
+        dispatch(getAuction(params.bookId));
+      }
+    });
+    socket.on("auctionEnded", (endedAuction) => {
+      if (endedAuction?._id === auction?._id) {
         dispatch(getAuction(params.bookId));
       }
     });
@@ -48,6 +53,8 @@ const Auction = (props) => {
       <Container size="lg">
         {!auction.started ? (
           <AuctionNotStarted auction={auction} />
+        ) : auction.started && auction.completed ? (
+          <AuctionEnded auction={auction} />
         ) : (
           <>
             <TopBidders
@@ -68,6 +75,9 @@ const Auction = (props) => {
 
                   <TopThreeBidders bidders={auction.participants} />
                   <Button onClick={() => setBiddersOpen(true)}>All Bidders</Button>
+                </Card>
+                <Card withBorder shadow="md" p="xs" mt={16}>
+                  <SmallTimer deadline={auction.schedule.endDate} label="Auction ends in" />
                 </Card>
               </Grid.Col>
             </Grid>
