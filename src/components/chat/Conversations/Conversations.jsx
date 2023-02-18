@@ -6,10 +6,10 @@ import Conversation from "./Conversation";
 const Conversations = (props) => {
   return (
     <Box>
-      <Flex gap={10} align="center" mb={24} mt={20} p="xs">
+      <Flex gap={10} align="center" mb={24} mt={2} p="xs">
         <Avatar
           radius="xl"
-          size="md"
+          size="lg"
           src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
         />
         <Box>

@@ -4,6 +4,7 @@ import { io } from "socket.io-client";
 
 import Loading from "../common/Loading";
 import Conversations from "./Conversations/Conversations";
+import ChatBox from "./ChatBox/ChatBox";
 
 const Chat = (props) => {
   const socket = useRef();
@@ -25,7 +26,9 @@ const Chat = (props) => {
             >
               <Conversations />
             </Grid.Col>
-            <Grid.Col span={9}></Grid.Col>
+            <Grid.Col span={9}>
+              <ChatBox />
+            </Grid.Col>
           </Grid>
         </Card>
       </Container>
