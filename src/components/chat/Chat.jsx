@@ -1,35 +1,89 @@
 import { useEffect, useState, useRef } from "react";
 import { Card, Grid, Box, Title, Container } from "@mantine/core";
 import { io } from "socket.io-client";
+import { useDispatch, useSelector } from "react-redux";
 
 import Loading from "../common/Loading";
 import Conversations from "./Conversations/Conversations";
 import ChatBox from "./ChatBox/ChatBox";
+import { fetchConversations, setArrivedMessage } from "../../features/chat/chatSlice";
+import { successNotification, errorNotification } from "../../utils/notification/showNotification";
 
 const Chat = (props) => {
+  const [selectedConversation, setSelectedConversation] = useState(null);
+  const { error, isError, conversations, isSuccess, fetchConversationsLoading } = useSelector(
+    (state) => state.chat
+  );
+  const { myProfileLoading, myProfile } = useSelector((state) => state.profile);
+  const [gotMessage, setGotMessage] = useState(null);
   const socket = useRef();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     socket.current = io("ws://localhost:8910");
+    dispatch(fetchConversations());
+
+    // Get a new message
+    socket.current.on("getMessage", (data) => {
+      setGotMessage({
+        sender: data.senderInfo,
+        text: data.text,
+        createdAt: Date.now(),
+      });
+    });
   }, []);
+
+  // Show error when error occurs
+  useEffect(() => {
+    if (isError) {
+      errorNotification({ title: "Error", message: error });
+    }
+  }, [error, isError]);
+
+  // when we get a new message, check if it is part of the current conversation
+  useEffect(() => {
+    let isMemberIndex = null;
+    isMemberIndex =
+      gotMessage &&
+      selectedConversation?.members.findIndex((member) => member._id === gotMessage.sender._id);
+
+    if (isMemberIndex >= 0 && isMemberIndex !== null) {
+      setArrivedMessage(gotMessage);
+    }
+  }, [gotMessage, selectedConversation]);
+
+  let renderChat = <Loading />;
+
+  if (fetchConversationsLoading || myProfileLoading) {
+    renderChat = <Loading />;
+  } else if (isSuccess && conversations) {
+    renderChat = (
+      <Grid columns={12}>
+        <Grid.Col
+          span={3}
+          sx={(theme) => ({
+            backgroundColor: theme.colors.gray[1],
+          })}
+        >
+          <Conversations
+            allConversations={conversations}
+            userInfo={myProfile}
+            selectedConversation={selectedConversation}
+            setSelectedConversation={setSelectedConversation}
+          />
+        </Grid.Col>
+        <Grid.Col span={9}>
+          <ChatBox />
+        </Grid.Col>
+      </Grid>
+    );
+  }
 
   return (
     <Box mt={10}>
       <Container size="lg">
         <Card withBorder shadow="lg" p={0} sx={{ maxHeight: "85vh" }}>
-          <Grid columns={12}>
-            <Grid.Col
-              span={3}
-              sx={(theme) => ({
-                backgroundColor: theme.colors.gray[1],
-              })}
-            >
-              <Conversations />
-            </Grid.Col>
-            <Grid.Col span={9}>
-              <ChatBox />
-            </Grid.Col>
-          </Grid>
+          {renderChat}
         </Card>
       </Container>
     </Box>

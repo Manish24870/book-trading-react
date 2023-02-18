@@ -9,6 +9,7 @@ import walletReducer from "../features/wallet/walletSlice";
 import profileReducer from "../features/profile/profileSlice";
 import exchangeReducer from "../features/exchange/exchangeSlice";
 import auctionReducer from "../features/auction/auctionSlice";
+import chatReducer from "../features/chat/chatSlice";
 
 const store = configureStore({
   reducer: {
@@ -21,6 +22,7 @@ const store = configureStore({
     profile: profileReducer,
     exchange: exchangeReducer,
     auction: auctionReducer,
+    chat: chatReducer,
   },
 });
 
