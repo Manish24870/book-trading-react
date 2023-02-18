@@ -64,8 +64,6 @@ const Chat = (props) => {
     });
   }, [myProfile]);
 
-  console.log("ONLINE", onlineUsers);
-
   let renderChat = <Loading />;
 
   if (fetchConversationsLoading || myProfileLoading) {

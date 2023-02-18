@@ -1,7 +1,22 @@
 import { Text, Box, Card, Avatar, Flex, Indicator } from "@mantine/core";
+import { useDispatch } from "react-redux";
+
+import { fetchConversation } from "../../../features/chat/chatSlice";
 
 const OnlineUser = (props) => {
-  const isOnline = props.onlineUsers.findIndex((user) => user.userId === props.user._id);
+  const dispatch = useDispatch();
+  const isOnlineIndex = props.onlineUsers.findIndex((user) => user.userId === props.user._id);
+
+  // When user clicks on a conversation
+  const getConversationHandler = () => {
+    dispatch(
+      fetchConversation({
+        senderId: props.userInfo._id,
+        receiverId: props.user._id,
+      })
+    );
+  };
+
   return (
     <Card
       p="xs"
@@ -13,6 +28,7 @@ const OnlineUser = (props) => {
           backgroundColor: "#FFFFFF",
         },
       })}
+      onClick={getConversationHandler}
     >
       <Flex align="center" gap={10}>
         <Avatar
@@ -30,7 +46,7 @@ const OnlineUser = (props) => {
         </Box>
 
         <Box sx={{ marginLeft: "auto" }}>
-          {isOnline >= 0 ? <Indicator color="green" position="middle-end" /> : null}
+          {isOnlineIndex >= 0 ? <Indicator color="green" position="middle-end" /> : null}
         </Box>
       </Flex>
     </Card>

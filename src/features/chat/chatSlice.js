@@ -14,15 +14,29 @@ const initialState = {
   fetchUserSuccess: false,
   isFetchUserError: false,
   fetchUserError: null,
+  getConversationLoading: false,
 };
 
 // Function to fetch all conversations of a user
 export const fetchConversations = createAsyncThunk(
-  "book/fetch-conversations",
+  "chat/fetch-conversations",
   async (_, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.get("/conversation");
       return response.data.conversations;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.error);
+    }
+  }
+);
+
+// Function to fetch a conversation
+export const fetchConversation = createAsyncThunk(
+  "chat/fetch-conversation",
+  async (info, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post("/conversation", info);
+      return response.data.conversation;
     } catch (err) {
       return rejectWithValue(err.response?.data?.error);
     }
@@ -66,6 +80,23 @@ const chatSlice = createSlice({
       state.isError = true;
       state.error = action.payload;
       state.isSuccess = false;
+    });
+
+    // Get a single conversation cases
+    builder.addCase(fetchConversation.pending, (state, action) => {
+      state.getConversationLoading = true;
+    });
+    builder.addCase(fetchConversation.fulfilled, (state, action) => {
+      state.getConversationLoading = false;
+      let alreadyContains = state.conversations.findIndex((el) => el._id === action.payload._id);
+      if (alreadyContains < 0) {
+        state.conversations.unshift(action.payload);
+      }
+    });
+    builder.addCase(fetchConversation.rejected, (state, action) => {
+      state.getConversationLoading = false;
+      state.isError = true;
+      state.error = action.payload;
     });
 
     // Get all users cases

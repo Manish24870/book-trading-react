@@ -9,13 +9,13 @@ const Conversation = (props) => {
       px="xs"
       py="sm"
       sx={(theme) => ({
-        backgroundColor: theme.colors.gray[1],
+        backgroundColor:
+          props.conversation._id === props.selectedConversation?._id
+            ? "#FFFFFF"
+            : theme.colors.gray[1],
         cursor: "pointer",
         "&:hover": {
-          backgroundColor:
-            props.conversation._id === props.selectedConversation?._id
-              ? "#FFFFFF"
-              : theme.colors.gray[5],
+          backgroundColor: "#FFFFFF",
         },
       })}
       onClick={() => props.setSelectedConversation(props.conversation)}
