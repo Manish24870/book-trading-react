@@ -5,11 +5,7 @@ import timeSince from "../../../utils/timeSince";
 const Sent = (props) => {
   return (
     <Flex mb={12}>
-      {/* <Avatar radius="xl" src={props.message.sender.profile.photo} /> */}
-      <Avatar
-        radius="xl"
-        src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
-      />
+      <Avatar radius="xl" src={process.env.REACT_APP_BASE_IMAGE_URL + props.message.sender.photo} />
       <Box ml={8}>
         <Box
           sx={(theme) => ({
@@ -22,12 +18,10 @@ const Sent = (props) => {
           px={16}
           py={8}
         >
-          {/* {props.message.text} */}
-          {"This is a message"}
+          {props.message.text}
         </Box>
         <Text size="xs" color="dimmed">
-          {timeSince(new Date())}
-          {/* {timeSince(new Date(props.message.createdAt))} */}
+          {timeSince(new Date(props.message.createdAt))}
         </Text>
       </Box>
     </Flex>

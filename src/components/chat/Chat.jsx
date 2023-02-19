@@ -50,7 +50,7 @@ const Chat = (props) => {
       selectedConversation?.members.findIndex((member) => member._id === gotMessage.sender._id);
 
     if (isMemberIndex >= 0 && isMemberIndex !== null) {
-      setArrivedMessage(gotMessage);
+      dispatch(setArrivedMessage(gotMessage));
     }
   }, [gotMessage, selectedConversation]);
 
@@ -70,7 +70,7 @@ const Chat = (props) => {
     renderChat = <Loading />;
   } else if (isSuccess && conversations) {
     renderChat = (
-      <Grid columns={12}>
+      <Grid columns={12} sx={{ height: "90vh" }}>
         <Grid.Col
           span={3}
           sx={(theme) => ({

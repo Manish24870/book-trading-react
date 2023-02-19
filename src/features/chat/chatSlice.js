@@ -18,6 +18,7 @@ const initialState = {
   conversationMessages: null,
   conversationMessagesLoading: false,
   fetchConversationMessagesSuccess: false,
+  sendMessageLoading: false,
 };
 
 // Function to fetch all conversations of a user
@@ -59,6 +60,19 @@ export const fetchConversationMessages = createAsyncThunk(
   }
 );
 
+// Function to send a message
+export const sendMessage = createAsyncThunk(
+  "chat/send-message",
+  async (message, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post("/message", message);
+      return response.data.message;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.error);
+    }
+  }
+);
+
 // Function to fetch the list of all users
 export const fetchUsers = createAsyncThunk("book/fetch-users", async (_, { rejectWithValue }) => {
   try {
@@ -75,7 +89,7 @@ const chatSlice = createSlice({
 
   reducers: {
     setArrivedMessage: (state, action) => {
-      state.conversationMessages = [...state.conversationMessages, action.payload];
+      state.conversationMessages.push(action.payload);
     },
   },
 
@@ -149,6 +163,22 @@ const chatSlice = createSlice({
       state.allUsersLoading = false;
       state.isFetchUserError = true;
       state.fetchUserError = action.payload;
+    });
+
+    // Send a message cases
+    builder.addCase(sendMessage.pending, (state, action) => {
+      state.sendMessageLoading = true;
+    });
+    builder.addCase(sendMessage.fulfilled, (state, action) => {
+      state.sendMessageLoading = false;
+      state.isError = false;
+      state.error = null;
+      state.conversationMessages.push(action.payload);
+    });
+    builder.addCase(sendMessage.rejected, (state, action) => {
+      state.sendMessageLoading = false;
+      state.isError = true;
+      state.error = action.payload;
     });
   },
 });

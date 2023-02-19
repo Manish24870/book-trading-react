@@ -1,5 +1,5 @@
 import { Card, Avatar, Flex, Box, Text, Divider } from "@mantine/core";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import Messages from "./Messages/Messages";
@@ -9,7 +9,6 @@ import { fetchConversationMessages } from "../../../features/chat/chatSlice";
 
 const ChatBox = (props) => {
   const dispatch = useDispatch();
-  const scrollRef = useRef();
   const { conversationMessages, conversationMessagesLoading, fetchConversationMessagesSuccess } =
     useSelector((state) => state.chat);
 
@@ -19,11 +18,6 @@ const ChatBox = (props) => {
       dispatch(fetchConversationMessages(props.selectedConversation._id));
     }
   }, [props.selectedConversation]);
-
-  // Scroll message list to bottom
-  useEffect(() => {
-    scrollRef.current?.scrollInfoView({ behaviour: "smooth" });
-  }, [props.selectedConversation, conversationMessages]);
 
   let renderMessages = <Loading />;
 
@@ -37,7 +31,7 @@ const ChatBox = (props) => {
     );
   } else if (conversationMessages && fetchConversationMessagesSuccess) {
     renderMessages = (
-      <>
+      <div>
         <Flex gap={10} align="center" p="xs">
           <Avatar
             radius="xl"
@@ -52,15 +46,20 @@ const ChatBox = (props) => {
           </Box>
         </Flex>
         <Divider />
-        <Flex direction="column" sx={{ height: "70vh" }}>
+        <Flex direction="column" justify="space-between" sx={{ height: "70vh" }}>
           <Messages
-            innerRef={scrollRef}
             myProfile={props.myProfile}
             conversationMessages={conversationMessages}
+            selectedConversation={props.selectedConversation}
           />
-          <SendMessage />
+          <SendMessage
+            selectedConversation={props.selectedConversation}
+            socket={props.socket}
+            myProfile={props.myProfile}
+            conversations={props.conversations}
+          />
         </Flex>
-      </>
+      </div>
     );
   }
 

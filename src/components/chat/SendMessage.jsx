@@ -3,6 +3,9 @@ import Joi from "joi";
 import { useForm, joiResolver } from "@mantine/form";
 import InputEmoji from "react-input-emoji";
 import { BiSend } from "react-icons/bi";
+import { useDispatch } from "react-redux";
+
+import { sendMessage } from "../../features/chat/chatSlice";
 
 const schema = Joi.object({
   message: Joi.string().required().messages({
@@ -12,6 +15,7 @@ const schema = Joi.object({
 
 const SendMessage = (props) => {
   const theme = useMantineTheme();
+  const dispatch = useDispatch();
 
   const form = useForm({
     schema: joiResolver(schema),
@@ -20,8 +24,31 @@ const SendMessage = (props) => {
     },
   });
 
+  const formSubmitHandler = (e) => {
+    e.preventDefault();
+    const { hasErrors, errors } = form.validate();
+
+    if (!hasErrors) {
+      const message = {
+        text: form.values.message,
+        conversationId: props.selectedConversation._id,
+      };
+      dispatch(sendMessage(message));
+
+      const receiverInfo = props.selectedConversation?.members.find(
+        (member) => member._id !== props.myProfile._id
+      );
+      props.socket.current.emit("sendMessage", {
+        senderInfo: props.myProfile,
+        receiverInfo: receiverInfo,
+        text: form.values.message,
+      });
+      form.setFieldValue("message", "");
+    }
+  };
+
   return (
-    <form>
+    <form onSubmit={formSubmitHandler}>
       <Flex align="center">
         <Input
           placeholder="Enter your message"
