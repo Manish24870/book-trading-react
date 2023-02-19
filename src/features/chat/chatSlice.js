@@ -15,6 +15,9 @@ const initialState = {
   isFetchUserError: false,
   fetchUserError: null,
   getConversationLoading: false,
+  conversationMessages: null,
+  conversationMessagesLoading: false,
+  fetchConversationMessagesSuccess: false,
 };
 
 // Function to fetch all conversations of a user
@@ -37,6 +40,19 @@ export const fetchConversation = createAsyncThunk(
     try {
       const response = await axiosInstance.post("/conversation", info);
       return response.data.conversation;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.error);
+    }
+  }
+);
+
+// Function to fetch conversation messages
+export const fetchConversationMessages = createAsyncThunk(
+  "chat/fetch-conversation-messages",
+  async (conversationId, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.get(`/message/${conversationId}`);
+      return response.data.messages;
     } catch (err) {
       return rejectWithValue(err.response?.data?.error);
     }
@@ -99,6 +115,24 @@ const chatSlice = createSlice({
       state.error = action.payload;
     });
 
+    // Get a single conversation messages
+    builder.addCase(fetchConversationMessages.pending, (state, action) => {
+      state.conversationMessagesLoading = true;
+    });
+    builder.addCase(fetchConversationMessages.fulfilled, (state, action) => {
+      state.conversationMessagesLoading = false;
+      state.fetchConversationMessagesSuccess = true;
+      state.isError = false;
+      state.error = null;
+      state.conversationMessages = action.payload;
+    });
+    builder.addCase(fetchConversationMessages.rejected, (state, action) => {
+      state.conversationMessagesLoading = false;
+      state.isError = true;
+      state.error = action.payload;
+      state.isSuccess = false;
+      state.fetchConversationMessagesSuccess = false;
+    });
     // Get all users cases
     builder.addCase(fetchUsers.pending, (state, action) => {
       state.allUsersLoading = true;

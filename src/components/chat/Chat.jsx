@@ -74,7 +74,7 @@ const Chat = (props) => {
         <Grid.Col
           span={3}
           sx={(theme) => ({
-            backgroundColor: theme.colors.gray[1],
+            backgroundColor: theme.colors.gray[2],
           })}
         >
           <Conversations
@@ -88,7 +88,13 @@ const Chat = (props) => {
           />
         </Grid.Col>
         <Grid.Col span={9}>
-          <ChatBox />
+          <ChatBox
+            selectedConversation={selectedConversation}
+            setSelectedConversation={setSelectedConversation}
+            socket={socket}
+            myProfile={myProfile}
+            conversations={conversations}
+          />
         </Grid.Col>
       </Grid>
     );

@@ -22,7 +22,7 @@ const OnlineUser = (props) => {
       p="xs"
       mb={12}
       sx={(theme) => ({
-        backgroundColor: theme.colors.gray[1],
+        backgroundColor: theme.colors.gray[2],
         cursor: "pointer",
         "&:hover": {
           backgroundColor: "#FFFFFF",

@@ -12,7 +12,7 @@ const Conversation = (props) => {
         backgroundColor:
           props.conversation._id === props.selectedConversation?._id
             ? "#FFFFFF"
-            : theme.colors.gray[1],
+            : theme.colors.gray[2],
         cursor: "pointer",
         "&:hover": {
           backgroundColor: "#FFFFFF",
