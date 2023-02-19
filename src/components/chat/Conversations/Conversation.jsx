@@ -1,7 +1,9 @@
 import { Card, Avatar, Text, Box, Flex } from "@mantine/core";
 
 const Conversation = (props) => {
-  const friendInfo = props.conversation.members.find((member) => member._id !== props.userInfo._id);
+  const friendInfo = props.conversation.members.find(
+    (member) => member._id !== props.myProfile._id
+  );
 
   return (
     <Card

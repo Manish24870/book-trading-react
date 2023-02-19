@@ -11,12 +11,12 @@ const Conversations = (props) => {
         <Avatar
           radius="xl"
           size="lg"
-          src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
+          src={process.env.REACT_APP_BASE_IMAGE_URL + props.myProfile.photo}
         />
         <Box>
-          <Text color="primary">John Smith</Text>
+          <Text color="primary">{props.myProfile.name}</Text>
           <Text size="xs" color="dimmed">
-            manish@gmail.com
+            {props.myProfile.email}
           </Text>
         </Box>
       </Flex>
@@ -35,7 +35,7 @@ const Conversations = (props) => {
               <Conversation
                 key={conversation._id}
                 conversation={conversation}
-                userInfo={props.userInfo}
+                myProfile={props.myProfile}
                 selectedConversation={props.selectedConversation}
                 setSelectedConversation={props.setSelectedConversation}
               />

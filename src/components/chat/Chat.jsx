@@ -79,7 +79,7 @@ const Chat = (props) => {
         >
           <Conversations
             conversations={conversations}
-            userInfo={myProfile}
+            myProfile={myProfile}
             selectedConversation={selectedConversation}
             setSelectedConversation={setSelectedConversation}
             selectedTab={selectedTab}

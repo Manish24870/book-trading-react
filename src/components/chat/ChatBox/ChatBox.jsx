@@ -30,18 +30,22 @@ const ChatBox = (props) => {
       </Text>
     );
   } else if (conversationMessages && fetchConversationMessagesSuccess) {
+    const friendInfo = props.selectedConversation.members.find(
+      (member) => member._id !== props.myProfile._id
+    );
+    console.log(friendInfo);
     renderMessages = (
       <div>
         <Flex gap={10} align="center" p="xs">
           <Avatar
             radius="xl"
             size="md"
-            src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
+            src={process.env.REACT_APP_BASE_IMAGE_URL + friendInfo.photo}
           />
           <Box>
-            <Text color="primary">John Smith</Text>
+            <Text color="primary">{friendInfo.name}</Text>
             <Text size="xs" color="dimmed">
-              manish@gmail.com
+              {friendInfo.email}
             </Text>
           </Box>
         </Flex>
