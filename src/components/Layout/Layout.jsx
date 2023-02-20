@@ -23,6 +23,7 @@ import AuctionBookSettings from "../book/AuctionBook/AuctionBookSettings/Auction
 import Auction from "../Auction/Auction";
 import Chat from "../chat/Chat";
 import ExchangeInitiates from "../ExchangeInitiates/ExchangeInitiates";
+import Admin from "../admin/Admin";
 
 import { initializeCartItems } from "../../features/cart/cartSlice";
 import isEmpty from "../../utils/isEmpty";
@@ -62,6 +63,8 @@ const Layout = (props) => {
           <Route path="/my-profile" element={<MyProfile />} />
           <Route path="/onboard" element={<Onboard />} />
           <Route path="/chat" element={<Chat />} />
+
+          <Route path="/admin" element={<Admin />} />
         </Route>
       </Routes>
     </div>

@@ -14,6 +14,9 @@ const initialState = {
   error: null,
   isError: false,
   isSuccess: false,
+  users: null,
+  fetchUsersLoading: false,
+  fetchUsersSuccess: false,
 };
 
 // Register a new user
@@ -34,6 +37,16 @@ export const loginUser = createAsyncThunk("user/login", async (userInfo, { rejec
   try {
     const response = await axiosInstance.post("/auth/login", userInfo);
     return response.data;
+  } catch (err) {
+    return rejectWithValue(err.response?.data?.error);
+  }
+});
+
+// Get all the users
+export const getAllUsers = createAsyncThunk("user/get-users", async (_, { rejectWithValue }) => {
+  try {
+    const response = await axiosInstance.get("/user/users");
+    return response.data.users;
   } catch (err) {
     return rejectWithValue(err.response?.data?.error);
   }
@@ -108,6 +121,24 @@ const userSlice = createSlice({
       state.user = null;
       state.error = action.payload;
       state.isError = true;
+    });
+
+    // Get all users cases
+    builder.addCase(getAllUsers.pending, (state) => {
+      state.fetchUsersLoading = true;
+    });
+    builder.addCase(getAllUsers.fulfilled, (state, action) => {
+      state.fetchUsersLoading = false;
+      state.error = null;
+      state.isError = false;
+      state.fetchUsersSuccess = true;
+      state.users = action.payload;
+    });
+    builder.addCase(getAllUsers.rejected, (state, action) => {
+      state.fetchUsersLoading = false;
+      state.error = action.payload;
+      state.isError = true;
+      state.fetchUsersSuccess = false;
     });
   },
 });
