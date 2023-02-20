@@ -52,6 +52,15 @@ const Chat = (props) => {
     if (isMemberIndex >= 0 && isMemberIndex !== null) {
       dispatch(setArrivedMessage(gotMessage));
     }
+
+    if (selectedConversation) {
+      const friendInfo = selectedConversation.members.find(
+        (member) => member._id !== myProfile._id
+      );
+      console.log("FRIEND");
+      console.log(friendInfo);
+      socket.current.emit("conversationSelected", friendInfo._id);
+    }
   }, [gotMessage, selectedConversation]);
 
   // Add user on list when he connects

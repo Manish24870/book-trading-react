@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { placeBid } from "../../features/auction/auctionSlice";
 import { successNotification } from "../../utils/notification/showNotification";
 import { SocketContext } from "../../context/socket";
+import { getWallet } from "../../features/wallet/walletSlice";
 
 const AuctionInfo = (props) => {
   const dispatch = useDispatch();
@@ -38,6 +39,8 @@ const AuctionInfo = (props) => {
       })
     );
 
+    dispatch(getWallet());
+
     socket.emit("placedBid", { bookId: props.auction.book._id, currentUserId });
   };
 
@@ -54,11 +57,11 @@ const AuctionInfo = (props) => {
     });
   });
 
-  useEffect(() => {
-    if (isBidSuccess) {
-      successNotification({ title: "Success", message: "Someone placed a bid" });
-    }
-  }, [isBidSuccess, auction]);
+  // useEffect(() => {
+  //   if (isBidSuccess) {
+  //     successNotification({ title: "Success", message: "Someone placed a bid" });
+  //   }
+  // }, [isBidSuccess]);
 
   return (
     <Box>
@@ -134,7 +137,12 @@ const AuctionInfo = (props) => {
             </Text>
           </Box>
           <Box sx={{ textAlign: "center" }}>
-            <NumberInput min={0} value={bidAmount} onChange={(val) => setBidAmount(val)} />
+            <NumberInput
+              min={0}
+              value={bidAmount}
+              onChange={(val) => setBidAmount(val)}
+              max={props.wallet?.amount || 0}
+            />
             <Button
               mt={14}
               leftIcon={<BiData size={18} />}

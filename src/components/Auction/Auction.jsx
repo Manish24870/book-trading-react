@@ -14,6 +14,7 @@ import AuctionEnded from "./AuctionEnded";
 import SmallTimer from "../common/SmallTimer";
 import { SocketContext } from "../../context/socket";
 import { getAuction, updateAuctionAfterBid } from "../../features/auction/auctionSlice";
+import { getWallet } from "../../features/wallet/walletSlice";
 
 const Auction = (props) => {
   const [biddersOpen, setBiddersOpen] = useState(false);
@@ -22,10 +23,12 @@ const Auction = (props) => {
   const socket = useContext(SocketContext);
   const params = useParams();
   const { auction, fetchAuctionLoading, isSuccess } = useSelector((state) => state.auction);
+  const { wallet, getWalletLoading } = useSelector((state) => state.wallet);
   const currentUserId = useSelector((state) => state.user.user.id);
 
   useEffect(() => {
     dispatch(getAuction(params.bookId));
+    dispatch(getWallet());
 
     socket.on("placedBidResponse", (data) => {
       if (currentUserId !== data.bidderId) dispatch(updateAuctionAfterBid(data.auction));
@@ -36,12 +39,15 @@ const Auction = (props) => {
     socket.on("auctionStarted", (startedAuction) => {
       if (startedAuction?._id === auction?._id) {
         dispatch(getAuction(params.bookId));
+        dispatch(getWallet());
       }
     });
     socket.on("auctionEnded", (endedAuction) => {
-      if (endedAuction?._id === auction?._id) {
-        dispatch(getAuction(params.bookId));
-      }
+      console.log("ENDED");
+      // if (endedAuction?._id === auction?._id) {
+      dispatch(getAuction(params.bookId));
+      dispatch(getWallet());
+      // }
     });
   }, []);
 
@@ -65,7 +71,7 @@ const Auction = (props) => {
             <Text mb={10}>Auction Page</Text>
             <Grid columns={12}>
               <Grid.Col span={8}>
-                <AuctionInfo auction={auction} />
+                <AuctionInfo auction={auction} wallet={wallet} />
               </Grid.Col>
               <Grid.Col span={4}>
                 <Card withBorder shadow="md" p="xs">

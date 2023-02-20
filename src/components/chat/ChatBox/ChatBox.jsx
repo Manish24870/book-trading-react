@@ -1,6 +1,18 @@
-import { Card, Avatar, Flex, Box, Text, Divider } from "@mantine/core";
-import { useEffect } from "react";
+import {
+  Card,
+  Avatar,
+  Flex,
+  Box,
+  Text,
+  Divider,
+  useMantineTheme,
+  Button,
+  TextInput,
+} from "@mantine/core";
+import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { HiOutlineVideoCamera } from "react-icons/hi2";
+import Peer from "simple-peer";
 
 import Messages from "./Messages/Messages";
 import SendMessage from "../SendMessage";
@@ -9,8 +21,109 @@ import { fetchConversationMessages } from "../../../features/chat/chatSlice";
 
 const ChatBox = (props) => {
   const dispatch = useDispatch();
+  const theme = useMantineTheme();
   const { conversationMessages, conversationMessagesLoading, fetchConversationMessagesSuccess } =
     useSelector((state) => state.chat);
+
+  // Video call sates
+  const [me, setMe] = useState("");
+  const [stream, setStream] = useState();
+  const [receivingCall, setReceivingCall] = useState(false);
+  const [caller, setCaller] = useState("");
+  const [callerSignal, setCallerSignal] = useState();
+  const [callAccepted, setCallAccepted] = useState(false);
+  const [idToCall, setIdToCall] = useState("");
+  const [callEnded, setCallEnded] = useState(false);
+  const [name, setName] = useState("");
+
+  const myVideo = useRef();
+  const userVideo = useRef();
+  const connectionRef = useRef();
+
+  useEffect(() => {
+    navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
+      setStream(stream);
+      myVideo.current.srcObject = stream;
+    });
+
+    props.socket.current.on("me", (id) => {
+      setMe(id);
+    });
+    props.socket.current.on("toCallUser", (toCall) => {
+      if (props.myProfile._id !== toCall.userId) {
+        console.log("TO CALL", toCall);
+        setIdToCall(toCall.socketId);
+      }
+    });
+
+    props.socket.current.on("callEnded", () => {
+      console.log("ENDED");
+      // setCallEnded(true);
+      connectionRef.current.destroy();
+    });
+
+    props.socket.current.on("callUser", (data) => {
+      setReceivingCall(true);
+      setCaller(data.from);
+      setName(data.name);
+      setCallerSignal(data.signal);
+    });
+  }, []);
+
+  const callUser = (id) => {
+    props.socket.current.emit("startingCall", id);
+    const peer = new Peer({
+      initiator: true,
+      trickle: false,
+      stream,
+    });
+
+    peer.on("signal", (data) => {
+      props.socket.current.emit("callUser", {
+        userToCall: id,
+        signalData: data,
+        from: me,
+        name: name,
+      });
+    });
+
+    peer.on("stream", (stream) => {
+      userVideo.current.srcObject = stream;
+    });
+
+    props.socket.current.on("callAccepted", (signal) => {
+      setCallAccepted(true);
+      peer.signal(signal);
+    });
+
+    connectionRef.current = peer;
+  };
+
+  const answerCall = () => {
+    setCallAccepted(true);
+    const peer = new Peer({
+      initiator: false,
+      trickle: false,
+      stream,
+    });
+
+    peer.on("signal", (data) => {
+      props.socket.current.emit("answerCall", { signal: data, to: caller });
+    });
+
+    peer.on("stream", (stream) => {
+      userVideo.current.srcObject = stream;
+    });
+
+    peer.signal(callerSignal);
+    connectionRef.current = peer;
+  };
+
+  const leaveCall = () => {
+    setCallEnded(true);
+    connectionRef.current.destroy();
+    props.socket.current.emit("endCall");
+  };
 
   // Fetch current conversation messages
   useEffect(() => {
@@ -33,7 +146,6 @@ const ChatBox = (props) => {
     const friendInfo = props.selectedConversation.members.find(
       (member) => member._id !== props.myProfile._id
     );
-    console.log(friendInfo);
     renderMessages = (
       <div>
         <Flex gap={10} align="center" p="xs">
@@ -48,14 +160,40 @@ const ChatBox = (props) => {
               {friendInfo.email}
             </Text>
           </Box>
+          {/* <TextInput value={idToCall} onChange={(e) => setIdToCall(e.target.value)} /> */}
+          {receivingCall && !callAccepted ? (
+            <div>
+              <Text>{name} is calling</Text>
+              <Button onClick={answerCall}>Answer</Button>
+            </div>
+          ) : null}
+          <Box
+            color="primary"
+            sx={{ marginLeft: "auto", cursor: "pointer" }}
+            onClick={() => callUser(idToCall)}
+          >
+            <HiOutlineVideoCamera color={theme.colors.primary[6]} size={26} />
+          </Box>
         </Flex>
         <Divider />
+        {/* <Flex direction="column" justify="space-between" sx={{ height: "70vh" }}> */}
         <Flex direction="column" justify="space-between" sx={{ height: "70vh" }}>
-          <Messages
-            myProfile={props.myProfile}
-            conversationMessages={conversationMessages}
-            selectedConversation={props.selectedConversation}
-          />
+          {stream && callAccepted && !callEnded ? (
+            <Box sx={{ textAlign: "center" }}>
+              {/* <video playsInline muted ref={myVideo} autoPlay style={{ width: "50%" }} /> */}
+              <video playsInline muted ref={userVideo} autoPlay style={{ width: "90%" }} />
+              <Button color="red" onClick={leaveCall}>
+                End Call
+              </Button>
+            </Box>
+          ) : (
+            <Messages
+              myProfile={props.myProfile}
+              conversationMessages={conversationMessages}
+              selectedConversation={props.selectedConversation}
+            />
+          )}
+
           <SendMessage
             selectedConversation={props.selectedConversation}
             socket={props.socket}
@@ -69,6 +207,13 @@ const ChatBox = (props) => {
 
   return (
     <Box py={10} mt={2}>
+      {/* <Text>{me}</Text> */}
+      {/* {stream && callAccepted && !callEnded ? (
+        <div>
+          <video playsInline muted ref={myVideo} autoPlay style={{ width: "200px" }} />
+          <video playsInline muted ref={userVideo} autoPlay style={{ width: "200px" }} />
+        </div>
+      ) : null} */}
       {renderMessages}
     </Box>
   );
