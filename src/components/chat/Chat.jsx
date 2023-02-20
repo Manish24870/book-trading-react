@@ -57,8 +57,7 @@ const Chat = (props) => {
       const friendInfo = selectedConversation.members.find(
         (member) => member._id !== myProfile._id
       );
-      console.log("FRIEND");
-      console.log(friendInfo);
+
       socket.current.emit("conversationSelected", friendInfo._id);
     }
   }, [gotMessage, selectedConversation]);

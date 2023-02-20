@@ -12,6 +12,7 @@ import {
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { HiOutlineVideoCamera } from "react-icons/hi2";
+import { MdCallEnd } from "react-icons/md";
 import Peer from "simple-peer";
 
 import Messages from "./Messages/Messages";
@@ -50,7 +51,7 @@ const ChatBox = (props) => {
       setMe(id);
     });
     props.socket.current.on("toCallUser", (toCall) => {
-      if (props.myProfile._id !== toCall.userId) {
+      if (props.myProfile._id !== toCall?.userId) {
         console.log("TO CALL", toCall);
         setIdToCall(toCall.socketId);
       }
@@ -58,7 +59,7 @@ const ChatBox = (props) => {
 
     props.socket.current.on("callEnded", () => {
       console.log("ENDED");
-      // setCallEnded(true);
+      setCallEnded(true);
       connectionRef.current.destroy();
     });
 
@@ -162,15 +163,20 @@ const ChatBox = (props) => {
           </Box>
           {/* <TextInput value={idToCall} onChange={(e) => setIdToCall(e.target.value)} /> */}
           {receivingCall && !callAccepted ? (
-            <div>
-              <Text>{name} is calling</Text>
-              <Button onClick={answerCall}>Answer</Button>
-            </div>
+            <Flex align="center">
+              <Text mr={16}>{name} Call</Text>
+              <Button onClick={answerCall} size="xs">
+                Answer
+              </Button>
+            </Flex>
           ) : null}
           <Box
             color="primary"
             sx={{ marginLeft: "auto", cursor: "pointer" }}
-            onClick={() => callUser(idToCall)}
+            onClick={() => {
+              console.log(idToCall);
+              callUser(idToCall);
+            }}
           >
             <HiOutlineVideoCamera color={theme.colors.primary[6]} size={26} />
           </Box>
@@ -181,8 +187,8 @@ const ChatBox = (props) => {
           {stream && callAccepted && !callEnded ? (
             <Box sx={{ textAlign: "center" }}>
               {/* <video playsInline muted ref={myVideo} autoPlay style={{ width: "50%" }} /> */}
-              <video playsInline muted ref={userVideo} autoPlay style={{ width: "90%" }} />
-              <Button color="red" onClick={leaveCall}>
+              <video playsInline ref={userVideo} autoPlay style={{ width: "90%" }} />
+              <Button color="red" onClick={leaveCall} leftIcon={<MdCallEnd size={20} />}>
                 End Call
               </Button>
             </Box>

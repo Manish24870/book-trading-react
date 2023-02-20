@@ -10,6 +10,8 @@ const initialState = {
   getWalletLoading: false,
   wallet: null,
   loadWalletSessionUrl: null,
+  cashoutWalletLoading: false,
+  cashoutWalletSuccess: false,
   buyBookLoading: false,
   order: null,
 };
@@ -30,6 +32,19 @@ export const loadWallet = createAsyncThunk(
   async (walletData, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.post("/wallet/load", walletData);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.error);
+    }
+  }
+);
+
+// Cashout from user wallet
+export const cashoutWallet = createAsyncThunk(
+  "wallet/cashout",
+  async (walletData, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post("/wallet/cashout", walletData);
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.error);
@@ -84,6 +99,24 @@ const walletSlice = createSlice({
     });
     builder.addCase(loadWallet.rejected, (state, action) => {
       state.loadWalletLoading = false;
+      state.isSuccess = false;
+      state.isError = true;
+      state.error = action.payload;
+    });
+
+    // Cashout wallet cases
+    builder.addCase(cashoutWallet.pending, (state) => {
+      state.cashoutWalletLoading = true;
+    });
+    builder.addCase(cashoutWallet.fulfilled, (state, action) => {
+      state.cashoutWalletLoading = false;
+      state.cashoutWalletSuccess = true;
+      state.isError = false;
+      state.error = null;
+      state.wallet = action.payload?.wallet;
+    });
+    builder.addCase(cashoutWallet.rejected, (state, action) => {
+      state.cashoutWalletLoading = false;
       state.isSuccess = false;
       state.isError = true;
       state.error = action.payload;

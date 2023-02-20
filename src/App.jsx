@@ -27,7 +27,7 @@ const App = () => {
     <Provider store={store}>
       <BrowserRouter>
         <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
-          <NotificationsProvider>
+          <NotificationsProvider position="bottom-center" zIndex={2077}>
             <SocketContext.Provider value={socket}>
               <Layout />
             </SocketContext.Provider>
