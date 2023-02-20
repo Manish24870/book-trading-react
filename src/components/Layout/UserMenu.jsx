@@ -18,7 +18,7 @@ import {
   IoSettingsOutline,
 } from "react-icons/io5";
 import { BsChevronDown } from "react-icons/bs";
-import { MdOutlineLocalOffer } from "react-icons/md";
+import { MdOutlineLocalOffer, MdOutlineAdminPanelSettings } from "react-icons/md";
 
 import { logoutUser } from "../../features/user/userSlice";
 import { removeMyProfile } from "../../features/profile/profileSlice";
@@ -103,6 +103,15 @@ const UserMenu = (props) => {
           <Menu.Divider />
 
           <Menu.Label>Actions</Menu.Label>
+          {myProfile?.role === "admin" && (
+            <Menu.Item
+              component={Link}
+              to="/admin"
+              icon={<MdOutlineAdminPanelSettings size={18} />}
+            >
+              Admin Panel
+            </Menu.Item>
+          )}
           <Menu.Item onClick={logoutUserHandler} color="red" icon={<IoLogOutOutline size={18} />}>
             Logout
           </Menu.Item>

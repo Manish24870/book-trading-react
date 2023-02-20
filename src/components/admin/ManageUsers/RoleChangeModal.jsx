@@ -25,12 +25,7 @@ const RoleChangeModal = (props) => {
         value={props.roleValue}
         onChange={props.setRoleValue}
       />
-      <Button
-        fullWidth
-        mt={20}
-        onClick={props.changeRoleHandler}
-        loading={props.changeUserRoleLoading}
-      >
+      <Button fullWidth mt={20} onClick={props.changeRoleHandler} loading={props.changeRoleLoading}>
         Apply
       </Button>
     </Modal>

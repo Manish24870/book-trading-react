@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 
 import Loading from "../common/Loading";
 
-const PrivateRoute = () => {
+const PrivateRoute = ({ allowedRoles }) => {
   const location = useLocation();
 
   const { isAuthenticated, userLoading } = useSelector((state) => state.user);

@@ -17,6 +17,8 @@ const initialState = {
   users: null,
   fetchUsersLoading: false,
   fetchUsersSuccess: false,
+  changeRoleLoading: false,
+  changeRoleSuccess: false,
 };
 
 // Register a new user
@@ -51,6 +53,21 @@ export const getAllUsers = createAsyncThunk("user/get-users", async (_, { reject
     return rejectWithValue(err.response?.data?.error);
   }
 });
+
+// Change user role
+export const changeUserRole = createAsyncThunk(
+  "user/change-role",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post(`/user/change-role/${data.userId}`, {
+        newRole: data.newRole,
+      });
+      return response.data.user;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.error);
+    }
+  }
+);
 
 const userSlice = createSlice({
   name: "user",
@@ -139,6 +156,25 @@ const userSlice = createSlice({
       state.error = action.payload;
       state.isError = true;
       state.fetchUsersSuccess = false;
+    });
+
+    // Change user role cases
+    builder.addCase(changeUserRole.pending, (state) => {
+      state.changeRoleLoading = true;
+    });
+    builder.addCase(changeUserRole.fulfilled, (state, action) => {
+      state.changeRoleLoading = false;
+      state.error = null;
+      state.isError = false;
+      state.changeRoleSuccess = true;
+      let updateIndex = state.users.findIndex((el) => el._id === action.payload._id);
+      state.users[updateIndex] = action.payload;
+    });
+    builder.addCase(changeUserRole.rejected, (state, action) => {
+      state.changeRoleLoading = false;
+      state.error = action.payload;
+      state.isError = true;
+      state.changeRoleSuccess = false;
     });
   },
 });
