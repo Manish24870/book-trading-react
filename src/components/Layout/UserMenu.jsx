@@ -11,7 +11,12 @@ import {
   createStyles,
 } from "@mantine/core";
 import { useSelector, useDispatch } from "react-redux";
-import { IoLogOutOutline, IoPersonOutline, IoSettingsOutline } from "react-icons/io5";
+import {
+  IoLogOutOutline,
+  IoHourglassOutline,
+  IoPersonOutline,
+  IoSettingsOutline,
+} from "react-icons/io5";
 import { BsChevronDown } from "react-icons/bs";
 import { MdOutlineLocalOffer } from "react-icons/md";
 
@@ -86,6 +91,13 @@ const UserMenu = (props) => {
             icon={<MdOutlineLocalOffer size={18} />}
           >
             Offers
+          </Menu.Item>
+          <Menu.Item
+            component={Link}
+            to="/exchange/initiates"
+            icon={<IoHourglassOutline size={18} />}
+          >
+            Initiates
           </Menu.Item>
 
           <Menu.Divider />

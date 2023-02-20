@@ -13,29 +13,29 @@ import setAuthToken from "./utils/auth/setAuthToken";
 import { socket, SocketContext } from "./context/socket";
 
 if (localStorage.jwt) {
-  store.dispatch(setUserLoading(true));
-  store.dispatch(setMyProfileLoading(true));
-  const token = localStorage.jwt;
-  setAuthToken(token);
-  const decoded = jwt_decode(token);
-  store.dispatch(setCurrentUser(decoded));
-  store.dispatch(getMyProfile());
+    store.dispatch(setUserLoading(true));
+    store.dispatch(setMyProfileLoading(true));
+    const token = localStorage.jwt;
+    setAuthToken(token);
+    const decoded = jwt_decode(token);
+    store.dispatch(setCurrentUser(decoded));
+    store.dispatch(getMyProfile());
 }
 
 const App = () => {
-  return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
-          <NotificationsProvider position="bottom-center" zIndex={2077}>
-            <SocketContext.Provider value={socket}>
-              <Layout />
-            </SocketContext.Provider>
-          </NotificationsProvider>
-        </MantineProvider>
-      </BrowserRouter>
-    </Provider>
-  );
+    return (
+        <Provider store={store}>
+            <BrowserRouter>
+                <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
+                    <NotificationsProvider position="bottom-center" zIndex={2077} limit={1}>
+                        <SocketContext.Provider value={socket}>
+                            <Layout />
+                        </SocketContext.Provider>
+                    </NotificationsProvider>
+                </MantineProvider>
+            </BrowserRouter>
+        </Provider>
+    );
 };
 
 export default App;

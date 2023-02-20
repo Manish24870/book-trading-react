@@ -159,6 +159,9 @@ const Navbar = () => {
               <Anchor className={classes.link} component={Link} to="/auction" py={4}>
                 Auction
               </Anchor>
+              <Anchor className={classes.link} component={Link} to="/chat" py={4}>
+                Chat
+              </Anchor>
             </>
           ) : null}
 
