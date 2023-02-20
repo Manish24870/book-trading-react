@@ -78,7 +78,7 @@ const Navbar = () => {
         <Container size="lg">
           <Group position="apart" sx={{ height: "100%" }}>
             <ActionIcon component={Link} to="/">
-              <ImBooks size={26} color={theme.fn.primaryColor()} style={{ cursor: "pointer" }} />
+              <ImBooks size={26} color={theme.colors.primary[6]} style={{ cursor: "pointer" }} />
             </ActionIcon>
 
             <Group

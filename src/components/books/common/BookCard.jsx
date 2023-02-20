@@ -49,9 +49,7 @@ const BookCard = (props) => {
         <Avatar
           size="md"
           radius="xl"
-          src={
-            "https://images.unsplash.com/photo-1529068755536-a5ade0dcb4e8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=581&q=80"
-          }
+          src={process.env.REACT_APP_BASE_IMAGE_URL + props.book.owner.photo}
         />
         <Box>
           <Text size="sm">{props.book.owner.name}</Text>
