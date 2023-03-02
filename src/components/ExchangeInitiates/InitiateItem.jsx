@@ -12,9 +12,13 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import { AiOutlineStar } from "react-icons/ai";
+import { useState } from "react";
+
+import WriteReview from "../WriteReview/WriteReview";
 
 const InitiateItem = (props) => {
   const theme = useMantineTheme();
+  const [reviewOpen, setReviewOpen] = useState(false);
   const initiatorData = props.initiate.initiator.filter(
     (el) => el.initiatorUser._id === props.myProfile._id
   )[0];
@@ -170,6 +174,21 @@ const InitiateItem = (props) => {
             </Card>
           </Grid.Col>
         </Grid>
+        {initiatorData.acceptedAt ? (
+          <>
+            <Button color="secondary" mt={10} onClick={() => setReviewOpen(true)}>
+              Review
+            </Button>
+            <WriteReview
+              type="exchange"
+              ownerId={props.initiate.bookWanted.owner._id}
+              exchangeId={props.initiate._id}
+              opened={reviewOpen}
+              setOpened={setReviewOpen}
+              reviewedBy={initiatorData.initiatorUser._id}
+            />
+          </>
+        ) : null}
       </Card>
     );
   } else {

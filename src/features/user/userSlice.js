@@ -19,6 +19,8 @@ const initialState = {
   fetchUsersSuccess: false,
   changeRoleLoading: false,
   changeRoleSuccess: false,
+  writeReviewLoading: false,
+  writeReviewSuccess: false,
 };
 
 // Register a new user
@@ -63,6 +65,19 @@ export const changeUserRole = createAsyncThunk(
         newRole: data.newRole,
       });
       return response.data.user;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.error);
+    }
+  }
+);
+
+// Write a review
+export const writeReview = createAsyncThunk(
+  "user/write-review",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post(`/user/review/add`, data);
+      return response.data.review;
     } catch (err) {
       return rejectWithValue(err.response?.data?.error);
     }
@@ -175,6 +190,23 @@ const userSlice = createSlice({
       state.error = action.payload;
       state.isError = true;
       state.changeRoleSuccess = false;
+    });
+
+    // Write a review cases
+    builder.addCase(writeReview.pending, (state) => {
+      state.writeReviewLoading = true;
+    });
+    builder.addCase(writeReview.fulfilled, (state) => {
+      state.writeReviewLoading = false;
+      state.writeReviewSuccess = true;
+      state.isError = false;
+      state.error = null;
+    });
+    builder.addCase(writeReview.rejected, (state, action) => {
+      state.writeReviewLoading = false;
+      state.writeReviewSuccess = false;
+      state.isError = true;
+      state.error = action.payload;
     });
   },
 });

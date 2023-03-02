@@ -43,9 +43,10 @@ const Layout = (props) => {
       <Routes>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/books/add" element={<AddBook />} />
 
         <Route element={<PrivateRoute />}>
-          <Route path="/books/add" element={<AddBook />} />
+          {/* <Route path="/books/add" element={<AddBook />} /> */}
           <Route path="/" element={<AllBooks />} />
           <Route path="/sell" element={<SellBooks />} />
           <Route path="/sell/:bookId" element={<SellBook />} />

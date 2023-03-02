@@ -83,7 +83,7 @@ const BookCard = (props) => {
         </Group>
       </Card.Section>
       <Group position="apart" mt="lg">
-        {props.book.listing !== "Exchange" ? (
+        {props.book.listing === "Sell" ? (
           <Text size="xl" span weight={500}>
             Rs. {props.book.price}
           </Text>

@@ -17,8 +17,8 @@ import {
   IoPersonOutline,
   IoSettingsOutline,
 } from "react-icons/io5";
-import { BsChevronDown } from "react-icons/bs";
-import { MdOutlineLocalOffer, MdOutlineAdminPanelSettings } from "react-icons/md";
+import { BsChevronDown, BsCartCheck } from "react-icons/bs";
+import { MdOutlineLocalOffer, MdBookmarkAdd, MdOutlineAdminPanelSettings } from "react-icons/md";
 
 import { logoutUser } from "../../features/user/userSlice";
 import { removeMyProfile } from "../../features/profile/profileSlice";
@@ -99,10 +99,16 @@ const UserMenu = (props) => {
           >
             Initiates
           </Menu.Item>
+          <Menu.Item component={Link} to="/cart" icon={<BsCartCheck size={18} />}>
+            Cart
+          </Menu.Item>
 
           <Menu.Divider />
 
           <Menu.Label>Actions</Menu.Label>
+          <Menu.Item component={Link} to="/books/add" icon={<MdBookmarkAdd size={18} />}>
+            Add Book
+          </Menu.Item>
           {myProfile?.role === "admin" && (
             <Menu.Item
               component={Link}

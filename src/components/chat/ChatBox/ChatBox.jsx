@@ -173,10 +173,7 @@ const ChatBox = (props) => {
           <Box
             color="primary"
             sx={{ marginLeft: "auto", cursor: "pointer" }}
-            onClick={() => {
-              console.log(idToCall);
-              callUser(idToCall);
-            }}
+            onClick={() => callUser(idToCall)}
           >
             <HiOutlineVideoCamera color={theme.colors.primary[6]} size={26} />
           </Box>
