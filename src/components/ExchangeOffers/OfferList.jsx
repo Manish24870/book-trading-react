@@ -9,6 +9,7 @@ const OfferList = (props) => {
       }
       return (
         <OfferItem
+          owner={offer.owner}
           exchangeId={offer._id}
           key={initiatorData._id}
           initiatorItemId={initiatorData._id}

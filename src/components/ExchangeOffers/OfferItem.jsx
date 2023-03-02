@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Text,
@@ -19,9 +19,11 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { acceptOffer, rejectOffer, getMyOffers } from "../../features/exchange/exchangeSlice";
 import { successNotification } from "../../utils/notification/showNotification";
+import WriteReview from "../WriteReview/WriteReview";
 
 const OfferItem = (props) => {
   const theme = useMantineTheme();
+  const [reviewOpen, setReviewOpen] = useState(false);
   const dispatch = useDispatch();
 
   const { isAcceptOfferSuccess, isRejectOfferSuccess } = useSelector((state) => state.exchange);
@@ -198,6 +200,22 @@ const OfferItem = (props) => {
             </Card>
           </Grid.Col>
         </Grid>
+        {props.acceptedAt ? (
+          <>
+            <Button color="secondary" mt={10} onClick={() => setReviewOpen(true)}>
+              Review
+            </Button>
+            {/* props names are not uniform because of initiates */}
+            <WriteReview
+              type="exchange"
+              ownerId={props.initiatorUser._id}
+              exchangeId={props.exchangeId}
+              opened={reviewOpen}
+              setOpened={setReviewOpen}
+              reviewedBy={props.owner._id}
+            />
+          </>
+        ) : null}
       </Card>
     </Box>
   );
