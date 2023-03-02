@@ -27,7 +27,7 @@ const CheckoutSuccess = (props) => {
             </Text>
             <Text mb={10}>Order Id: {order._id}</Text>
             <Text mb={10}>Total Amount: Rs. {order.totalPrice}</Text>
-            <Text mb={10}>Date: {new Date(order.createdAt).toString()}</Text>
+            <Text mb={10}>Date: {new Date(order.createdAt).toLocaleString()}</Text>
           </Card>
         )}
       </Container>

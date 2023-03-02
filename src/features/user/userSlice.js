@@ -21,6 +21,8 @@ const initialState = {
   changeRoleSuccess: false,
   writeReviewLoading: false,
   writeReviewSuccess: false,
+  myOrders: null,
+  myOrdersLoading: false,
 };
 
 // Register a new user
@@ -78,6 +80,19 @@ export const writeReview = createAsyncThunk(
     try {
       const response = await axiosInstance.post(`/user/review/add`, data);
       return response.data.review;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.error);
+    }
+  }
+);
+
+// Fetch the current user orders
+export const getMyOrders = createAsyncThunk(
+  "user/get-my-orders",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.get("/user/my-orders");
+      return response.data.orders;
     } catch (err) {
       return rejectWithValue(err.response?.data?.error);
     }
@@ -205,6 +220,24 @@ const userSlice = createSlice({
     builder.addCase(writeReview.rejected, (state, action) => {
       state.writeReviewLoading = false;
       state.writeReviewSuccess = false;
+      state.isError = true;
+      state.error = action.payload;
+    });
+
+    // Get my orders cases
+    builder.addCase(getMyOrders.pending, (state, action) => {
+      state.myOrdersLoading = true;
+    });
+    builder.addCase(getMyOrders.fulfilled, (state, action) => {
+      state.myOrdersLoading = false;
+      state.isSuccess = true;
+      state.isError = false;
+      state.error = null;
+      state.myOrders = action.payload;
+    });
+    builder.addCase(getMyOrders.rejected, (state, action) => {
+      state.myOrdersLoading = false;
+      state.isSuccess = false;
       state.isError = true;
       state.error = action.payload;
     });
