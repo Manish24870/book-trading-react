@@ -60,7 +60,7 @@ const Auction = (props) => {
         {!auction.started ? (
           <AuctionNotStarted auction={auction} />
         ) : auction.started && auction.completed ? (
-          <AuctionEnded auction={auction} />
+          <AuctionEnded auction={auction} currentUserId={currentUserId} />
         ) : (
           <>
             <TopBidders

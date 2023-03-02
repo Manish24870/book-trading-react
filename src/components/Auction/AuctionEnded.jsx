@@ -1,6 +1,24 @@
-import { Box, Card, Container, Text, Flex, Group, Image, Badge, Avatar } from "@mantine/core";
+import {
+  Box,
+  Card,
+  Container,
+  Text,
+  Flex,
+  Group,
+  Button,
+  Image,
+  Badge,
+  Avatar,
+} from "@mantine/core";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import WriteReviewAuction from "./WriteReviewAuction";
+import { writeReview } from "../../features/user/userSlice";
 
 const AuctionEnded = (props) => {
+  const dispatch = useDispatch();
+  const [reviewOpen, setReviewOpen] = useState(false);
   // Calculate total current bid of current user
   let totalMoney = 0;
   let bidAmounts = {};
@@ -17,6 +35,18 @@ const AuctionEnded = (props) => {
   const winner = props.auction.participants.filter(
     (el) => el.participant._id === props.auction.winner?.participant
   );
+
+  const createReviewHandler = (item) => {
+    const reviewData = {
+      type: "auction",
+      reviewText: item.text,
+      reviewNumber: item.reviewNumber,
+      reviewedFor: props.auction.owner._id,
+      reviewedBy: props.currentUserId,
+      transaction: props.auction._id,
+    };
+    dispatch(writeReview(reviewData));
+  };
 
   return (
     <Container size="sm">
@@ -114,6 +144,22 @@ const AuctionEnded = (props) => {
                   Rs. {bidAmounts[winner[0].participant._id]}
                 </Text>
               </Box>
+              <WriteReviewAuction
+                opened={reviewOpen}
+                setOpened={setReviewOpen}
+                createReviewHandler={createReviewHandler}
+              />
+
+              {props.currentUserId === winner[0].participant._id ? (
+                <Button
+                  color="secondary"
+                  onClick={() => {
+                    setReviewOpen(true);
+                  }}
+                >
+                  Review
+                </Button>
+              ) : null}
             </Card>
           )}
         </Box>
