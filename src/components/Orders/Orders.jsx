@@ -8,7 +8,7 @@ import { getMyOrders } from "../../features/user/userSlice";
 
 const Orders = (props) => {
   const dispatch = useDispatch();
-  const { myOrders, myOrdersLoading, isSuccess, isError, error } = useSelector(
+  const { myOrders, myOrdersLoading, isSuccess, isError, error, user } = useSelector(
     (state) => state.user
   );
 
@@ -21,7 +21,9 @@ const Orders = (props) => {
   if (myOrdersLoading) {
     renderOrders = <Loading />;
   } else if (myOrders && isSuccess) {
-    renderOrders = myOrders.map((order) => <OrderItem key={order._id} order={order} />);
+    renderOrders = myOrders.map((order) => (
+      <OrderItem key={order._id} order={order} currentUser={user} />
+    ));
   }
 
   return (

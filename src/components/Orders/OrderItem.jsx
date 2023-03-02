@@ -1,11 +1,37 @@
 import { Card, Box, Flex, Text, Image, Avatar, Button } from "@mantine/core";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import WriteReviewOrder from "./WriteReviewOrder";
+import { writeReview } from "../../features/user/userSlice";
 
 const OrderItem = (props) => {
-  console.log("ORDER", props.order);
+  const dispatch = useDispatch();
+  const [reviewOpen, setReviewOpen] = useState(false);
+  const [reviewItem, setReviewItem] = useState("");
+
+  const createReviewHandler = (item) => {
+    const reviewData = {
+      type: "buy",
+      reviewText: item.text,
+      reviewNumber: item.reviewNumber,
+      reviewedFor: reviewItem.owner._id,
+      reviewedBy: props.currentUser.id,
+      transaction: reviewItem._id,
+      order: props.order._id,
+    };
+    dispatch(writeReview(reviewData));
+  };
+
   return (
     <Card withBorder shadow="md" mb={20}>
       {props.order.orderItems.map((item) => (
         <Box key={item._id} mb={10}>
+          <WriteReviewOrder
+            opened={reviewOpen}
+            setOpened={setReviewOpen}
+            createReviewHandler={createReviewHandler}
+          />
           <Flex gap={20} align="center" justify="space-between">
             <Image
               radius="sm"
@@ -19,7 +45,15 @@ const OrderItem = (props) => {
               <Avatar radius="xl" src={process.env.REACT_APP_BASE_IMAGE_URL + item.owner.photo} />
               <Text>{item.owner.name}</Text>
             </Flex>
-            <Button color="secondary">Review</Button>
+            <Button
+              color="secondary"
+              onClick={() => {
+                setReviewItem(item);
+                setReviewOpen(true);
+              }}
+            >
+              Review
+            </Button>
           </Flex>
         </Box>
       ))}
