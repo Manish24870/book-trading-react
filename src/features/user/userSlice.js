@@ -23,6 +23,8 @@ const initialState = {
   writeReviewSuccess: false,
   myOrders: null,
   myOrdersLoading: false,
+  myBooks: null,
+  myBooksLoading: false,
 };
 
 // Register a new user
@@ -98,6 +100,16 @@ export const getMyOrders = createAsyncThunk(
     }
   }
 );
+
+// Fetch all my books
+export const getMyBooks = createAsyncThunk("user/get-my-books", async (_, { rejectWithValue }) => {
+  try {
+    const response = await axiosInstance.get("/user/my-books");
+    return response.data.books;
+  } catch (err) {
+    return rejectWithValue(err.response?.data?.error);
+  }
+});
 
 const userSlice = createSlice({
   name: "user",
@@ -237,6 +249,24 @@ const userSlice = createSlice({
     });
     builder.addCase(getMyOrders.rejected, (state, action) => {
       state.myOrdersLoading = false;
+      state.isSuccess = false;
+      state.isError = true;
+      state.error = action.payload;
+    });
+
+    // Get my books cases
+    builder.addCase(getMyBooks.pending, (state, action) => {
+      state.myBooksLoading = true;
+    });
+    builder.addCase(getMyBooks.fulfilled, (state, action) => {
+      state.myBooksLoading = false;
+      state.isSuccess = true;
+      state.isError = false;
+      state.error = null;
+      state.myBooks = action.payload;
+    });
+    builder.addCase(getMyBooks.rejected, (state, action) => {
+      state.myBooksLoading = false;
       state.isSuccess = false;
       state.isError = true;
       state.error = action.payload;

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Tabs, Card } from "@mantine/core";
 
 import WalletTab from "./WalletTab/WalletTab";
-import PostsTab from "./PostsTab/PostsTab";
+import BooksTab from "./BooksTab/BooksTab";
 import ReviewsTab from "./ReviewsTab/Reviews";
 
 const ProfileTabs = (props) => {
@@ -13,14 +13,14 @@ const ProfileTabs = (props) => {
       <Tabs variant="pills" color="secondary" value={activeTab} onTabChange={setActiveTab}>
         <Tabs.List>
           <Tabs.Tab value={"first"}>Wallet</Tabs.Tab>
-          <Tabs.Tab value={"second"}>My Posts</Tabs.Tab>
+          <Tabs.Tab value={"second"}>My Books</Tabs.Tab>
           <Tabs.Tab value={"third"}>Reviews</Tabs.Tab>
         </Tabs.List>
         <Tabs.Panel value="first">
           <WalletTab />
         </Tabs.Panel>
         <Tabs.Panel value="second">
-          <PostsTab />
+          <BooksTab />
         </Tabs.Panel>
         <Tabs.Panel value="third">
           <ReviewsTab />
