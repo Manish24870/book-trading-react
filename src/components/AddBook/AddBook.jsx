@@ -119,6 +119,7 @@ const AddBook = (props) => {
       }));
       setShowForm(true);
       setSearchIsbnOpened(false);
+      scanIsbnOpened(false);
     }
   };
 
