@@ -17,7 +17,7 @@ const Timer = ({ deadline = new Date().toString(), label = "Timer" }) => {
   }, [parsedDeadline]);
 
   return (
-    <Box mt={30} mb={70}>
+    <Box mt={30} mb={40}>
       <Text align="center" size="lg" weight={500}>
         {label}
       </Text>

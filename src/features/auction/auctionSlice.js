@@ -12,6 +12,7 @@ const initialState = {
   isBidError: false,
   isBidSuccess: false,
   isPlaceBidLoading: false,
+  subscribeToAuctionLoading: false,
 };
 
 // Function to fetch an auction
@@ -51,6 +52,19 @@ export const placeBid = createAsyncThunk("auction/bid", async (data, { rejectWit
     return rejectWithValue(err.response?.data?.error);
   }
 });
+
+// Function to subscribe to the auction
+export const subscribeToAuction = createAsyncThunk(
+  "/auction/subscribe",
+  async (auctionId, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.get(`/auction/${auctionId}/subscribe`);
+      return response.data.auction;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.error);
+    }
+  }
+);
 
 const auctionSlice = createSlice({
   name: "auction",
@@ -117,6 +131,24 @@ const auctionSlice = createSlice({
       state.isBidError = true;
       state.error = action.payload;
       state.isBidSuccess = false;
+    });
+
+    // Cases for subscribing to auction
+    builder.addCase(subscribeToAuction.pending, (state, action) => {
+      state.subscribeToAuctionLoading = true;
+    });
+    builder.addCase(subscribeToAuction.fulfilled, (state, action) => {
+      state.subscribeToAuctionLoading = false;
+      state.isError = false;
+      state.error = null;
+      state.isSuccess = true;
+      state.auction.emailSubscribers = action.payload.emailSubscribers;
+    });
+    builder.addCase(subscribeToAuction.rejected, (state, action) => {
+      state.subscribeToAuctionLoading = false;
+      state.isError = true;
+      state.error = action.payload;
+      state.isSuccess = true;
     });
   },
 });

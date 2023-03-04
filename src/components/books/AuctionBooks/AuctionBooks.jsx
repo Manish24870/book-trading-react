@@ -30,7 +30,7 @@ const AuctionBooks = (props) => {
 
   if (fetchBooksLoading) {
     renderBooks = <Loading />;
-  } else if (isSuccess && books.length >= 0 && !fetchBooksLoading) {
+  } else if (isSuccess && books && books.length >= 0 && !fetchBooksLoading) {
     renderBooks = <BooksList books={books} />;
   }
 

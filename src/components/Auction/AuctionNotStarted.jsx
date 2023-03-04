@@ -1,8 +1,29 @@
-import { Box, Card, Text, Flex, Group, Image, Badge, Avatar } from "@mantine/core";
+import { Box, Card, Text, Flex, Group, Image, Badge, Avatar, Button } from "@mantine/core";
+import { IoMdNotificationsOutline } from "react-icons/io";
+import { MdOutlineNotificationsActive } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
 
 import Timer from "../common/Timer";
+import { subscribeToAuction } from "../../features/auction/auctionSlice";
 
 const AuctionNotStarted = (props) => {
+  const dispatch = useDispatch();
+  const currentUserId = useSelector((state) => state.user.user.id);
+  const { subscribeToAuctionLoading } = useSelector((state) => state.auction);
+
+  const subscribeHandler = () => {
+    dispatch(subscribeToAuction(props.auction._id));
+  };
+
+  const isSubscribed = () => {
+    let findIndex = props.auction.emailSubscribers.findIndex((el) => el._id === currentUserId);
+    if (findIndex > -1) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   return (
     <Card withBorder shadow="lg">
       {props.auction.schedule.isScheduled ? (
@@ -55,6 +76,21 @@ const AuctionNotStarted = (props) => {
               </Text>
             </Flex>
             <Timer deadline={props.auction.schedule.date} label="The auction will start in" />
+            <Flex justify="center">
+              {!isSubscribed() ? (
+                <Button
+                  leftIcon={<IoMdNotificationsOutline size={18} />}
+                  onClick={subscribeHandler}
+                  loading={subscribeToAuctionLoading}
+                >
+                  Subscribe
+                </Button>
+              ) : (
+                <Button color="green" leftIcon={<MdOutlineNotificationsActive size={18} />}>
+                  Subscribed
+                </Button>
+              )}
+            </Flex>
           </Card>
         </Box>
       ) : (
