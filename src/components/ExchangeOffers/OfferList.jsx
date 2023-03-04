@@ -19,6 +19,7 @@ const OfferList = (props) => {
           initiatedAt={initiatorData.initiatedAt}
           acceptedAt={initiatorData.acceptedAt}
           offerStatus={initiatorData.offerStatus}
+          feedback={initiatorData.feedback}
         />
       );
     });

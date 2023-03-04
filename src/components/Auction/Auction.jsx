@@ -31,8 +31,9 @@ const Auction = (props) => {
     dispatch(getWallet());
 
     socket.on("placedBidResponse", (data) => {
-      if (currentUserId !== data.bidderId) dispatch(updateAuctionAfterBid(data.auction));
-      // dispatch(updateAuctionAfterBid(data.auction));
+      if (currentUserId !== data.bidderId && params.bookId === data.auction.book._id) {
+        dispatch(updateAuctionAfterBid(data.auction));
+      }
     });
 
     // When the auction is started on the scheduled date
@@ -43,11 +44,13 @@ const Auction = (props) => {
       }
     });
     socket.on("auctionEnded", (endedAuction) => {
-      console.log("ENDED");
       // if (endedAuction?._id === auction?._id) {
-      dispatch(getAuction(params.bookId));
-      dispatch(getWallet());
+      // dispatch(getAuction(params.bookId));
+      // dispatch(getWallet());
       // }
+      if (endedAuction.book._id === params.bookId) {
+        window.location.reload();
+      }
     });
   }, []);
 

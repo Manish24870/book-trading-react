@@ -9,6 +9,7 @@ import {
   Badge,
   Card,
   Button,
+  HoverCard,
   Grid,
   UnstyledButton,
   useMantineTheme,
@@ -20,10 +21,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { acceptOffer, rejectOffer, getMyOffers } from "../../features/exchange/exchangeSlice";
 import { successNotification } from "../../utils/notification/showNotification";
 import WriteReview from "../WriteReview/WriteReview";
+import OfferActionModal from "./OfferActionModal";
 
 const OfferItem = (props) => {
   const theme = useMantineTheme();
   const [reviewOpen, setReviewOpen] = useState(false);
+  const [offerActionOpened, setOfferActionOpened] = useState(false);
+  const [feedbackText, setFeedbackText] = useState("");
+
   const dispatch = useDispatch();
 
   const { isAcceptOfferSuccess, isRejectOfferSuccess } = useSelector((state) => state.exchange);
@@ -53,6 +58,7 @@ const OfferItem = (props) => {
     const offerData = {
       exchangeId: props.exchangeId,
       initiatorItemId: props.initiatorItemId,
+      feedbackText,
     };
     dispatch(acceptOffer(offerData));
   };
@@ -62,6 +68,7 @@ const OfferItem = (props) => {
     const offerData = {
       exchangeId: props.exchangeId,
       initiatorItemId: props.initiatorItemId,
+      feedbackText,
     };
     dispatch(rejectOffer(offerData));
   };
@@ -72,14 +79,26 @@ const OfferItem = (props) => {
       return <Button variant="outline">Accepted</Button>;
     } else {
       return (
-        <Flex direction="column" sx={{ marginTop: "auto" }}>
-          <Button leftIcon={<IoCheckmarkOutline size={20} />} mb={12} onClick={offerAcceptHandler}>
-            Accept
-          </Button>
-          <Button color="red" leftIcon={<IoCloseOutline size={20} />} onClick={offerRejectHandler}>
-            Reject
-          </Button>
-        </Flex>
+        <>
+          <Button onClick={() => setOfferActionOpened(true)}>Accept / Reject</Button>
+          <OfferActionModal
+            opened={offerActionOpened}
+            setOpened={setOfferActionOpened}
+            offerRejectHandler={offerRejectHandler}
+            offerAcceptHandler={offerAcceptHandler}
+            feedbackText={feedbackText}
+            setFeedbackText={setFeedbackText}
+          />
+        </>
+
+        // <Flex direction="column" sx={{ marginTop: "auto" }}>
+        //   <Button leftIcon={<IoCheckmarkOutline size={20} />} mb={12} onClick={offerAcceptHandler}>
+        //     Accept
+        //   </Button>
+        //   <Button color="red" leftIcon={<IoCloseOutline size={20} />} onClick={offerRejectHandler}>
+        //     Reject
+        //   </Button>
+        // </Flex>
       );
     }
   };
@@ -162,6 +181,17 @@ const OfferItem = (props) => {
                 <Text>{new Date(props.acceptedAt).toLocaleString()}</Text>
               </Flex>
             ) : null}
+            {props.feedback && (
+              <HoverCard width={280} shadow="md">
+                <HoverCard.Target>
+                  <Button variant="subtle">Read Feedback</Button>
+                </HoverCard.Target>
+                <HoverCard.Dropdown>
+                  <Text size="sm">{props.feedback}</Text>
+                </HoverCard.Dropdown>
+              </HoverCard>
+            )}
+
             {checkOfferStatus()}
           </Grid.Col>
           <Grid.Col span={4}>
