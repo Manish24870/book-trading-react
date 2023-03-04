@@ -33,7 +33,7 @@ const UserRow = (props) => {
     if (changeRoleSuccess) {
       setOpened(false);
     }
-  }, [changeRoleSuccess]);
+  }, [changeRoleSuccess, changeRoleLoading]);
 
   return (
     <tr style={{ textAlign: "center" }}>
