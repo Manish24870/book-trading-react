@@ -7,6 +7,7 @@ import { BiCapsule } from "react-icons/bi";
 import LoadWalletModal from "./LoadWalletModal";
 import CashoutWalletModal from "./CashoutWalletModal";
 import Loading from "../../../common/Loading";
+import WalletTransactions from "./WalletTransactions";
 import { setupStripeAccount } from "../../../../features/stripe/stripeSlice";
 import { getWallet } from "../../../../features/wallet/walletSlice";
 import { errorNotification } from "../../../../utils/notification/showNotification";
@@ -47,61 +48,70 @@ const WalletTab = (props) => {
     renderWallet = <Loading />;
   } else if (isSuccess && wallet && !loadWalletLoading) {
     renderWallet = (
-      <Card
-        withBorder
-        color="secondary"
-        shadow="sm"
-        sx={{
-          backgroundColor: theme.colors.gray[2],
-        }}
-      >
-        <LoadWalletModal
-          opened={opened}
-          setOpened={setOpened}
-          loadWalletLoading={loadWalletLoading}
-        />
-        <CashoutWalletModal
-          opened={cashoutOpened}
-          setOpened={setCashoutOpened}
-          loadWalletLoading={loadWalletLoading}
-        />
-        <Group position="apart">
-          <Box>
-            <Title mb={8}>Rs. {Math.floor(wallet.amount)}</Title>
-            <Text color="dimmed">Current wallet balance</Text>
-          </Box>
-          {wallet.stripeOnboarded ? (
-            <Flex direction="column" gap={12}>
+      <Box>
+        <Card
+          withBorder
+          color="secondary"
+          shadow="sm"
+          sx={{
+            backgroundColor: theme.colors.gray[2],
+          }}
+        >
+          <LoadWalletModal
+            opened={opened}
+            setOpened={setOpened}
+            loadWalletLoading={loadWalletLoading}
+          />
+          <CashoutWalletModal
+            opened={cashoutOpened}
+            setOpened={setCashoutOpened}
+            loadWalletLoading={loadWalletLoading}
+          />
+          <Group position="apart">
+            <Box>
+              <Title mb={8}>Rs. {Math.floor(wallet.amount)}</Title>
+              <Text color="dimmed">Current wallet balance</Text>
+            </Box>
+            {wallet.stripeOnboarded ? (
+              <Flex direction="column" gap={12}>
+                <Button
+                  variant="outline"
+                  leftIcon={<IoCardOutline size={20} />}
+                  loading={loadWalletLoading}
+                  onClick={() => setOpened(true)}
+                >
+                  Load Wallet
+                </Button>
+                <Button
+                  variant="outline"
+                  color="secondary"
+                  leftIcon={<IoCardOutline size={20} />}
+                  loading={loadWalletLoading}
+                  onClick={() => setCashoutOpened(true)}
+                >
+                  Cashout
+                </Button>
+              </Flex>
+            ) : (
               <Button
                 variant="outline"
-                leftIcon={<IoCardOutline size={20} />}
-                loading={loadWalletLoading}
-                onClick={() => setOpened(true)}
+                leftIcon={<BiCapsule size={20} />}
+                loading={setupStripeAccountLoading}
+                onClick={() => dispatch(setupStripeAccount())}
               >
-                Load Wallet
+                Setup Wallet
               </Button>
-              <Button
-                variant="outline"
-                color="secondary"
-                leftIcon={<IoCardOutline size={20} />}
-                loading={loadWalletLoading}
-                onClick={() => setCashoutOpened(true)}
-              >
-                Cashout
-              </Button>
-            </Flex>
-          ) : (
-            <Button
-              variant="outline"
-              leftIcon={<BiCapsule size={20} />}
-              loading={setupStripeAccountLoading}
-              onClick={() => dispatch(setupStripeAccount())}
-            >
-              Setup Wallet
-            </Button>
-          )}
-        </Group>
-      </Card>
+            )}
+          </Group>
+        </Card>
+        <Text weight={500} size="lg" mt={30} mb={16}>
+          Recent transactions
+        </Text>
+        <WalletTransactions
+          stripeTransactions={wallet.stripeTransactions}
+          appTransactions={wallet.appTransactions}
+        />
+      </Box>
     );
   }
 
