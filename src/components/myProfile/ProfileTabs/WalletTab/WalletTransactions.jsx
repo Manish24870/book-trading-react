@@ -35,7 +35,7 @@ const WalletTransactions = (props) => {
         </Flex>
       </Card>
       {combinedTransactions.map((el) => (
-        <Card withBorder shadow="lg" mb={14}>
+        <Card withBorder shadow="lg" mb={14} key={el._id}>
           <Flex align="center" justify="space-between">
             <Text weight={500}>{el.transactionType}</Text>
 

@@ -46,6 +46,7 @@ const schema = Joi.object({
   price: Joi.number().required().messages({
     "string.empty": "Book price is required",
   }),
+  maturity: Joi.any(),
 });
 
 const AddBook = (props) => {
@@ -95,6 +96,7 @@ const AddBook = (props) => {
       publishedDate: "",
       publisher: "",
       language: "",
+      maturity: "",
       bookQuality: "",
       images: [],
       price: 0,
@@ -106,6 +108,7 @@ const AddBook = (props) => {
     const response = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`);
     if (response.data.items.length > 0) {
       const book = response.data.items[0].volumeInfo;
+      console.log(book);
       form.setValues((prev) => ({
         ...prev,
         title: book.title,
@@ -113,13 +116,14 @@ const AddBook = (props) => {
         category: book.categories,
         description: book.description,
         isbn: isbn,
+        maturity: book.maturityRating ? book.maturityRating : "",
         publishedDate: book.publishedDate,
         publisher: book.publisher ? book.publisher : "",
         language: book.language,
       }));
       setShowForm(true);
       setSearchIsbnOpened(false);
-      scanIsbnOpened(false);
+      setScanIsbnOpened(false);
     }
   };
 

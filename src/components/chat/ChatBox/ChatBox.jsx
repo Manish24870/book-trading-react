@@ -7,6 +7,7 @@ import {
   Divider,
   useMantineTheme,
   Button,
+  ScrollArea,
   TextInput,
 } from "@mantine/core";
 import { useEffect, useState, useRef } from "react";
@@ -139,9 +140,11 @@ const ChatBox = (props) => {
     renderMessages = <Loading />;
   } else if (!props.selectedConversation) {
     renderMessages = (
-      <Text weight={500} size="md" align="center" color="primary">
-        Select a conversation
-      </Text>
+      <ScrollArea offsetScrollbars sx={{ height: "600px" }}>
+        <Text weight={500} size="md" align="center" color="primary">
+          Select a conversation
+        </Text>
+      </ScrollArea>
     );
   } else if (conversationMessages && fetchConversationMessagesSuccess) {
     const friendInfo = props.selectedConversation.members.find(
@@ -180,7 +183,8 @@ const ChatBox = (props) => {
         </Flex>
         <Divider />
         {/* <Flex direction="column" justify="space-between" sx={{ height: "70vh" }}> */}
-        <Flex direction="column" justify="space-between" sx={{ height: "70vh" }}>
+        {/* <Flex direction="column" justify="space-between" sx={{ height: "70vh" }}> */}
+        <Flex direction="column" justify="space-between">
           {stream && callAccepted && !callEnded ? (
             <Box sx={{ textAlign: "center" }}>
               {/* <video playsInline muted ref={myVideo} autoPlay style={{ width: "50%" }} /> */}

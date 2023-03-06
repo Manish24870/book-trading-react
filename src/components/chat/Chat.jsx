@@ -78,7 +78,8 @@ const Chat = (props) => {
     renderChat = <Loading />;
   } else if (isSuccess && conversations) {
     renderChat = (
-      <Grid columns={12} sx={{ height: "90vh" }}>
+      // <Grid columns={12} sx={{ height: "600px" }}>
+      <Grid columns={12}>
         <Grid.Col
           span={3}
           sx={(theme) => ({
@@ -111,7 +112,7 @@ const Chat = (props) => {
   return (
     <Box mt={10}>
       <Container size="lg">
-        <Card withBorder shadow="lg" p={0} sx={{ maxHeight: "85vh" }}>
+        <Card withBorder shadow="lg" p={0}>
           {renderChat}
         </Card>
       </Container>

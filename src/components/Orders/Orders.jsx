@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Box, Container } from "@mantine/core";
+import { Box, Container, Text } from "@mantine/core";
 import { useSelector, useDispatch } from "react-redux";
 
 import Loading from "../common/Loading";
@@ -28,7 +28,12 @@ const Orders = (props) => {
 
   return (
     <Box mt={20}>
-      <Container size="lg">{renderOrders}</Container>
+      <Container size="lg">
+        <Text weight={600} size="lg" mb={16}>
+          My Orders
+        </Text>
+        {renderOrders}
+      </Container>
     </Box>
   );
 };

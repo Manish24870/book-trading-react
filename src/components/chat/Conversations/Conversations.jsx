@@ -30,7 +30,8 @@ const Conversations = (props) => {
         </Tabs.List>
         <Tabs.Panel value="messages">
           {" "}
-          <ScrollArea sx={{ height: "75vh" }}>
+          {/* <ScrollArea sx={{ height: "75vh" }}> */}
+          <ScrollArea>
             {props.conversations.map((conversation) => (
               <Conversation
                 key={conversation._id}
@@ -43,7 +44,8 @@ const Conversations = (props) => {
           </ScrollArea>
         </Tabs.Panel>
         <Tabs.Panel value="users">
-          <ScrollArea sx={{ height: "75vh" }}>
+          <ScrollArea sx={{ height: "500px" }}>
+            {/* <ScrollArea> */}
             <OnlineUsers
               userInfo={props.userInfo}
               onlineUsers={props.onlineUsers}
