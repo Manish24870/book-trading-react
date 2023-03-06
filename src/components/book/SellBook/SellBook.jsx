@@ -7,6 +7,7 @@ import { reset, fetchBook } from "../../../features/book/bookSlice";
 import Loading from "../../common/Loading";
 import SellBookInfo from "./SellBookInfo";
 import BookDiscussion from "../common/BookDiscussion";
+import RecommendedBooks from "../common/RecommendedBooks";
 import { errorNotification } from "../../../utils/notification/showNotification";
 
 const SellBook = (props) => {
@@ -38,10 +39,12 @@ const SellBook = (props) => {
   if (fetchBookLoading) {
     renderBook = <Loading />;
   } else if (isSuccess && book && !fetchBookLoading) {
+    console.log(book);
     renderBook = (
       <>
         <SellBookInfo book={book} curentUserId={curentUserId} />
         <BookDiscussion discussion={book.discussion} />
+        <RecommendedBooks recommendedBooks={book.recommendedBooks} />
       </>
     );
   }

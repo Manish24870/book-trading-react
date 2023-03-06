@@ -73,7 +73,7 @@ const SimilarListingItem = (props) => {
                 </Text>
               ) : props.listing.listing === "Auction" ? (
                 <Text size="lg" weight={600} mt={10}>
-                  {"Rs. " + props.listing.winner?.bid}
+                  {"Rs. " + props.listing.winner?.bid || 0}
                 </Text>
               ) : null}
 
