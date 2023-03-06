@@ -25,6 +25,8 @@ const initialState = {
   myOrdersLoading: false,
   myBooks: null,
   myBooksLoading: false,
+  myAuctionWins: null,
+  myAuctionWinsLoading: false,
 };
 
 // Register a new user
@@ -110,6 +112,20 @@ export const getMyBooks = createAsyncThunk("user/get-my-books", async (_, { reje
     return rejectWithValue(err.response?.data?.error);
   }
 });
+
+// Fetch all my books
+export const getMyAuctionWins = createAsyncThunk(
+  "user/get-my-auction-wins",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.get("/auction/my-wins");
+      return response.data.auctions;
+      return response.data.books;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.error);
+    }
+  }
+);
 
 const userSlice = createSlice({
   name: "user",
@@ -270,6 +286,24 @@ const userSlice = createSlice({
       state.isSuccess = false;
       state.isError = true;
       state.error = action.payload;
+    });
+
+    // Get my auction wins cases
+    builder.addCase(getMyAuctionWins.pending, (state, action) => {
+      state.myAuctionWinsLoading = true;
+    });
+    builder.addCase(getMyAuctionWins.fulfilled, (state, action) => {
+      state.myAuctionWinsLoading = false;
+      state.isError = false;
+      state.error = null;
+      state.isSuccess = true;
+      state.myAuctionWins = action.payload;
+    });
+    builder.addCase(getMyAuctionWins.rejected, (state, action) => {
+      state.myAuctionWinsLoading = false;
+      state.isError = true;
+      state.error = action.payload;
+      state.isSuccess = false;
     });
   },
 });

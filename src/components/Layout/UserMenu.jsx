@@ -19,7 +19,7 @@ import {
 } from "react-icons/io5";
 import { BsChevronDown, BsCartCheck } from "react-icons/bs";
 import { MdOutlineLocalOffer, MdBookmarkAdd, MdOutlineAdminPanelSettings } from "react-icons/md";
-import { HiOutlineShoppingBag } from "react-icons/hi2";
+import { HiOutlineShoppingBag, HiOutlineChartBar } from "react-icons/hi2";
 
 import { logoutUser } from "../../features/user/userSlice";
 import { removeMyProfile } from "../../features/profile/profileSlice";
@@ -93,6 +93,9 @@ const UserMenu = (props) => {
 
           <Menu.Item component={Link} to="/orders" icon={<HiOutlineShoppingBag size={18} />}>
             Orders
+          </Menu.Item>
+          <Menu.Item component={Link} to="/auction-wins" icon={<HiOutlineChartBar size={18} />}>
+            Auction Wins
           </Menu.Item>
 
           <Menu.Item component={Link} to="/books/add" icon={<MdBookmarkAdd size={18} />}>

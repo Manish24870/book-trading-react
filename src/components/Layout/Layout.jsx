@@ -25,6 +25,7 @@ import Chat from "../chat/Chat";
 import ExchangeInitiates from "../ExchangeInitiates/ExchangeInitiates";
 import Admin from "../admin/Admin";
 import Orders from "../Orders/Orders";
+import AuctionWins from "../AuctionWins/AuctionWins";
 
 import { initializeCartItems } from "../../features/cart/cartSlice";
 import isEmpty from "../../utils/isEmpty";
@@ -56,6 +57,7 @@ const Layout = (props) => {
           <Route path="/exchange/initiates" element={<ExchangeInitiates />} />
           <Route path="/exchange/:bookId" element={<ExchangeBook />} />
           <Route path="/auction" element={<AuctionBooks />} />
+          <Route path="/auction-wins" element={<AuctionWins />} />
           <Route path="/auction/:bookId" element={<AuctionBook />} />
           <Route path="/auction/:bookId/settings" element={<AuctionBookSettings />} />
           <Route path="/auction/:bookId/running" element={<Auction />} />
