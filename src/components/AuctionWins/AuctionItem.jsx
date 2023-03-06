@@ -13,9 +13,7 @@ import {
   useMantineTheme,
   Chip,
 } from "@mantine/core";
-import { Carousel } from "@mantine/carousel";
 import { Link } from "react-router-dom";
-import { IoStarOutline } from "react-icons/io5";
 
 const AuctionItem = (props) => {
   const theme = useMantineTheme();

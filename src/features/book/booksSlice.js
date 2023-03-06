@@ -12,6 +12,8 @@ const initialState = {
   adminBooks: null,
   changeAvailabilitySuccess: false,
   changeAvailabilityLoading: false,
+  similarBookListings: null,
+  similarBookListingsLoading: false,
 };
 
 // Fetch all the books
@@ -49,6 +51,19 @@ export const changeBookAvailability = createAsyncThunk(
         newAvailability: data.newAvailability,
       });
       return response.data.book;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.error);
+    }
+  }
+);
+
+// Fetch to get similar listings
+export const fetchSimilarListings = createAsyncThunk(
+  "books/similar-listings",
+  async (isbn, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.get(`/books/similar-listings/${isbn}`);
+      return response.data.books;
     } catch (err) {
       return rejectWithValue(err.response?.data?.error);
     }
@@ -123,6 +138,17 @@ const booksSlice = createSlice({
       state.changeAvailabilityLoading = false;
       state.error = action.payload;
       state.isError = true;
+    });
+    // Fetch similar listings cases
+    builder.addCase(fetchSimilarListings.pending, (state, action) => {
+      state.similarBookListingsLoading = true;
+    });
+    builder.addCase(fetchSimilarListings.fulfilled, (state, action) => {
+      state.similarBookListingsLoading = false;
+      state.similarBookListings = action.payload;
+    });
+    builder.addCase(fetchSimilarListings.rejected, (state, action) => {
+      state.similarBookListingsLoading = false;
     });
   },
 });

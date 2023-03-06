@@ -13,6 +13,7 @@ const initialState = {
   isDiscussionSuccess: false,
   createQuestionLoading: false,
   createAnswerLoading: false,
+  addBookSuccess: false,
 };
 
 // Add a new book
@@ -99,11 +100,14 @@ const bookSlice = createSlice({
       state.addBookLoading = false;
       state.error = null;
       state.isSuccess = true;
+      state.addBookSuccess = true;
     });
     builder.addCase(addBook.rejected, (state, action) => {
       state.addBookLoading = false;
       state.error = action.payload;
       state.isError = true;
+      state.isSuccess = false;
+      state.addBookSuccess = false;
     });
 
     // Fetch book cases

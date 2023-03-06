@@ -22,10 +22,6 @@ import {
   createExchange,
   getMyInitiates,
 } from "../../../features/exchange/exchangeSlice";
-import {
-  errorNotification,
-  successNotification,
-} from "../../../utils/notification/showNotification";
 
 const bookQualityText = {
   1: "Poor",
@@ -51,6 +47,7 @@ const ExchangeBookInfo = (props) => {
   // If exchange is successfully removed or there is an error
   useEffect(() => {
     if (createExchangeSuccess) {
+      window.location.reload();
       setOpened(false);
       dispatch(getMyInitiates());
     }
@@ -75,9 +72,10 @@ const ExchangeBookInfo = (props) => {
     if (
       myInitiates &&
       myInitiates.some((initiate) => {
-        return initiate.initiator.some(
+        return initiate?.initiator?.some(
           (el) =>
-            el.initiatorUser == props.currentUserId && initiate.bookWanted._id == currentBookId
+            el.initiatorUser?._id == props.currentUserId &&
+            initiate?.bookWanted?._id == currentBookId
         );
       })
     ) {

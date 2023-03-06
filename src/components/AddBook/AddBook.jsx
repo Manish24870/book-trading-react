@@ -57,7 +57,9 @@ const AddBook = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { error, isError, isSuccess, addBookLoading } = useSelector((state) => state.book);
+  const { error, isError, isSuccess, addBookSuccess, addBookLoading } = useSelector(
+    (state) => state.book
+  );
 
   useEffect(() => {
     // Check for book adding error
@@ -73,16 +75,16 @@ const AddBook = (props) => {
     }
 
     // Check for book add success
-    if (isSuccess) {
+    if (addBookSuccess) {
       successNotification({
         title: "Book add successful",
         message: "Book successfully added as a listing",
       });
-      navigate("/shop");
+      navigate("/");
     }
 
     dispatch(reset());
-  }, [dispatch, isSuccess, isError]);
+  }, [dispatch, isSuccess, isError, addBookSuccess]);
 
   const form = useForm({
     validate: joiResolver(schema),
@@ -108,7 +110,6 @@ const AddBook = (props) => {
     const response = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`);
     if (response.data.items.length > 0) {
       const book = response.data.items[0].volumeInfo;
-      console.log(book);
       form.setValues((prev) => ({
         ...prev,
         title: book.title,
@@ -199,6 +200,7 @@ const AddBook = (props) => {
             />
           </Flex>
         </Card>
+
         {showForm ? (
           <AddBookForm
             form={form}

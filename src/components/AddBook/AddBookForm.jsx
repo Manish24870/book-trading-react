@@ -11,8 +11,10 @@ import {
   Card,
   Textarea,
 } from "@mantine/core";
+import { useState } from "react";
 
 import AddBookImages from "./AddBookImages";
+import SimilarListingsModal from "./SimilarListingsModal";
 
 const listingFor = ["Sell", "Exchange", "Auction"];
 
@@ -95,11 +97,29 @@ const bookQuality = [
 ];
 
 const AddBookForm = ({ form, formSubmitHandler, onImageDropHandler, addBookLoading }) => {
+  const [listingOpened, setListingOpened] = useState(false);
+
   return (
     <Card withBorder mx="auto" shadow="xl" p={20} mt={20}>
-      <Title order={4} mb={16}>
-        Book details
-      </Title>
+      <SimilarListingsModal
+        opened={listingOpened}
+        setOpened={setListingOpened}
+        isbn={form.values.isbn}
+      />
+      <Flex justify="space-between">
+        {" "}
+        <Title order={4} mb={16}>
+          Book details
+        </Title>
+        <Button
+          variant="outline"
+          disabled={!form.values.isbn}
+          onClick={() => setListingOpened(true)}
+        >
+          Similar listings
+        </Button>
+      </Flex>
+
       <form onSubmit={formSubmitHandler}>
         <Flex direction="column">
           <Select

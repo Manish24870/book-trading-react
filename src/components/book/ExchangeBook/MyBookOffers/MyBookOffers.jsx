@@ -42,7 +42,7 @@ const MyBookOffers = (props) => {
   useEffect(() => {
     if (createExchangeSuccess) {
       props.setOpened(false);
-      successNotification({ title: "Success", message: "Book exchange initiated successfully" });
+      // successNotification({ title: "Success", message: "Book exchange initiated successfully" });
       // navigate(0);
       dispatch(getMyInitiates());
       // navigate(`/exchange/${currentBookId}`, { replace: true });
