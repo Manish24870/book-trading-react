@@ -25,18 +25,26 @@ const RecommendedBooks = (props) => {
       <Text weight={600} mb={10} size="lg">
         Recommended books
       </Text>
-      <SimpleGrid cols={3} spacing={50}>
+      <SimpleGrid
+        cols={3}
+        breakpoints={[
+          { maxWidth: "lg", cols: 3, spacing: "lg" },
+          { maxWidth: "md", cols: 2, spacing: "sm" },
+          { maxWidth: "sm", cols: 1, spacing: "sm" },
+        ]}
+        spacing={50}
+      >
         {props.recommendedBooks.slice(0, 3).map((book) => (
           <Card withBorder shadow="lg" key={book._id}>
-            <Indicator color="secondary" size={26} label={Number(book.cosineSimilarity).toFixed(1)}>
-              <Carousel withIndicators loop>
-                {book.images.map((image) => (
-                  <Carousel.Slide key={image._id}>
-                    <Image src={process.env.REACT_APP_BASE_IMAGE_URL + image.url} height={300} />
-                  </Carousel.Slide>
-                ))}
-              </Carousel>
-            </Indicator>
+            {/* <Indicator color="secondary" size={26} label={Number(book.cosineSimilarity).toFixed(2)}> */}
+            <Carousel withIndicators loop>
+              {book.images.map((image) => (
+                <Carousel.Slide key={image._id}>
+                  <Image src={process.env.REACT_APP_BASE_IMAGE_URL + image.url} height={300} />
+                </Carousel.Slide>
+              ))}
+            </Carousel>
+            {/* </Indicator> */}
             <Group position="apart" mt="lg" mb="md">
               <Box sx={{ alignSelf: "flex-start" }}>
                 <Text weight={500} size="md">

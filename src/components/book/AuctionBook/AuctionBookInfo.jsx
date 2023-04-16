@@ -33,17 +33,17 @@ const AuctionBookInfo = (props) => {
     <Box>
       <Group position="apart">
         <Title order={4}>Book Details</Title>
-        <div>
+        {/* <div>
           <Button mr={20} variant="outline" size="xs">
             Edit
           </Button>
           <Button variant="outline" color="red" size="xs">
             Delete
           </Button>
-        </div>
+        </div> */}
       </Group>
       <Grid columns={12} gutter="xl">
-        <Grid.Col span={4}>
+        <Grid.Col span={12} md={4}>
           <Box>
             <Carousel withIndicators loop>
               {props.book.images.map((image) => (
@@ -59,7 +59,7 @@ const AuctionBookInfo = (props) => {
             </Carousel>
           </Box>
         </Grid.Col>
-        <Grid.Col span={8}>
+        <Grid.Col span={12} sm={8}>
           <Box>
             <Title order={3} mb={2}>
               {props.book.title}

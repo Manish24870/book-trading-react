@@ -25,7 +25,16 @@ const BooksTab = (props) => {
 
   return (
     <Box mt={16}>
-      <SimpleGrid cols={3}>{renderBooks}</SimpleGrid>
+      <SimpleGrid
+        cols={3}
+        breakpoints={[
+          { maxWidth: "lg", cols: 3, spacing: "lg" },
+          { maxWidth: "md", cols: 2, spacing: "sm" },
+          { maxWidth: "sm", cols: 1, spacing: "sm" },
+        ]}
+      >
+        {renderBooks}
+      </SimpleGrid>
     </Box>
   );
 };

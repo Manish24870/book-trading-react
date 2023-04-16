@@ -53,22 +53,22 @@ const BookListItem = (props) => {
       </Grid.Col>
       <Grid.Col span={2}>
         <Group position="center" spacing="lg" sx={{ textAlign: "center" }}>
-          <ActionIcon
+          {/* <ActionIcon
             size="md"
             color="primary"
-            onClick={() => dispatch(decreaseCartQuantity(props.cartItem._id))}
+            // onClick={() => dispatch(decreaseCartQuantity(props.cartItem._id))}
             disabled={props.cartItem.quantity === 1}
           >
             <BsDash size={22} />
-          </ActionIcon>
+          </ActionIcon> */}
           <Text weight={500}>{props.cartItem.quantity}</Text>
-          <ActionIcon
+          {/* <ActionIcon
             size="md"
             color="primary"
-            onClick={() => dispatch(increaseCartQuantity(props.cartItem._id))}
+            // onClick={() => dispatch(increaseCartQuantity(props.cartItem._id))}
           >
             <BsPlus size={22} />
-          </ActionIcon>
+          </ActionIcon> */}
         </Group>
       </Grid.Col>
       <Grid.Col span={2}>

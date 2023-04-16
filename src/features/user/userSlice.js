@@ -4,7 +4,7 @@ import jwt_decode from "jwt-decode";
 import axiosInstance from "../../utils/axios/axiosInstance";
 import setAuthToken from "../../utils/auth/setAuthToken";
 import isEmpty from "../../utils/isEmpty";
-import { successNotification } from "../../utils/notification/showNotification";
+import { successNotification, errorNotification } from "../../utils/notification/showNotification";
 import { removeUserProfile, getUserProfile } from "../profile/profileSlice";
 
 const initialState = {
@@ -27,6 +27,9 @@ const initialState = {
   myBooksLoading: false,
   myAuctionWins: null,
   myAuctionWinsLoading: false,
+  resetPasswordLoading: false,
+  checkResetValidityLoading: false,
+  createNewPasswordLoading: false,
 };
 
 // Register a new user
@@ -71,6 +74,48 @@ export const changeUserRole = createAsyncThunk(
         newRole: data.newRole,
       });
       return response.data.user;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.error);
+    }
+  }
+);
+
+// Reset user password
+export const resetPassword = createAsyncThunk(
+  "user/reset-password",
+  async (email, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post(`/user/reset-password`, email);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.error);
+    }
+  }
+);
+
+// Check the validity of reset string
+export const checkResetValidity = createAsyncThunk(
+  "user/check-reset-validity",
+  async (resetString, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post(`/user/check-reset-string/${resetString}`);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.error);
+    }
+  }
+);
+
+// Create a new password
+export const createNewPassword = createAsyncThunk(
+  "user/create-new-password",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post(
+        `/user/reset-password/${data.resetString}`,
+        data.formData
+      );
+      return response.data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.error);
     }
@@ -233,6 +278,53 @@ const userSlice = createSlice({
       state.error = action.payload;
       state.isError = true;
       state.changeRoleSuccess = false;
+    });
+
+    // Reset password cases
+    builder.addCase(resetPassword.pending, (state, action) => {
+      state.resetPasswordLoading = true;
+    });
+    builder.addCase(resetPassword.fulfilled, (state, action) => {
+      state.resetPasswordLoading = false;
+      successNotification({
+        title: "Reset link created",
+        message: "Password reset link has been sent to your email",
+      });
+    });
+    builder.addCase(resetPassword.rejected, (state, action) => {
+      state.resetPasswordLoading = false;
+    });
+
+    // Check reset string validity cases
+    builder.addCase(checkResetValidity.pending, (state, action) => {
+      state.checkResetValidityLoading = true;
+    });
+    builder.addCase(checkResetValidity.fulfilled, (state, action) => {
+      state.checkResetValidityLoading = false;
+    });
+    builder.addCase(checkResetValidity.rejected, (state, action) => {
+      state.checkResetValidityLoading = false;
+      window.location.href = "/login";
+      errorNotification({
+        title: "Invalid link",
+        message: "The provided password reset link is invalid.",
+      });
+    });
+
+    // Check reset string validity cases
+    builder.addCase(createNewPassword.pending, (state, action) => {
+      state.createNewPasswordLoading = true;
+    });
+    builder.addCase(createNewPassword.fulfilled, (state, action) => {
+      state.createNewPasswordLoading = false;
+      window.location.href = "/login";
+      successNotification({
+        title: "Success",
+        message: "Your password has been reset successfully",
+      });
+    });
+    builder.addCase(createNewPassword.rejected, (state, action) => {
+      state.createNewPasswordLoading = false;
     });
 
     // Write a review cases

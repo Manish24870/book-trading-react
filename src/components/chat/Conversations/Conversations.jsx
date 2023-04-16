@@ -47,7 +47,7 @@ const Conversations = (props) => {
           <ScrollArea sx={{ height: "500px" }}>
             {/* <ScrollArea> */}
             <OnlineUsers
-              userInfo={props.userInfo}
+              userInfo={props.myProfile}
               onlineUsers={props.onlineUsers}
               setSelectedConversation={props.setSelectedConversation}
             />

@@ -26,6 +26,8 @@ import ExchangeInitiates from "../ExchangeInitiates/ExchangeInitiates";
 import Admin from "../admin/Admin";
 import Orders from "../Orders/Orders";
 import AuctionWins from "../AuctionWins/AuctionWins";
+import ResetPassword from "../auth/ResetPassword/ResetPassword";
+import NewPassword from "../auth/ResetPassword/NewPassword";
 
 import { initializeCartItems } from "../../features/cart/cartSlice";
 import isEmpty from "../../utils/isEmpty";
@@ -46,6 +48,8 @@ const Layout = (props) => {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/books/add" element={<AddBook />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/new-password/:passwordResetString" element={<NewPassword />} />
 
         <Route element={<PrivateRoute />}>
           {/* <Route path="/books/add" element={<AddBook />} /> */}

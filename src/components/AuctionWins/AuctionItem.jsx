@@ -14,12 +14,17 @@ import {
   Chip,
 } from "@mantine/core";
 import { Link } from "react-router-dom";
+import { useMediaQuery } from "@mantine/hooks";
 
 const AuctionItem = (props) => {
   const theme = useMantineTheme();
+  const smallScreen = useMediaQuery("(max-width: 48em)");
+  const mediumScreen = useMediaQuery("(max-width: 64em)");
+  const largeScreen = useMediaQuery("(max-width: 74em)");
+
   return (
     <Card withBorder shadow="lg" p="sm" mb={26}>
-      <Flex justify="space-between">
+      <Flex direction={smallScreen ? "column" : "row"} justify={"space-between"}>
         <Card withBorder>
           <Flex gap={30}>
             <Image

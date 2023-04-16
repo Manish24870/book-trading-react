@@ -1,0 +1,237 @@
+Date : 2023-03-07 19:29:42
+Directory : d:\Projects\College Projects\Book Trading\book-trading-react
+Total : 130 files,  43415 codes, 427 comments, 1015 blanks, all 44857 lines
+
+Languages
++----------------+------------+------------+------------+------------+------------+
+| language       | files      | code       | comment    | blank      | total      |
++----------------+------------+------------+------------+------------+------------+
+| JSON           |          3 |     34,280 |          0 |          3 |     34,283 |
+| JavaScript JSX |        103 |      7,500 |        118 |        832 |      8,450 |
+| JavaScript     |         19 |      1,576 |        306 |        171 |      2,053 |
+| CSS            |          2 |         38 |          3 |          5 |         46 |
+| HTML           |          1 |         18 |          0 |          2 |         20 |
+| Markdown       |          1 |          2 |          0 |          2 |          4 |
+| XML            |          1 |          1 |          0 |          0 |          1 |
++----------------+------------+------------+------------+------------+------------+
+
+Directories
++------------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                                     | files      | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                                        |        130 |     43,415 |        427 |      1,015 |     44,857 |
+| . (Files)                                                                                                                                |          3 |     34,257 |          0 |          4 |     34,261 |
+| public                                                                                                                                   |          2 |         43 |          0 |          3 |         46 |
+| src                                                                                                                                      |        125 |      9,115 |        427 |      1,008 |     10,550 |
+| src (Files)                                                                                                                              |          3 |         55 |          3 |         10 |         68 |
+| src\app                                                                                                                                  |          1 |         26 |          0 |          4 |         30 |
+| src\assets                                                                                                                               |          1 |          1 |          0 |          0 |          1 |
+| src\assets\images                                                                                                                        |          1 |          1 |          0 |          0 |          1 |
+| src\components                                                                                                                           |        103 |      7,493 |        118 |        829 |      8,440 |
+| src\components\AddBook                                                                                                                   |          8 |        646 |          5 |         59 |        710 |
+| src\components\Auction                                                                                                                   |         10 |        773 |         15 |         75 |        863 |
+| src\components\Auction (Files)                                                                                                           |          6 |        669 |         13 |         58 |        740 |
+| src\components\AuctionWins                                                                                                               |          2 |        152 |          0 |         11 |        163 |
+| src\components\Auction\TopBidders                                                                                                        |          4 |        104 |          2 |         17 |        123 |
+| src\components\ExchangeInitiates                                                                                                         |          3 |        245 |         14 |         20 |        279 |
+| src\components\ExchangeOffers                                                                                                            |          4 |        325 |         13 |         33 |        371 |
+| src\components\Layout                                                                                                                    |          3 |        371 |          2 |         43 |        416 |
+| src\components\Orders                                                                                                                    |          3 |        244 |          0 |         28 |        272 |
+| src\components\WriteReview                                                                                                               |          1 |        144 |          0 |         14 |        158 |
+| src\components\admin                                                                                                                     |          7 |        337 |          1 |         46 |        384 |
+| src\components\admin (Files)                                                                                                             |          1 |         27 |          0 |          5 |         32 |
+| src\components\admin\ManageBooks                                                                                                         |          3 |        160 |          0 |         22 |        182 |
+| src\components\admin\ManageUsers                                                                                                         |          3 |        150 |          1 |         19 |        170 |
+| src\components\auth                                                                                                                      |          3 |        227 |          4 |         32 |        263 |
+| src\components\auth (Files)                                                                                                              |          1 |         15 |          0 |          6 |         21 |
+| src\components\auth\Login                                                                                                                |          1 |         93 |          2 |         13 |        108 |
+| src\components\auth\Register                                                                                                             |          1 |        119 |          2 |         13 |        134 |
+| src\components\book                                                                                                                      |         15 |      1,401 |         23 |        135 |      1,559 |
+| src\components\book\AuctionBook                                                                                                          |          4 |        427 |          9 |         41 |        477 |
+| src\components\book\AuctionBook (Files)                                                                                                  |          2 |        227 |          3 |         18 |        248 |
+| src\components\book\AuctionBook\AuctionBookSettings                                                                                      |          2 |        200 |          6 |         23 |        229 |
+| src\components\book\ExchangeBook                                                                                                         |          4 |        417 |         10 |         37 |        464 |
+| src\components\book\ExchangeBook (Files)                                                                                                 |          2 |        278 |          4 |         22 |        304 |
+| src\components\book\ExchangeBook\MyBookOffers                                                                                            |          2 |        139 |          6 |         15 |        160 |
+| src\components\book\SellBook                                                                                                             |          2 |        220 |          0 |         19 |        239 |
+| src\components\book\common                                                                                                               |          5 |        337 |          4 |         38 |        379 |
+| src\components\books                                                                                                                     |          6 |        305 |          2 |         49 |        356 |
+| src\components\books\AllBooks                                                                                                            |          1 |         46 |          1 |         10 |         57 |
+| src\components\books\AuctionBooks                                                                                                        |          1 |         40 |          1 |          9 |         50 |
+| src\components\books\ExchangeBooks                                                                                                       |          1 |         46 |          0 |         10 |         56 |
+| src\components\books\SellBooks                                                                                                           |          1 |         46 |          0 |         10 |         56 |
+| src\components\books\common                                                                                                              |          2 |        127 |          0 |         10 |        137 |
+| src\components\cart                                                                                                                      |          4 |        199 |          0 |         20 |        219 |
+| src\components\chat                                                                                                                      |         11 |        650 |         33 |         92 |        775 |
+| src\components\chat (Files)                                                                                                              |          2 |        173 |          5 |         25 |        203 |
+| src\components\chat\ChatBox                                                                                                              |          3 |        238 |         25 |         35 |        298 |
+| src\components\chat\ChatBox (Files)                                                                                                      |          1 |        192 |         13 |         25 |        230 |
+| src\components\chat\ChatBox\Messages                                                                                                     |          2 |         46 |         12 |         10 |         68 |
+| src\components\chat\Conversations                                                                                                        |          2 |        100 |          2 |          8 |        110 |
+| src\components\chat\OnlineUsers                                                                                                          |          2 |         84 |          1 |         16 |        101 |
+| src\components\chat\common                                                                                                               |          2 |         55 |          0 |          8 |         63 |
+| src\components\checkout                                                                                                                  |          5 |        335 |          2 |         34 |        371 |
+| src\components\common                                                                                                                    |          4 |        113 |          0 |         19 |        132 |
+| src\components\myProfile                                                                                                                 |         13 |        988 |          4 |        109 |      1,101 |
+| src\components\myProfile (Files)                                                                                                         |          4 |        402 |          3 |         33 |        438 |
+| src\components\myProfile\ProfileTabs                                                                                                     |          9 |        586 |          1 |         76 |        663 |
+| src\components\myProfile\ProfileTabs (Files)                                                                                             |          1 |         29 |          0 |          5 |         34 |
+| src\components\myProfile\ProfileTabs\BooksTab                                                                                            |          2 |        142 |          0 |         17 |        159 |
+| src\components\myProfile\ProfileTabs\ReviewsTab                                                                                          |          2 |        113 |          0 |         16 |        129 |
+| src\components\myProfile\ProfileTabs\WalletTab                                                                                           |          4 |        302 |          1 |         38 |        341 |
+| src\components\stripe                                                                                                                    |          1 |         38 |          0 |         10 |         48 |
+| src\context                                                                                                                              |          1 |          4 |          0 |          2 |          6 |
+| src\features                                                                                                                             |         10 |      1,421 |        122 |        139 |      1,682 |
+| src\features\auction                                                                                                                     |          1 |        137 |          8 |         13 |        158 |
+| src\features\book                                                                                                                        |          2 |        282 |         16 |         24 |        322 |
+| src\features\cart                                                                                                                        |          1 |         96 |          8 |         16 |        120 |
+| src\features\chat                                                                                                                        |          1 |        164 |         10 |         14 |        188 |
+| src\features\exchange                                                                                                                    |          1 |        175 |         12 |         16 |        203 |
+| src\features\profile                                                                                                                     |          1 |         98 |          4 |          9 |        111 |
+| src\features\stripe                                                                                                                      |          1 |         69 |         40 |         12 |        121 |
+| src\features\user                                                                                                                        |          1 |        275 |         16 |         22 |        313 |
+| src\features\wallet                                                                                                                      |          1 |        125 |          8 |         13 |        146 |
+| src\utils                                                                                                                                |          6 |        115 |        184 |         24 |        323 |
+| src\utils (Files)                                                                                                                        |          2 |         34 |          0 |          6 |         40 |
+| src\utils\auth                                                                                                                           |          1 |          9 |          0 |          3 |         12 |
+| src\utils\axios                                                                                                                          |          1 |          5 |          0 |          3 |          8 |
+| src\utils\mantine                                                                                                                        |          1 |         35 |        184 |          8 |        227 |
+| src\utils\notification                                                                                                                   |          1 |         32 |          0 |          4 |         36 |
++------------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++------------------------------------------------------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| filename                                                                                                                                 | language       | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| d:\Projects\College Projects\Book Trading\book-trading-react\README.md                                                                   | Markdown       |          2 |          0 |          2 |          4 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\package-lock.json                                                           | JSON           |     34,196 |          0 |          1 |     34,197 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\package.json                                                                | JSON           |         59 |          0 |          1 |         60 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\public\index.html                                                           | HTML           |         18 |          0 |          2 |         20 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\public\manifest.json                                                        | JSON           |         25 |          0 |          1 |         26 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\App.jsx                                                                 | JavaScript JSX |         37 |          0 |          5 |         42 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\app\store.js                                                            | JavaScript     |         26 |          0 |          4 |         30 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\assets\images\back.svg                                                  | XML            |          1 |          0 |          0 |          1 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\AddBook\AddBook.jsx                                          | JavaScript JSX |        196 |          5 |         17 |        218 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\AddBook\AddBookForm.jsx                                      | JavaScript JSX |        201 |          0 |         11 |        212 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\AddBook\AddBookImages.jsx                                    | JavaScript JSX |         33 |          0 |          4 |         37 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\AddBook\QrCodeScanner.jsx                                    | JavaScript JSX |         37 |          0 |          8 |         45 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\AddBook\ScanIsbn.jsx                                         | JavaScript JSX |         16 |          0 |          4 |         20 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\AddBook\SearchIsbn.jsx                                       | JavaScript JSX |         26 |          0 |          3 |         29 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\AddBook\SimilarListingItem.jsx                               | JavaScript JSX |        102 |          0 |          5 |        107 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\AddBook\SimilarListingsModal.jsx                             | JavaScript JSX |         35 |          0 |          7 |         42 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\AuctionWins\AuctionItem.jsx                                  | JavaScript JSX |        122 |          0 |          3 |        125 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\AuctionWins\AuctionWins.jsx                                  | JavaScript JSX |         30 |          0 |          8 |         38 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\Auction\Auction.jsx                                          | JavaScript JSX |         98 |          5 |         11 |        114 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\Auction\AuctionActivities.jsx                                | JavaScript JSX |         29 |          0 |          4 |         33 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\Auction\AuctionEnded.jsx                                     | JavaScript JSX |        161 |          1 |         10 |        172 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\Auction\AuctionInfo.jsx                                      | JavaScript JSX |        150 |          7 |         12 |        169 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\Auction\AuctionNotStarted.jsx                                | JavaScript JSX |         99 |          0 |          7 |        106 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\Auction\TopBidders\TopBidder.jsx                             | JavaScript JSX |         27 |          0 |          3 |         30 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\Auction\TopBidders\TopBidders.jsx                            | JavaScript JSX |         30 |          1 |          5 |         36 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\Auction\TopBidders\TopThreeBidder.jsx                        | JavaScript JSX |         28 |          0 |          3 |         31 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\Auction\TopBidders\TopThreeBidders.jsx                       | JavaScript JSX |         19 |          1 |          6 |         26 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\Auction\WriteReviewAuction.jsx                               | JavaScript JSX |        132 |          0 |         14 |        146 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\ExchangeInitiates\ExchangeInitiates.jsx                      | JavaScript JSX |         33 |          0 |          9 |         42 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\ExchangeInitiates\InitiateItem.jsx                           | JavaScript JSX |        192 |          1 |          7 |        200 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\ExchangeInitiates\InitiateList.jsx                           | JavaScript JSX |         20 |         13 |          4 |         37 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\ExchangeOffers\ExchangeOffers.jsx                            | JavaScript JSX |         33 |          0 |         11 |         44 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\ExchangeOffers\OfferActionModal.jsx                          | JavaScript JSX |         37 |          0 |          3 |         40 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\ExchangeOffers\OfferItem.jsx                                 | JavaScript JSX |        228 |         12 |         15 |        255 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\ExchangeOffers\OfferList.jsx                                 | JavaScript JSX |         27 |          1 |          4 |         32 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\Layout\Layout.jsx                                            | JavaScript JSX |         70 |          2 |          9 |         81 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\Layout\Navbar.jsx                                            | JavaScript JSX |        174 |          0 |         17 |        191 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\Layout\UserMenu.jsx                                          | JavaScript JSX |        127 |          0 |         17 |        144 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\Orders\OrderItem.jsx                                         | JavaScript JSX |         78 |          0 |          6 |         84 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\Orders\Orders.jsx                                            | JavaScript JSX |         34 |          0 |          8 |         42 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\Orders\WriteReviewOrder.jsx                                  | JavaScript JSX |        132 |          0 |         14 |        146 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\WriteReview\WriteReview.jsx                                  | JavaScript JSX |        144 |          0 |         14 |        158 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\admin\Admin.jsx                                              | JavaScript JSX |         27 |          0 |          5 |         32 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\admin\ManageBooks\BookRow.jsx                                | JavaScript JSX |         80 |          0 |         10 |         90 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\admin\ManageBooks\BookStatusModal.jsx                        | JavaScript JSX |         38 |          0 |          4 |         42 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\admin\ManageBooks\ManageBooks.jsx                            | JavaScript JSX |         42 |          0 |          8 |         50 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\admin\ManageUsers\ManageUsers.jsx                            | JavaScript JSX |         45 |          1 |          7 |         53 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\admin\ManageUsers\RoleChangeModal.jsx                        | JavaScript JSX |         33 |          0 |          3 |         36 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\admin\ManageUsers\UserRow.jsx                                | JavaScript JSX |         72 |          0 |          9 |         81 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\auth\Login\Login.jsx                                         | JavaScript JSX |         93 |          2 |         13 |        108 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\auth\PrivateRoute.jsx                                        | JavaScript JSX |         15 |          0 |          6 |         21 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\auth\Register\Register.jsx                                   | JavaScript JSX |        119 |          2 |         13 |        134 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\book\AuctionBook\AuctionBook.jsx                             | JavaScript JSX |         49 |          0 |         10 |         59 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\book\AuctionBook\AuctionBookInfo.jsx                         | JavaScript JSX |        178 |          3 |          8 |        189 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\book\AuctionBook\AuctionBookSettings\AuctionBookSettings.jsx | JavaScript JSX |         30 |          1 |          8 |         39 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\book\AuctionBook\AuctionBookSettings\AuctionSettingsForm.jsx | JavaScript JSX |        170 |          5 |         15 |        190 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\book\ExchangeBook\ExchangeBook.jsx                           | JavaScript JSX |         51 |          0 |         10 |         61 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\book\ExchangeBook\ExchangeBookInfo.jsx                       | JavaScript JSX |        227 |          4 |         12 |        243 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\book\ExchangeBook\MyBookOffers\MyBookOffers.jsx              | JavaScript JSX |        102 |          6 |         12 |        120 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\book\ExchangeBook\MyBookOffers\OfferItem.jsx                 | JavaScript JSX |         37 |          0 |          3 |         40 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\book\SellBook\SellBook.jsx                                   | JavaScript JSX |         50 |          0 |         10 |         60 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\book\SellBook\SellBookInfo.jsx                               | JavaScript JSX |        170 |          0 |          9 |        179 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\book\common\AnswerForm.jsx                                   | JavaScript JSX |         75 |          0 |          9 |         84 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\book\common\BookDiscussion.jsx                               | JavaScript JSX |         38 |          0 |          8 |         46 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\book\common\DiscussionForm.jsx                               | JavaScript JSX |         68 |          3 |         11 |         82 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\book\common\DiscussionQuestion.jsx                           | JavaScript JSX |         35 |          1 |          5 |         41 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\book\common\RecommendedBooks.jsx                             | JavaScript JSX |        121 |          0 |          5 |        126 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\books\AllBooks\AllBooks.jsx                                  | JavaScript JSX |         46 |          1 |         10 |         57 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\books\AuctionBooks\AuctionBooks.jsx                          | JavaScript JSX |         40 |          1 |          9 |         50 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\books\ExchangeBooks\ExchangeBooks.jsx                        | JavaScript JSX |         46 |          0 |         10 |         56 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\books\SellBooks\SellBooks.jsx                                | JavaScript JSX |         46 |          0 |         10 |         56 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\books\common\BookCard.jsx                                    | JavaScript JSX |        106 |          0 |          6 |        112 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\books\common\BooksList.jsx                                   | JavaScript JSX |         21 |          0 |          4 |         25 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\cart\BookList.jsx                                            | JavaScript JSX |         40 |          0 |          5 |         45 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\cart\BookListItem.jsx                                        | JavaScript JSX |         89 |          0 |          5 |         94 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\cart\Cart.jsx                                                | JavaScript JSX |         23 |          0 |          6 |         29 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\cart\CartSummary.jsx                                         | JavaScript JSX |         47 |          0 |          4 |         51 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\chat\Chat.jsx                                                | JavaScript JSX |        104 |          5 |         15 |        124 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\chat\ChatBox\ChatBox.jsx                                     | JavaScript JSX |        192 |         13 |         25 |        230 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\chat\ChatBox\Messages\Messages.jsx                           | JavaScript JSX |         27 |         12 |          6 |         45 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\chat\ChatBox\Messages\MessagesList.jsx                       | JavaScript JSX |         19 |          0 |          4 |         23 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\chat\Conversations\Conversation.jsx                          | JavaScript JSX |         44 |          0 |          4 |         48 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\chat\Conversations\Conversations.jsx                         | JavaScript JSX |         56 |          2 |          4 |         62 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\chat\OnlineUsers\OnlineUser.jsx                              | JavaScript JSX |         49 |          1 |          7 |         57 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\chat\OnlineUsers\OnlineUsers.jsx                             | JavaScript JSX |         35 |          0 |          9 |         44 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\chat\SendMessage.jsx                                         | JavaScript JSX |         69 |          0 |         10 |         79 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\chat\common\Received.jsx                                     | JavaScript JSX |         27 |          0 |          4 |         31 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\chat\common\Sent.jsx                                         | JavaScript JSX |         28 |          0 |          4 |         32 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\checkout\Checkout.jsx                                        | JavaScript JSX |         84 |          2 |          9 |         95 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\checkout\CheckoutItem.jsx                                    | JavaScript JSX |         69 |          0 |          6 |         75 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\checkout\CheckoutSuccess.jsx                                 | JavaScript JSX |         32 |          0 |          7 |         39 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\checkout\OrderSummary.jsx                                    | JavaScript JSX |         87 |          0 |          8 |         95 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\checkout\ShippingDetails.jsx                                 | JavaScript JSX |         63 |          0 |          4 |         67 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\common\Loading.css                                           | CSS            |         30 |          0 |          2 |         32 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\common\Loading.jsx                                           | JavaScript JSX |          9 |          0 |          3 |         12 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\common\SmallTimer.jsx                                        | JavaScript JSX |         37 |          0 |          7 |         44 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\common\Timer.jsx                                             | JavaScript JSX |         37 |          0 |          7 |         44 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\myProfile\EditProfileModal.jsx                               | JavaScript JSX |        236 |          3 |         15 |        254 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\myProfile\EditProfilePicture.jsx                             | JavaScript JSX |         62 |          0 |          4 |         66 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\myProfile\MyProfile.jsx                                      | JavaScript JSX |         15 |          0 |          4 |         19 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\myProfile\MyProfileInfo.jsx                                  | JavaScript JSX |         89 |          0 |         10 |         99 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\myProfile\ProfileTabs\BooksTab\Book.jsx                      | JavaScript JSX |        117 |          0 |          8 |        125 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\myProfile\ProfileTabs\BooksTab\BooksTab.jsx                  | JavaScript JSX |         25 |          0 |          9 |         34 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\myProfile\ProfileTabs\ProfileTabs.jsx                        | JavaScript JSX |         29 |          0 |          5 |         34 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\myProfile\ProfileTabs\ReviewsTab\Review.jsx                  | JavaScript JSX |         77 |          0 |          9 |         86 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\myProfile\ProfileTabs\ReviewsTab\Reviews.jsx                 | JavaScript JSX |         36 |          0 |          7 |         43 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\myProfile\ProfileTabs\WalletTab\CashoutWalletModal.jsx       | JavaScript JSX |         73 |          1 |         10 |         84 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\myProfile\ProfileTabs\WalletTab\LoadWalletModal.jsx          | JavaScript JSX |         63 |          0 |         10 |         73 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\myProfile\ProfileTabs\WalletTab\WalletTab.jsx                | JavaScript JSX |        110 |          0 |         12 |        122 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\myProfile\ProfileTabs\WalletTab\WalletTransactions.jsx       | JavaScript JSX |         56 |          0 |          6 |         62 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\components\stripe\Onboard.jsx                                           | JavaScript JSX |         38 |          0 |         10 |         48 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\context\socket.js                                                       | JavaScript     |          4 |          0 |          2 |          6 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\features\auction\auctionSlice.js                                        | JavaScript     |        137 |          8 |         13 |        158 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\features\book\bookSlice.js                                              | JavaScript     |        144 |          8 |         12 |        164 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\features\book\booksSlice.js                                             | JavaScript     |        138 |          8 |         12 |        158 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\features\cart\cartSlice.js                                              | JavaScript     |         96 |          8 |         16 |        120 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\features\chat\chatSlice.js                                              | JavaScript     |        164 |         10 |         14 |        188 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\features\exchange\exchangeSlice.js                                      | JavaScript     |        175 |         12 |         16 |        203 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\features\profile\profileSlice.js                                        | JavaScript     |         98 |          4 |          9 |        111 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\features\stripe\stripeSlice.js                                          | JavaScript     |         69 |         40 |         12 |        121 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\features\user\userSlice.js                                              | JavaScript     |        275 |         16 |         22 |        313 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\features\wallet\walletSlice.js                                          | JavaScript     |        125 |          8 |         13 |        146 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\index.css                                                               | CSS            |          8 |          3 |          3 |         14 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\index.js                                                                | JavaScript     |         10 |          0 |          2 |         12 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\utils\auth\setAuthToken.js                                              | JavaScript     |          9 |          0 |          3 |         12 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\utils\axios\axiosInstance.js                                            | JavaScript     |          5 |          0 |          3 |          8 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\utils\isEmpty.js                                                        | JavaScript     |          9 |          0 |          2 |         11 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\utils\mantine\theme.js                                                  | JavaScript     |         35 |        184 |          8 |        227 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\utils\notification\showNotification.js                                  | JavaScript     |         32 |          0 |          4 |         36 |
+| d:\Projects\College Projects\Book Trading\book-trading-react\src\utils\timeSince.js                                                      | JavaScript     |         25 |          0 |          4 |         29 |
+| Total                                                                                                                                    |                |     43,415 |        427 |      1,015 |     44,857 |
++------------------------------------------------------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+

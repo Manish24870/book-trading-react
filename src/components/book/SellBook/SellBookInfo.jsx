@@ -45,17 +45,17 @@ const SellBookInfo = (props) => {
     <Box>
       <Group position="apart">
         <Title order={4}>Book Details</Title>
-        <div>
+        {/* <div>
           <Button mr={20} variant="outline" size="xs">
             Edit
           </Button>
           <Button variant="outline" color="red" size="xs">
             Delete
           </Button>
-        </div>
+        </div> */}
       </Group>
       <Grid columns={12} gutter="xl">
-        <Grid.Col span={4}>
+        <Grid.Col span={12} md={4}>
           <Box>
             <Carousel withIndicators loop>
               {props.book.images.map((image) => (
@@ -71,7 +71,7 @@ const SellBookInfo = (props) => {
             </Carousel>
           </Box>
         </Grid.Col>
-        <Grid.Col span={8}>
+        <Grid.Col span={12} sm={8}>
           <Box>
             <Title order={3} mb={2}>
               {props.book.title}
@@ -140,7 +140,7 @@ const SellBookInfo = (props) => {
         </Grid.Col>
       </Grid>
       <Grid columns={2} my={30} align="center">
-        <Grid.Col span={1}>
+        <Grid.Col span={2} sm={1}>
           <Card withBorder sx={{ width: "100%" }}>
             <Group>
               <Avatar
@@ -156,7 +156,7 @@ const SellBookInfo = (props) => {
             </Group>
           </Card>
         </Grid.Col>
-        <Grid.Col span={1} sx={{ textAlign: "right" }}>
+        <Grid.Col span={2} sm={1} sx={{ textAlign: "right" }}>
           <Text size="xl" weight={700}>
             Rs. 1200
           </Text>

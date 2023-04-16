@@ -8,6 +8,7 @@ import Loading from "../../common/Loading";
 import { errorNotification } from "../../../utils/notification/showNotification";
 import BookDiscussion from "../common/BookDiscussion";
 import AuctionBookInfo from "./AuctionBookInfo";
+import RecommendedBooks from "../common/RecommendedBooks";
 
 const AuctionBook = (props) => {
   const dispatch = useDispatch();
@@ -42,6 +43,7 @@ const AuctionBook = (props) => {
       <>
         <AuctionBookInfo book={book} currentUserId={currentUserId} />
         <BookDiscussion discussion={book.discussion} />
+        <RecommendedBooks recommendedBooks={book.recommendedBooks} />
       </>
     );
   }

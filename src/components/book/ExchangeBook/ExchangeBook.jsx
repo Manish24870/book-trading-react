@@ -9,6 +9,7 @@ import Loading from "../../common/Loading";
 import { errorNotification } from "../../../utils/notification/showNotification";
 import ExchangeBookInfo from "./ExchangeBookInfo";
 import BookDiscussion from "../common/BookDiscussion";
+import RecommendedBooks from "../common/RecommendedBooks";
 
 const ExchangeBook = (props) => {
   const dispatch = useDispatch();
@@ -44,6 +45,7 @@ const ExchangeBook = (props) => {
       <>
         <ExchangeBookInfo book={book} currentUserId={currentUserId} />
         <BookDiscussion discussion={book.discussion} />
+        <RecommendedBooks recommendedBooks={book.recommendedBooks} />
       </>
     );
   }

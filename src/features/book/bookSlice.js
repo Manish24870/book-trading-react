@@ -74,6 +74,7 @@ const bookSlice = createSlice({
       state.isError = false;
       state.isSuccess = false;
       state.addBookLoading = false;
+      state.addBookSuccess = false;
       state.fetchBookLoading = false;
       state.book = null;
       state.isDiscussionError = false;

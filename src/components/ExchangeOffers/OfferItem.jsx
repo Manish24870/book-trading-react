@@ -107,7 +107,7 @@ const OfferItem = (props) => {
     <Box mb={16}>
       <Card withBorder shadow="md">
         <Grid columns={12}>
-          <Grid.Col span={4}>
+          <Grid.Col span={12} md={4}>
             <Text weight={500} size="md" mb={12}>
               Given
             </Text>
@@ -167,7 +167,8 @@ const OfferItem = (props) => {
             </Card>
           </Grid.Col>
           <Grid.Col
-            span={4}
+            span={12}
+            md={4}
             sx={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}
           >
             <Flex direction="column" align="center" mb={12}>
@@ -194,7 +195,7 @@ const OfferItem = (props) => {
 
             {checkOfferStatus()}
           </Grid.Col>
-          <Grid.Col span={4}>
+          <Grid.Col span={12} md={4}>
             <Text weight={500} size="md">
               Wanted
             </Text>

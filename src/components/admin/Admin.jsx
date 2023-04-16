@@ -9,9 +9,14 @@ const Admin = (props) => {
 
   return (
     <Container size="lg">
-      <Card sx={{ overflowX: "scroll", minWidth: 850 }}>
+      {/* <Card sx={{ overflowX: "scroll", minWidth: 850 }}> */}
+      <Card sx={{ overflowX: "scroll" }}>
         <Title order={4}>Admin Panel</Title>
-        <Tabs value={activeTab} onTabChange={setActiveTab}>
+        <Tabs
+          value={activeTab}
+          onTabChange={setActiveTab}
+          sx={{ overflowX: "scroll", minWidth: 850 }}
+        >
           <Tabs.List>
             <Tabs.Tab value="users">Users</Tabs.Tab>
             <Tabs.Tab value="books">Books</Tabs.Tab>

@@ -38,12 +38,12 @@ const BookCard = (props) => {
           </Text>
         </Box>
 
-        <Group spacing={5} color="primary" sx={{ alignSelf: "flex-start" }}>
+        {/* <Group spacing={5} color="primary" sx={{ alignSelf: "flex-start" }}>
           <IoStarOutline size={18} color={theme.colors.primary[6]} />
           <Text size="xs" weight={500} color={theme.colors.primary[6]}>
             4.80
           </Text>
-        </Group>
+        </Group> */}
       </Group>
       <Group spacing="xs" mt="sm">
         <Avatar

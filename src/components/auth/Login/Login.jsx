@@ -1,6 +1,16 @@
 import { useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { TextInput, PasswordInput, Button, Card, Container, Title, Box, Flex } from "@mantine/core";
+import { useNavigate, useLocation, Link } from "react-router-dom";
+import {
+  TextInput,
+  PasswordInput,
+  Button,
+  Text,
+  Card,
+  Container,
+  Title,
+  Box,
+  Flex,
+} from "@mantine/core";
 import Joi from "joi";
 import { joiResolver, useForm } from "@mantine/form";
 import { useSelector, useDispatch } from "react-redux";
@@ -97,6 +107,12 @@ const Login = (props) => {
             <Button mt={30} fullWidth type="submit" loading={userLoading}>
               Login
             </Button>
+            <Flex mt={4} align="center">
+              <Text size="xs">Reset your password? </Text>
+              <Button variant="subtle" size="xs" component={Link} to="/reset-password">
+                Click here
+              </Button>
+            </Flex>
           </form>
         </Card>
       </Container>
